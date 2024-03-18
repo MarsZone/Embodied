@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/embodied
+    driver: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456

@@ -75,6 +75,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.ktorm</groupId>
+			<artifactId>ktorm-jackson</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ktorm</groupId>
 			<artifactId>ktorm-support-mysql</artifactId>
 			<version>3.6.0</version>
 		</dependency>
@@ -84,7 +89,8 @@
 			<version>3.6.0</version>
 		</dependency>
 
-    </dependencies>
+
+	</dependencies>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>

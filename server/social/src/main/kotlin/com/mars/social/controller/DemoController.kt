@@ -6,14 +6,12 @@ import org.ktorm.dsl.from
 import org.ktorm.dsl.limit
 import org.ktorm.dsl.map
 import org.ktorm.dsl.select
-import org.ktorm.entity.sequenceOf
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class MessageController {
+class DemoController {
     @Autowired
     lateinit var apiCall:ApiCall
 
