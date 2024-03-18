@@ -1,18 +1,10 @@
 package com.mars.social.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.mars.social.entity.Demo
-import com.mars.social.entity.User
-import com.mars.social.entity.Users
+import com.mars.social.model.User
+import com.mars.social.model.Users
 import org.ktorm.database.Database
-import org.ktorm.dsl.from
-import org.ktorm.dsl.limit
-import org.ktorm.dsl.map
-import org.ktorm.dsl.select
-import org.ktorm.entity.EntitySequence
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
-import org.ktorm.jackson.KtormModule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
