@@ -3,7 +3,7 @@
 ## Introduction
 
 ### FrontEnd Technologies 
-* react 
+* React 
 
 ### BackEnd Technology
 * Kotlin
