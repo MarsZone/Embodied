@@ -26,11 +26,12 @@ class UserController {
         return ResponseEntity.ok("用户注册成功")
     }
 
+    /**
+     * 查询所有用户列表信息，暂时测试用，后面要考虑假如给后台使用，怎么做权限管控。
+     */
     @GetMapping("/list")
     fun getAllUsers(): ResponseEntity<List<User>> {
-        // 在这里实现获取所有用户列表的逻辑，从数据库或其他数据源中获取用户列表
         val users = database.sequenceOf(Users).toList()
-//        var user =users[0];
         return ResponseEntity.ok(users)
     }
 }
