@@ -18,6 +18,17 @@
 		<kotlin.version>1.9.22</kotlin.version>
 		<spring-boot-admin.version>3.2.1</spring-boot-admin.version>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-bom</artifactId>
+				<version>${kotlin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -69,6 +80,11 @@
 			<artifactId>okhttp</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-maven-plugin</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
@@ -88,8 +104,6 @@
 			<artifactId>ktorm-core</artifactId>
 			<version>3.6.0</version>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>

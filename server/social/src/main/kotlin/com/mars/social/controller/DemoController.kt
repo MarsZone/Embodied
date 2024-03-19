@@ -1,6 +1,6 @@
 package com.mars.social.controller
 
-import com.mars.social.entity.Demo
+import com.mars.social.model.Demo
 import org.ktorm.database.Database
 import org.ktorm.dsl.from
 import org.ktorm.dsl.limit

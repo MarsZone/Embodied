@@ -1,10 +1,7 @@
-package com.mars.social.entity
+package com.mars.social.model
 
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*
-import java.time.LocalDate
-import java.time.LocalTime
-import java.sql.*
 import java.time.LocalDateTime
 
 interface User : Entity<User> {
