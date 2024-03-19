@@ -3,4 +3,4 @@ const Profile = () => {
   </div>
 }
 
-export default Message
+export default Profile

@@ -1,34 +1,47 @@
 //创建路由示例 绑定path element
 
-import Layout from '@/pages/Layout'
-import Month from '@/pages/Month'
-import New from '@/pages/Discover/Discover'
-import Year from '@/pages/Message/Message'
-import Test from '@/pages/Test'
+import Home from '@/pages/Home/Home' //主页
+import Profile from '@/pages/Profile/Profile' //个人信息页
+import Discover from '@/pages/Discover/Discover' //发现页
+import Post from '@/pages/Post/Post' //新贴发布页
+import Message from '@/pages/Message/Message' //消息页
+
 import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <Home />,
+  },
+  {
+    path: '/home',
+    element: <Home />
+  },
+  {
+    path: '/discover',
+    element: <Discover />,
     children: [
       {
         index: true,
-        element: <Month />
+        element: <Discover />
       },
       {
-        path: 'year',
-        element: <Year />
+        path: 'message',
+        element: <Message />
       }
     ]
   },
   {
-    path: '/new',
-    element: <New />
+    path: '/post',
+    element: <Post />
   },
   {
-    path: '/test',
-    element: <Test />
+    path: '/message',
+    element: <Message />
+  },
+  {
+    path: '/profile',
+    element: <Profile />
   }
 ])
 
