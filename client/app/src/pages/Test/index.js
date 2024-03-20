@@ -3,16 +3,26 @@ import { Tabbar } from 'react-vant'
 import { FriendsO, HomeO, Search, SettingO } from '@react-vant/icons'
 
 const Test = () => {
+  const [name, setName] = React.useState('setting')
   return (
     <div className='demo-tabbar'>
-      <Tabbar>
-        <Tabbar.Item icon={<HomeO />}>标签</Tabbar.Item>
-        <Tabbar.Item icon={<Search />}>标签</Tabbar.Item>
-        <Tabbar.Item icon={<FriendsO />}>标签</Tabbar.Item>
-        <Tabbar.Item icon={<SettingO />}>标签</Tabbar.Item>
+      <Tabbar value={name} onChange={v => setName(v)}>
+        <Tabbar.Item name='home' icon={<HomeO />}>
+          标签
+        </Tabbar.Item>
+        <Tabbar.Item name='search' icon={<Search />}>
+          标签
+        </Tabbar.Item>
+        <Tabbar.Item name='firends' icon={<FriendsO />}>
+          标签
+        </Tabbar.Item>
+        <Tabbar.Item name='setting' icon={<SettingO />}>
+          标签
+        </Tabbar.Item>
       </Tabbar>
     </div>
   )
 }
+
 
 export default Test
