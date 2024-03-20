@@ -39,14 +39,15 @@ const TabNavigator = () => {
 
   const switchRoute = (path) => {
     console.log(path)
+    navigate(path.key)
     setTabPath(path)
-    navigate(path)
   }
 
   return (
+
     <Tabbar value={tabPath} onChange={v => switchRoute(v)}>
       {tabs.map(item => (
-        <Tabbar.Item key={item.key} name={item.key} icon={item.icon} path={item.path} >{item.title}</Tabbar.Item>
+        <TabbarItem key={item.key} name={item.key} icon={item.icon} path={item.path} >{item.title}</TabbarItem>
       ))}
     </Tabbar>
   )
