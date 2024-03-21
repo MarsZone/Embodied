@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Cell, Input, Form } from 'react-vant';
+import { Card, Cell, Button, Input, Form } from 'react-vant';
 import './Login.scss'
 
 const Login = () => {
@@ -50,6 +50,7 @@ const Login = () => {
 
     <div className='login-page'>
       <Form className='login-form'
+        validateTrigger='onblur'
         form={form}
         footer={
           <div style={{ margin: '16px 16px 0' }}>
@@ -66,14 +67,25 @@ const Login = () => {
               'A prime is a natural number greater than 1 that has no positive divisors other than 1 and itself.',
           }}
           intro='确保这是唯一的用户名'
-          rules={[{ required: true, message: '请填写用户名' }]}
-          name='username'
+          rules={[
+            { 
+              required: true, 
+              message: '请填写用户名' 
+            },
+            {
+              pattern: /^[a-zA-Z0-9_]{4,16}$/,
+              message: '账号名必须由4-16位的英文字母大小写、数字或下划线组成'
+            }
+          ]}
+          name='username' //username 需要和后端接口保持一致
           label='用户名'
         >
           <Input placeholder='请输入用户名' />
         </Form.Item>
         <Form.Item
-          rules={[{ required: true, message: '请填写密码' }]}
+          rules={[
+            { required: true, message: '请填写密码' }
+          ]}
           name='password'
           label='密码'
         >

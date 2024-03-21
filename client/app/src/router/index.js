@@ -7,6 +7,8 @@ import Post from '@/pages/Post/Post' //新贴发布页
 import Message from '@/pages/Message/Message' //消息页
 import Login from '@/pages/Login/Login' //登录页
 
+import Test from '@/pages/Test' //测试页
+
 import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
@@ -47,7 +49,11 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
-  }
+  },
+  {
+    path: '/test',
+    element: <Test />
+  },
 ])
 
 export default router
