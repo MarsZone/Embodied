@@ -9,6 +9,10 @@ const Login = () => {
 
   const [form] = Form.useForm()
 
+  const onFinish = (values) => {
+    console.log(values)
+  }
+
   const handleLogin = () => {
     // 在此处执行登录逻辑，可以发送登录请求等
     console.log('用户名:', username);
@@ -16,41 +20,10 @@ const Login = () => {
   }
 
   return (
-
-    // <div className='login-page'>
-    //   <div className='login-form'>
-    //     {/* <Cell.Group> */}
-    //       <h2 className='login-title'>登录</h2>
-    //       <Cell title='用户名'>
-    //         <Input
-    //           value={username}
-    //           onChange={(value) => setUsername(value)}
-    //           placeholder='请输入用户名'
-    //           rules={[
-    //             { required: true, message: '请填写用户名' }
-    //           ]}
-    //         />
-    //       </Cell>
-    //       <Cell title='密码'>
-    //         <Input
-    //           value={password}
-    //           onChange={(value) => setPassword(value)}
-    //           placeholder='请输入密码'
-    //         />
-    //       </Cell>
-    //       <Button round nativeType='submit' type='primary' block
-    //         className="login-button"
-    //         onClick={handleLogin}
-    //       >
-    //         登录
-    //       </Button>
-    //     {/* </Cell.Group> */}
-    //   </div>
-    // </div>
-
     <div className='login-page'>
       <Form className='login-form'
         validateTrigger='onblur'
+        onFinish={onFinish}
         form={form}
         footer={
           <div style={{ margin: '16px 16px 0' }}>
