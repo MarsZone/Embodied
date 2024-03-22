@@ -1,21 +1,21 @@
 package com.mars.social.controller
 
+import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.model.User
 import com.mars.social.model.Users
+import com.mars.social.utils.MessageUtil
 import org.ktorm.database.Database
+import org.ktorm.dsl.eq
 import org.ktorm.entity.add
+import org.ktorm.entity.find
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
-import java.time.LocalTime
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,17 +23,21 @@ class UserController {
 
     @Autowired
     protected lateinit var database: Database
+    @Autowired
+    private lateinit var messageUtil: MessageUtil
+
+    @Autowired
+    private val messageSource: MessageSource? = null
+
     @PostMapping("/register")
     fun registerUser(@RequestBody user: User): ResponseEntity<String> {
-        val passwordEncoder = BCryptPasswordEncoder()
-        val encryptedPassword = passwordEncoder.encode(user.password)
-        user.password = encryptedPassword
+
         user.isActive = "true"
         user.registerTime = LocalDateTime.now()
         user.lastLoginTime = LocalDateTime.now()
         val users = database.sequenceOf(Users)
-        users.add(user);
-        return ResponseEntity.ok("用户注册成功")
+        users.add(user)
+        return ResponseEntity.ok(messageUtil.get("account.register.succeed"))
     }
 
     /**
@@ -44,4 +48,29 @@ class UserController {
         val users = database.sequenceOf(Users).toList()
         return ResponseEntity.ok().body(users)
     }
+
+    @PostMapping("/login")
+    fun login(@RequestBody dto: User):ResponseEntity<String>{
+        val users = database.sequenceOf(Users)
+        val user = users.find { it.userName eq dto.userName  }
+        if (user != null) {
+            if(user.password == dto.password){
+                StpUtil.login(10001)
+                return ResponseEntity.ok(messageUtil.get("sign.in.succeed"))
+            }
+        }
+        return ResponseEntity.ok(messageUtil.get("sign.in.failed"))
+    }
+
+    @RequestMapping("/logout")
+    fun logout(): ResponseEntity<String> {
+        StpUtil.logout()
+        return ResponseEntity.ok(messageUtil.get("sign.out"))
+    }
+
+    @RequestMapping("/isLogin")
+    fun isLogin(): String? {
+        return messageUtil.get("login.state") + StpUtil.isLogin()
+    }
+
 }
