@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { Card, Cell, Button, Input, Form } from 'react-vant';
 import './Login.scss'
+import { useDispatch } from 'react-redux';
+import { fetchLogin } from '@/store/modules/user';
 
 const Login = () => {
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
   const [form] = Form.useForm()
 
-  const onFinish = (values) => {
+  const dispatch = useDispatch() //在组件中调dispatch方法，需要用钩子函数useDispatch
+  const onFinish = (values) => { 
     console.log(values)
-  }
-
-  const handleLogin = () => {
-    // 在此处执行登录逻辑，可以发送登录请求等
-    console.log('用户名:', username);
-    console.log('密码:', password);
+    //触发异步action fetchLogin
+    dispatch(fetchLogin(values)) //参数就是收集到的表单数据values
+    console.log(111)
   }
 
   return (
@@ -66,12 +63,7 @@ const Login = () => {
         </Form.Item>
       </Form>
     </div>
-
-
   )
-
-
-
 }
 
 export default Login
