@@ -9,10 +9,7 @@ import com.mars.social.utils.R
 import com.mars.social.utils.MessageUtil
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
-import org.ktorm.entity.add
-import org.ktorm.entity.find
-import org.ktorm.entity.sequenceOf
-import org.ktorm.entity.toList
+import org.ktorm.entity.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
 import org.springframework.http.ResponseEntity
@@ -99,7 +96,14 @@ class UserController {
     fun registerUser(@RequestBody userDetail : UserDetail): ResponseEntity<R> {
         val userDetails = database.sequenceOf(UserDetails)
         val detail = userDetails.find { it.uid eq userDetail.uid }
-
+        if(detail==null){
+            //add
+            userDetails.add(userDetail)
+        }else{
+            //update
+            userDetail.id = detail.id
+            userDetails.update(userDetail)
+        }
         return ResponseEntity.ok(R.ok("用户信息已更新"))
     }
 }
