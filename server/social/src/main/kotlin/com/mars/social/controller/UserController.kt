@@ -83,5 +83,11 @@ class UserController {
         return ResponseEntity.ok().body(detail)
     }
 
+    @PostMapping("/setUserDetail")
+    fun registerUser(@RequestBody userDetail : UserDetail): ResponseEntity<String> {
+        val userDetails = database.sequenceOf(UserDetails)
+        val detail = userDetails.find { it.uid eq userDetail.uid }
 
+        return ResponseEntity.ok("用户信息已更新")
+    }
 }

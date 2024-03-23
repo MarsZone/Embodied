@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 interface UserDetail : Entity<UserDetail> {
     val id: Long?
-    var uid: Long?
+    var uid: Long
     var firstName: String
     var secondName: String
     var nickName: String
