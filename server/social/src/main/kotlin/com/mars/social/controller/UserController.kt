@@ -5,6 +5,7 @@ import com.mars.social.model.User
 import com.mars.social.model.UserDetail
 import com.mars.social.model.UserDetails
 import com.mars.social.model.Users
+import com.mars.social.utils.R
 import com.mars.social.utils.MessageUtil
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
@@ -32,62 +33,73 @@ class UserController {
     private val messageSource: MessageSource? = null
 
     @PostMapping("/register")
-    fun registerUser(@RequestBody user: User): ResponseEntity<String> {
+    fun registerUser(@RequestBody user: User): ResponseEntity<R> {
 
         user.isActive = "true"
         user.registerTime = LocalDateTime.now()
         user.lastLoginTime = LocalDateTime.now()
         val users = database.sequenceOf(Users)
         users.add(user)
-        return ResponseEntity.ok(messageUtil.get("account.register.succeed"))
+        var data = messageUtil.get("account.register.succeed")
+        return ResponseEntity.ok().body(R.ok(data))
     }
 
     /**
      * 查询所有用户列表信息，暂时测试用，后面要考虑假如给后台使用，怎么做权限管控。
      */
     @GetMapping("/list")
-    fun getAllUsers(): ResponseEntity<List<User>> {
+    fun getAllUsers(): ResponseEntity<R> {
         val users = database.sequenceOf(Users).toList()
-        return ResponseEntity.ok().body(users)
+        return ResponseEntity.ok().body(R.ok(users))
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody dto: User):ResponseEntity<String>{
+    fun login(@RequestBody dto: User):ResponseEntity<R>{
         val users = database.sequenceOf(Users)
         val user = users.find { it.userName eq dto.userName  }
+        var data = ""
         if (user != null) {
             if(user.password == dto.password){
                 StpUtil.login(10001)
-                return ResponseEntity.ok(messageUtil.get("sign.in.succeed"))
+                data = messageUtil.get("sign.in.succeed")
+                return ResponseEntity.ok().body(R.ok(data))
             }
         }
-        return ResponseEntity.ok(messageUtil.get("sign.in.failed"))
+        data = messageUtil.get("sign.in.failed")
+        return ResponseEntity.ok().body(R.fail(data))
     }
 
     @RequestMapping("/logout")
-    fun logout(): ResponseEntity<String> {
+    fun logout(): ResponseEntity<R> {
         StpUtil.logout()
-        return ResponseEntity.ok(messageUtil.get("sign.out"))
+        var data = messageUtil.get("sign.out");
+        return ResponseEntity.ok().body(R.ok(data))
     }
 
     @RequestMapping("/isLogin")
-    fun isLogin(): String? {
-        return messageUtil.get("login.state") + StpUtil.isLogin()
+    fun isLogin(): ResponseEntity<R> {
+        var data = messageUtil.get("login.state") + StpUtil.isLogin()
+        return ResponseEntity.ok().body(R.ok(data))
     }
 
     //用户信息详情部分
     @GetMapping("/userDetail")
-    fun detailList(@RequestParam uid:Long): ResponseEntity<UserDetail> {
+    fun detailList(@RequestParam uid:Long): ResponseEntity<R> {
         val userDetails = database.sequenceOf(UserDetails)
         val detail = userDetails.find { it.uid eq uid }
-        return ResponseEntity.ok().body(detail)
+        return if(detail != null){
+            ResponseEntity.ok().body(R.ok(detail))
+        }else{
+            ResponseEntity.ok().body(R.fail("查询失败"))
+        }
+
     }
 
     @PostMapping("/setUserDetail")
-    fun registerUser(@RequestBody userDetail : UserDetail): ResponseEntity<String> {
+    fun registerUser(@RequestBody userDetail : UserDetail): ResponseEntity<R> {
         val userDetails = database.sequenceOf(UserDetails)
         val detail = userDetails.find { it.uid eq userDetail.uid }
 
-        return ResponseEntity.ok("用户信息已更新")
+        return ResponseEntity.ok(R.ok("用户信息已更新"))
     }
 }
