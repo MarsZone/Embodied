@@ -2,6 +2,8 @@ package com.mars.social.controller
 
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.model.User
+import com.mars.social.model.UserDetail
+import com.mars.social.model.UserDetails
 import com.mars.social.model.Users
 import com.mars.social.utils.MessageUtil
 import org.ktorm.database.Database
@@ -72,5 +74,14 @@ class UserController {
     fun isLogin(): String? {
         return messageUtil.get("login.state") + StpUtil.isLogin()
     }
+
+    //用户信息详情部分
+    @GetMapping("/userDetail")
+    fun detailList(@RequestParam uid:Long): ResponseEntity<UserDetail> {
+        val userDetails = database.sequenceOf(UserDetails)
+        val detail = userDetails.find { it.uid eq uid }
+        return ResponseEntity.ok().body(detail)
+    }
+
 
 }
