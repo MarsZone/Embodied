@@ -2,12 +2,13 @@
 
 import { createSlice } from '@reduxjs/toolkit'
 import { request } from '@/utils'
+import { setToken as _setToken, getToken} from '@/utils'
 
 const userStore = createSlice({
   name: "user", //模块名
   //数据状态
   initialState: {
-    token: '' //后端返回的类型是什么，这里的类型就是什么（这里是类型String）
+    token: localStorage.getItem('token_key') || '' //后端返回的类型是什么，这里的类型就是什么（这里是类型String）
   },
   //同步修改方法
   reducers: {
@@ -28,8 +29,16 @@ const userReducer = userStore.reducer
 //异步方法 完成登录获取token
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
+
+    try {
+
     //1.发送异步请求
-    const res = await request.post('/api/users/login', loginForm)
+    const res = await request.post(
+      '/users/login', 
+      loginForm,
+      { withCredentials: true }
+    )
+    //const res = await request.get('/api/users/userDetail')
 
     //从Header中获取cookie中的token --> 好像获取不到cookie，暂时注释
     //const cookieHeader = res.headers['set-cookie']
@@ -38,10 +47,17 @@ const fetchLogin = (loginForm) => {
     //2.提交同步action进行token的存入
     //dispatch(setToken(token))
     console.log(res)
-    console.log(res.data)
+    console.log('Login successful：', res.data)
     console.log(res.headers)
-    console.log(document.cookie)
+    console.log('Cookies：', document.cookie)
     //console.log(res.headers['set-cookie'])
+
+    //localStorage存一份token
+    //localStorage.setItem('token_key', token)
+
+    } catch (error) {
+      console.log('Login failed：', error)
+    }
   }
 }
 

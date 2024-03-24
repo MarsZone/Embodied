@@ -1,8 +1,8 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Button, Tabbar } from 'react-vant'
-import { FriendsO, HomeO, Search, SettingO } from '@react-vant/icons'
 import axios from 'axios'
+import { request } from '@/utils'
 
 
 const Test = () => {
@@ -18,8 +18,12 @@ const Test = () => {
       async function getData() {
         //axios请求数据
         //const res = await axios.get('http://127.0.0.1:4523/m1/4185540-0-default/pet/1')
-        const res = await axios.get('http://127.0.0.1:4523/m1/4182675-0-default/api/users/list')
-        //const res = await axios.post('http://127.0.0.1:4523/m1/4182675-0-default/api/users/register')
+        //const res = await axios.get('http://127.0.0.1:4523/m1/4182675-0-default/api/users/list')
+        //const res = await axios.get('/api/users/userDetail?uid=1')
+        const res = await axios.get('http://120.78.142.84:8080/api/users/userDetail?uid=1')
+        
+        //const res = await request.get('/users/userDetail?uid=1')
+        //setData(res)
         setData(res.data)
       }
       getData()

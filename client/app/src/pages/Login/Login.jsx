@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import { Card, Cell, Button, Input, Form } from 'react-vant';
+import { Card, Cell, Button, Input, Form, Notify } from 'react-vant';
 import './Login.scss'
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '@/store/modules/user';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
   const [form] = Form.useForm()
-
   const dispatch = useDispatch() //在组件中调dispatch方法，需要用钩子函数useDispatch
-  const onFinish = (values) => { 
+  const navigate = useNavigate()
+  
+  const onFinish = async (values) => { 
     console.log(values)
     //触发异步action fetchLogin
-    dispatch(fetchLogin(values)) //参数就是收集到的表单数据values
+    await dispatch(fetchLogin(values)) //参数就是收集到的表单数据values
     console.log(111)
+
+    //登录完成后，1跳转到首页 2提示用户是否登录成功
+    navigate('/')
+    Notify.show('登录成功')
+
   }
 
   return (

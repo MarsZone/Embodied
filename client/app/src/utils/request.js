@@ -6,9 +6,9 @@ import axios from "axios";
 
 
 const request = axios.create({
-  //baseURL: 'http://120.78.142.84:8080', //根域名配置
-  baseURL: 'http://127.0.0.1:4523/m1/4182675-0-default',
-  timeout: 5000 //超时时间设置为5s
+  baseURL: 'http://120.78.142.84:8080/api', //根域名配置
+  //baseURL: 'http://127.0.0.1:4523/m1/4182675-0-default',
+  timeout: 10000 //超时时间设置为5s
 })
 
 
