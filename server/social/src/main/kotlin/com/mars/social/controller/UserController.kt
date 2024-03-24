@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
 class UserController {
@@ -31,7 +32,8 @@ class UserController {
 
     @PostMapping("/register")
     fun registerUser(@RequestBody user: User): ResponseEntity<R> {
-
+        //Todo user name 需要校验
+        //Todo password 加密
         user.isActive = "true"
         user.registerTime = LocalDateTime.now()
         user.lastLoginTime = LocalDateTime.now()

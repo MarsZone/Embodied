@@ -25,9 +25,4 @@ class CustomInterceptor : HandlerInterceptor {
 
         println("Request URL: ${request.requestURL}, Request Time: $requestTime ms, Time: $formattedTime")
     }
-    override fun afterCompletion(request: HttpServletRequest, response: HttpServletResponse, handler: Any, ex: Exception?) {
-        // 设置响应头
-        response.setHeader("Access-Control-Expose-Headers", "Authorization")
-        response.setHeader("Access-Control-Allow-Origin", "*")
-    }
 }

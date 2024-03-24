@@ -4,12 +4,16 @@ import axios from "axios";
 //2.超时时间
 //3.请求拦截器 / 响应拦截器
 
+axios.defaults.crossDomain = true
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*"
 
 const request = axios.create({
-  //baseURL: 'http://120.78.142.84:8080', //根域名配置
-  baseURL: 'http://127.0.0.1:4523/m1/4182675-0-default',
+  baseURL: 'http://120.78.142.84:8080', //根域名配置
+  withCredentials: true,
+  // baseURL: 'http://127.0.0.1:4523/m1/4182675-0-default',
   timeout: 5000 //超时时间设置为5s
 })
+
 
 
 //添加请求拦截器：在请求发送之前做拦截，插入一些自定义的配置
