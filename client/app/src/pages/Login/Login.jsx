@@ -54,7 +54,7 @@ const Login = () => {
               message: '账号名必须由4-16位的英文字母大小写、数字或下划线组成'
             }
           ]}
-          name='username' //username 需要和后端接口保持一致
+          name='userName' //userName 需要和后端接口保持一致
           label='用户名'
         >
           <Input placeholder='请输入用户名' />

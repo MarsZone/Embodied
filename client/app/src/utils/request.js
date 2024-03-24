@@ -11,7 +11,7 @@ const request = axios.create({
   baseURL: 'http://120.78.142.84:8080', //根域名配置
   withCredentials: true,
   // baseURL: 'http://127.0.0.1:4523/m1/4182675-0-default',
-  timeout: 5000 //超时时间设置为5s
+  timeout: 20000 //超时时间
 })
 
 

@@ -30,15 +30,12 @@ const userReducer = userStore.reducer
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
 
-    try {
-
     //1.发送异步请求
     const res = await request.post(
-      '/users/login', 
+      '/api/users/login', 
       loginForm,
       { withCredentials: true }
     )
-    //const res = await request.get('/api/users/userDetail')
 
     //从Header中获取cookie中的token --> 好像获取不到cookie，暂时注释
     //const cookieHeader = res.headers['set-cookie']
@@ -46,18 +43,16 @@ const fetchLogin = (loginForm) => {
 
     //2.提交同步action进行token的存入
     //dispatch(setToken(token))
-    console.log(res)
-    console.log('Login successful：', res.data)
-    console.log(res.headers)
+    console.log('发送的数据：', loginForm)
+    console.log('登录成功：', res.data)
+    console.log('返回的Headers', res.headers) //null
     console.log('Cookies：', document.cookie)
-    //console.log(res.headers['set-cookie'])
+
+    dispatch(setToken(document.cookie))//可能不是这个cookie，res.headers没有值
 
     //localStorage存一份token
     //localStorage.setItem('token_key', token)
 
-    } catch (error) {
-      console.log('Login failed：', error)
-    }
   }
 }
 
