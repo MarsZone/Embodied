@@ -15,7 +15,7 @@ class WebConfig : WebMvcConfigurer {
     @Override
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOrigins("http://192.168.31.43:3000")
+            .allowedOriginPatterns("*")
             .allowedHeaders("Authorization", "Content-Type", "Access-Control-Allow-Origin")
             .allowedMethods("GET", "POST", "PUT", "DELETE")
             .allowCredentials(true);
