@@ -2,13 +2,13 @@
 
 import { createSlice } from '@reduxjs/toolkit'
 import { request } from '@/utils'
-import { setToken as _setToken, getToken} from '@/utils'
+import { setToken as _setToken, getToken as _getToken} from '@/utils'
 
 const userStore = createSlice({
   name: "user", //模块名
   //数据状态
   initialState: {
-    token: localStorage.getItem('token_key') || '' //后端返回的类型是什么，这里的类型就是什么（这里是类型String）
+    token: _getToken() || '' //后端返回的类型是什么，这里的类型就是什么（这里是类型String）
   },
   //同步修改方法
   reducers: {
@@ -42,26 +42,17 @@ const fetchLogin = (loginForm) => {
     //const token = extractToken(cookieHeader)
 
     //2.提交同步action进行token的存入
-    //dispatch(setToken(token))
     console.log('发送的数据：', loginForm)
     console.log('登录成功：', res.data)
-    console.log('返回的Headers', res.headers) //null
+    console.log('返回的Headers：', res.headers) //null
     console.log('Cookies：', document.cookie)
 
-    dispatch(setToken(document.cookie))//可能不是这个cookie，res.headers没有值
+    const token = res.data.tokenValue
+    dispatch(setToken(token))
 
     //localStorage存一份token
-    //localStorage.setItem('token_key', token)
-
+    _setToken(token)
   }
-}
-
-
-function extractToken(cookieHeader) {
-  //解析 Cookie 头部，提取 token
-  //例如：cookieHeader 可能是 "satoken=57a0c229-8939-4789-aeb2-ba334de54348"
-  const token = cookieHeader.split('=')[1]
-  return token
 }
 
 

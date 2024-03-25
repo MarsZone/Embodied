@@ -1,5 +1,6 @@
 //axios的封装处理
 import axios from "axios";
+import { getToken as _getToken } from "./token";
 //1.根域名配置
 //2.超时时间
 //3.请求拦截器 / 响应拦截器
@@ -18,6 +19,13 @@ const request = axios.create({
 
 //添加请求拦截器：在请求发送之前做拦截，插入一些自定义的配置
 request.interceptors.request.use((config) => {
+  //操作config对象，在请求头里注入token
+  //1.获取到token
+  //2.按照后端的格式要求做token拼接
+  const token = _getToken()
+  if (token) {
+    config.headers.Authorization = `satoken=${token}`
+  }
   return config
 }, (error) => {
   return Promise.reject(error)

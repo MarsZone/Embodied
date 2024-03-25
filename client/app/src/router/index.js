@@ -1,5 +1,6 @@
 //创建路由示例 绑定path element
 
+import { AuthRoute } from '@/components/AuthRoute'
 import Home from '@/pages/Home/Home' //主页
 import Profile from '@/pages/Profile/Profile' //个人信息页
 import Discover from '@/pages/Discover/Discover' //发现页
@@ -14,7 +15,7 @@ import { createBrowserRouter } from 'react-router-dom'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <AuthRoute> <Home /> </AuthRoute>,
   },
   {
     path: '/home',
