@@ -5,8 +5,8 @@ import com.mars.social.model.User
 import com.mars.social.model.UserDetail
 import com.mars.social.model.UserDetails
 import com.mars.social.model.Users
-import com.mars.social.utils.R
 import com.mars.social.utils.MessageUtil
+import com.mars.social.utils.R
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.*
@@ -59,9 +59,10 @@ class UserController {
         var data = ""
         if (user != null) {
             if(user.password == dto.password){
-                StpUtil.login(10001)
-                data = messageUtil.get("sign.in.succeed")
-                return ResponseEntity.ok().body(R.ok(data))
+                StpUtil.login(user.id)
+//                data = messageUtil.get("sign.in.succeed")
+                val tokenInfo = StpUtil.getTokenInfo()
+                return ResponseEntity.ok().body(R.ok(tokenInfo))
             }
         }
         data = messageUtil.get("sign.in.failed")
