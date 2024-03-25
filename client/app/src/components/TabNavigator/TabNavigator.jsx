@@ -3,7 +3,8 @@ import { GridItem, Tabbar, TabbarItem } from 'react-vant'
 import { CommentO, HomeO, Search, UserO, AddO } from '@react-vant/icons'
 import './TabNavigator.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { tab } from '@testing-library/user-event/dist/tab'
+import { get } from 'react-vant/es/utils'
+
 
 const tabs = [
   {
@@ -33,7 +34,7 @@ const tabs = [
   },
 ]
 
-const TabNavigator = () => {
+const TabNavigator = ({onGetRoute}) => {
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -44,6 +45,7 @@ const TabNavigator = () => {
     console.log('tabbar被点击了', route)
     navigate(route)
     setTabRoute(route)
+    onGetRoute(route)
   }
 
   //反向高亮

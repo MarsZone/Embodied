@@ -3,6 +3,8 @@ import TabNavigator from "@/components/TabNavigator/TabNavigator"
 
 const Discover = () => {
 
+  const getRoute = (route) => console.log('father', route)
+
   return (
     <div className="layout">
       <div className="container">
@@ -11,7 +13,7 @@ const Discover = () => {
       我是发现页Discover
       </div>
       <div className="footer">
-        <TabNavigator />
+        <TabNavigator onGetRoute={getRoute}/>
       </div>
     </div>
   )
