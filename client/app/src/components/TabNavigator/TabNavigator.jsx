@@ -42,8 +42,8 @@ const TabNavigator = () => {
 
   const onTabbarClick = (route) => {
     console.log('tabbar被点击了', route)
-    setTabRoute(route)
     navigate(route)
+    setTabRoute(route)
   }
 
   //反向高亮
@@ -56,12 +56,14 @@ const TabNavigator = () => {
   // }, [location.pathname])
 
   return (
-    // <Tabbar value={tabRoute} selectedKey={selectedKey} onChange={v => onTabbarClick(v)}></Tabbar>
-    <Tabbar value={tabRoute} onChange={v => onTabbarClick(v)}>
-      {tabs.map(item => (
-        <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>
-      ))}
-    </Tabbar>
+    <div>
+      {/* <Tabbar value={tabRoute} selectedKey={selectedKey} onChange={v => onTabbarClick(v)}></Tabbar> */}
+      <Tabbar value={tabRoute} onChange={v => onTabbarClick(v)}>
+        {tabs.map(item => (
+          <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>
+        ))}
+      </Tabbar>
+    </div>
   )
 }
 

@@ -7,6 +7,13 @@ import { request } from '@/utils'
 
 
 const Test = () => {
+
+  useEffect(() => {
+    request.get('/users/list')
+  }, [])
+
+
+
   const [name, setName] = React.useState('setting')
   return (
     <div className='demo-tabbar'>
