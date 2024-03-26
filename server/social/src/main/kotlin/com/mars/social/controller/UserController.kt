@@ -1,5 +1,7 @@
 package com.mars.social.controller
 
+import cn.dev33.satoken.annotation.SaCheckLogin
+import cn.dev33.satoken.annotation.SaCheckRole
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.model.User
 import com.mars.social.model.UserDetail
@@ -24,6 +26,7 @@ class UserController {
 
     @Autowired
     protected lateinit var database: Database
+
     @Autowired
     private lateinit var messageUtil: MessageUtil
 
@@ -46,6 +49,8 @@ class UserController {
     /**
      * 查询所有用户列表信息，暂时测试用，后面要考虑假如给后台使用，怎么做权限管控。
      */
+    @SaCheckLogin
+    @SaCheckRole("sys")
     @GetMapping("/list")
     fun getAllUsers(): ResponseEntity<R> {
         val users = database.sequenceOf(Users).toList()

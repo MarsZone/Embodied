@@ -31,28 +31,31 @@ public class GlobalException {
     @ExceptionHandler(NotPermissionException.class)
     public SaResult handlerException(NotPermissionException e) {
         e.printStackTrace();
-        return SaResult.error("缺少权限：" + e.getPermission());
+        System.out.println(e.getPermission());
+        return SaResult.error("No permission to access" );
     }
 
     // 拦截：缺少角色异常
     @ExceptionHandler(NotRoleException.class)
     public SaResult handlerException(NotRoleException e) {
         e.printStackTrace();
-        return SaResult.error("缺少角色：" + e.getRole());
+        System.out.println(e.getRole());
+        return SaResult.error("No role permission to access");
+//        return SaResult.error();
     }
 
     // 拦截：二级认证校验失败异常
     @ExceptionHandler(NotSafeException.class)
     public SaResult handlerException(NotSafeException e) {
         e.printStackTrace();
-        return SaResult.error("二级认证校验失败：" + e.getService());
+        return SaResult.error("not safe：" + e.getService());
     }
 
     // 拦截：服务封禁异常
     @ExceptionHandler(DisableServiceException.class)
     public SaResult handlerException(DisableServiceException e) {
         e.printStackTrace();
-        return SaResult.error("当前账号 " + e.getService() + " 服务已被封禁 (level=" + e.getLevel() + ")：" + e.getDisableTime() + "秒后解封");
+        return SaResult.error("current account " + e.getService() + " was ban (level=" + e.getLevel() + ")：" + e.getDisableTime() + "seconds to free");
     }
 
     // 拦截：Http Basic 校验失败异常
