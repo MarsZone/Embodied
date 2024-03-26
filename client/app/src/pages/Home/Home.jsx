@@ -4,7 +4,6 @@ import TabNavigator from '@/components/TabNavigator/TabNavigator'
 
 const Home = () => {
 
-  const getRoute = (route) => console.log('father', route)
 
   return (
     <div className="layout">
@@ -13,7 +12,7 @@ const Home = () => {
         {/* <Outlet /> */}
       </div>
       <div className="footer">
-        <TabNavigator onGetRoute={getRoute}/>
+        <TabNavigator/>
       </div>
     </div>
   )

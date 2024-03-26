@@ -3,7 +3,6 @@ import { GridItem, Tabbar, TabbarItem } from 'react-vant'
 import { CommentO, HomeO, Search, UserO, AddO } from '@react-vant/icons'
 import './TabNavigator.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { get } from 'react-vant/es/utils'
 
 
 const tabs = [
@@ -34,34 +33,27 @@ const tabs = [
   },
 ]
 
-const TabNavigator = ({onGetRoute}) => {
+const TabNavigator = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [tabRoute, setTabRoute] = useState('/home')
-
+  //设置当前选项
+  const [tabRoute, setTabRoute] = useState(location.pathname)
+  
+  //点击事件
   const onTabbarClick = (route) => {
     console.log('tabbar被点击了', route)
     navigate(route)
     setTabRoute(route)
-    onGetRoute(route)
   }
-
-  //反向高亮
-  // console.log(location.pathname)//获取当前路由路径
-  // const selectedKey = location.pathname
-
-  // const [selectedKey, setSelectedKey] = useState(location.pathname)
-  // useEffect(() => {
-  //   setSelectedKey(location.pathname)
-  // }, [location.pathname])
 
   return (
     <div>
       {/* <Tabbar value={tabRoute} selectedKey={selectedKey} onChange={v => onTabbarClick(v)}></Tabbar> */}
       <Tabbar value={tabRoute} onChange={v => onTabbarClick(v)}>
         {tabs.map(item => (
+          // <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>
           <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>
         ))}
       </Tabbar>
