@@ -6,6 +6,7 @@
 * React
 * react-vant
 * axios
+* Redux
 * normalize
 
 ### BackEnd Technology
