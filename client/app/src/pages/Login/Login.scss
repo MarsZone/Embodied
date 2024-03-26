@@ -1,52 +1,82 @@
-// .login-page {
-//   width: 100vw;
-//   height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: rgba(0, 0, 0, 0.21);
-// }
-
-
-// .login-card {
-//   border: 1px solid;
-//   border-radius: 10px;
-//   margin: 0 auto;
-//   max-width: 600px;
-//   width: 100%;
-//   padding: 20px;
-// }
-
-
-//登录页面样式
 .login-page {
   display: flex;
   width: 100vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background-color: rgb(255, 250, 240);
-  //padding: 20px;
-  //flex-direction: column;
+  background-image: linear-gradient(135deg, #9055ff, #13e2da); // box-shadow: 0.25em 0.25em 2em rgba(0, 0, 0, 0.25);
+  margin: 0;
+  overflow: hidden;
+}
 
-  .login-form {
-    width: 90%;
-    max-width: 400px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+.login-logo {
+  text-align: center;
+  color: white;
+  font-family: 'Times New Roman', sans-serif;
+  font-size: 50px;
+}
 
-  .login-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+.login-form {
+  width: 85%;
+  max-width: 360px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 30px;
+  background-color: #ffffff;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  background: rgba(255, 255, 255, 0.5);
+  border-top-color: rgba(255, 255, 255, .4);
+  border-left-color: rgba(255, 255, 255, .4);
+  border-bottom-color: rgba(60, 60, 60, .4);
+  border-right-color: rgba(60, 60, 60, .4);
+}
 
-  .login-button {
-    margin-top: 20px;
-    text-align: center;
+
+.login-input {
+  width: 260px;
+  border: 1px solid;
+  border-bottom-color: rgba(255, 255, 255, .5);
+  border-right-color: rgba(60, 60, 60, .35);
+  border-top-color: rgba(60, 60, 60, .35);
+  border-left-color: rgba(80, 80, 80, .45);
+  background-color: rgba(0, 0, 0, .2);
+  background-repeat: no-repeat;
+  padding: 8px 24px 8px 10px;
+  font: bold .875em/1.25em 'Open Sans Condensed', sans-serif;
+  letter-spacing: .075em;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+  margin-bottom: 19px;
+}
+
+.login-button {
+  width: 212px;
+  border: 1px solid;
+  border-bottom-color: rgba(255, 255, 255, .5);
+  border-right-color: rgba(60, 60, 60, .35);
+  border-top-color: rgba(60, 60, 60, .35);
+  border-left-color: rgba(80, 80, 80, .45);
+  background-color: rgba(3, 27, 79, 0.6);
+  background-repeat: no-repeat;
+  padding: 8px 24px 8px 10px;
+  font: bold .875em/1.25em "Open Sans Condensed", sans-serif;
+  letter-spacing: .075em;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+  margin-top: 15px;
+}
+
+
+.route-to-signup {
+  text-align: center;
+  color: rgb(70, 70, 70);
+  font-weight: 200;
+  font-size: 14px;
+
+  .a {
+    font-weight: 400;
+    text-decoration: none;
+    color: #011586;
   }
 }
