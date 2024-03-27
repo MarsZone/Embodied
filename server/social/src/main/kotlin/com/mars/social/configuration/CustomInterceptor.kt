@@ -23,6 +23,18 @@ class CustomInterceptor : HandlerInterceptor {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val formattedTime = currentTime.format(formatter)
 
-        println("Request URL: ${request.requestURL}, Request Time: $requestTime ms, Time: $formattedTime")
+        var ip = request.getHeader("x-forwarded-for")
+        if (ip.isNullOrEmpty() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.getHeader("Proxy-Client-IP")
+        }
+        if (ip.isNullOrEmpty() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.getHeader("WL-Proxy-Client-IP")
+        }
+        if (ip.isNullOrEmpty() || "unknown".equals(ip, ignoreCase = true)) {
+            ip = request.remoteAddr
+        }
+        val userAgent = request.getHeader("User-Agent")
+
+        println("Request URL: ${request.requestURL}, Request Time: $requestTime ms, Time: $formattedTime, IP Address: $ip, User Agent: $userAgent")
     }
 }
