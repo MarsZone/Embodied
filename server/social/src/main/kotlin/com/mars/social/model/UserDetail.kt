@@ -1,11 +1,8 @@
 package com.mars.social.model
 
-import com.mars.social.model.Users.bindTo
-import com.mars.social.model.Users.primaryKey
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*
-import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.*
 
 interface UserDetail : Entity<UserDetail> {
     var id: Long?
