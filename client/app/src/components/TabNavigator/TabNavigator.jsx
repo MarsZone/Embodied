@@ -39,7 +39,7 @@ const TabNavigator = () => {
   const location = useLocation()
 
   //设置当前选项
-  const [tabRoute, setTabRoute] = useState(location.pathname)
+  const [tabRoute, setTabRoute] = useState(location.pathname === '/' ? '/home' : location.pathname)
   
   //点击事件
   const onTabbarClick = (route) => {
@@ -53,7 +53,6 @@ const TabNavigator = () => {
       {/* <Tabbar value={tabRoute} selectedKey={selectedKey} onChange={v => onTabbarClick(v)}></Tabbar> */}
       <Tabbar value={tabRoute} onChange={v => onTabbarClick(v)}>
         {tabs.map(item => (
-          // <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>
           <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>
         ))}
       </Tabbar>
