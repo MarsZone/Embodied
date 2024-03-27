@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   const onFinish = async (values) => {
-    console.log(values)
+    console.log('登录信息：', values)
     //触发异步action fetchLogin
     await dispatch(fetchLogin(values)) //参数就是收集到的表单数据values
     console.log(111)
@@ -20,8 +20,8 @@ const Login = () => {
     //登录完成后，1跳转到首页 2提示用户是否登录成功
     navigate('/')
     Notify.show('登录成功')
-
   }
+
 
   return (
     <div className='login-page'>
@@ -31,14 +31,14 @@ const Login = () => {
         form={form}
         footer={
           <div>
-            <Button className='login-button'>登录</Button>
-            <div class="route-to-signup">
+            <Button className='login-button' nativeType='submit'>登录</Button>
+            <div className="route-to-signup">
               <p>还没有账户? <a href="#">注册</a></p>
             </div>
           </div>
         }
       >
-        <p className='login-logo'>Embodied</p>
+        <p className='logo'>Embodied</p>
         <Form.Item className='login-input'
           rules={[
             {
