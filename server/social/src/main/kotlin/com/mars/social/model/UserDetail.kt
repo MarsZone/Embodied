@@ -5,7 +5,7 @@ import org.ktorm.schema.*
 import java.time.*
 
 interface UserDetail : Entity<UserDetail> {
-    var id: Long?
+    var id: Long
     var uid: Long
     var firstName: String
     var secondName: String

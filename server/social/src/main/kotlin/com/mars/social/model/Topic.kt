@@ -4,8 +4,9 @@ import org.ktorm.entity.Entity
 import org.ktorm.schema.*
 import java.time.*
 
-interface Content : Entity<Content> {
-	var id: Long?
+interface Topic : Entity<Topic> {
+	var id: Long
+	var title : String?
 	var authorUid: Long?
 	var contentType: String?
 	var content: String
@@ -18,8 +19,9 @@ interface Content : Entity<Content> {
 	var updateTime: LocalDateTime
 }
 
-object Contents : Table<Content>("content") {
-	val id = long("id").bindTo { it.id }
+object Topics : Table<Topic>("topic") {
+	val id = long("id").primaryKey().bindTo { it.id }
+	val title = varchar("title").bindTo { it.title }
 	val authorUid = long("author_uid").bindTo { it.authorUid }
 	val contentType = varchar("content_type").bindTo { it.contentType }
 	val content = varchar("content").bindTo { it.content }

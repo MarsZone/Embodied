@@ -5,7 +5,7 @@ import org.ktorm.schema.*
 import java.time.LocalDateTime
 
 interface User : Entity<User> {
-    val id: Long?
+    val id: Long
     var userName: String
     var password: String
     var email: String
