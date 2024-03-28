@@ -40,7 +40,7 @@ const TabNavigator = () => {
 
   //设置当前选项
   const [tabRoute, setTabRoute] = useState(location.pathname === '/' ? '/home' : location.pathname)
-  
+
   //点击事件
   const onTabbarClick = (route) => {
     console.log('tabbar被点击了', route)
@@ -51,7 +51,11 @@ const TabNavigator = () => {
   return (
     <div>
       {/* <Tabbar value={tabRoute} selectedKey={selectedKey} onChange={v => onTabbarClick(v)}></Tabbar> */}
-      <Tabbar value={tabRoute} onChange={v => onTabbarClick(v)}>
+      <Tabbar
+        value={tabRoute}
+        onChange={v => onTabbarClick(v)}
+        activeColor='#f44336' inactiveColor='#000'
+      >
         {tabs.map(item => (
           <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>
         ))}
