@@ -25,36 +25,35 @@ const Login = () => {
 
   return (
     <div className='login-page'>
-      <Form className='login-form'
+      <Form
+        className='login-form'
         validateTrigger='onblur'
         onFinish={onFinish}
         form={form}
         footer={
           <div>
             <Button className='login-button' nativeType='submit'>登录</Button>
-            <div className="route-to-signup">
+            <div className="route-to-register">
               <p>还没有账户? <a href="#">注册</a></p>
             </div>
           </div>
         }
       >
         <p className='logo'>Embodied</p>
-        <Form.Item className='login-input'
+        <Form.Item
+          className='login-input'
           rules={[
             {
               required: true,
               message: '请填写用户名'
-            },
-            // {
-            //   pattern: /^[a-zA-Z0-9_]{4,16}$/,
-            //   message: '账号名必须由4-16位的英文字母大小写、数字或下划线组成'
-            // }
+            }
           ]}
           name='userName' //userName 需要和后端接口保持一致
         >
           <Input placeholder='请输入用户名' />
         </Form.Item>
-        <Form.Item className='login-input'
+        <Form.Item
+          className='login-input'
           rules={[
             { required: true, message: '请填写密码' }
           ]}
