@@ -17,6 +17,7 @@ interface Topic : Entity<Topic> {
 	var shares: Int
 	var createTime: LocalDateTime
 	var updateTime: LocalDateTime
+	var isDelete: String
 }
 
 object Topics : Table<Topic>("topic") {
@@ -32,4 +33,5 @@ object Topics : Table<Topic>("topic") {
 	val shares = int("shares").bindTo { it.shares }
 	val createTime = datetime("create_time").bindTo { it.createTime }
 	val updateTime = datetime("update_time").bindTo { it.updateTime }
+	val isDelete = varchar("is_delete").bindTo { it.isDelete }
 }

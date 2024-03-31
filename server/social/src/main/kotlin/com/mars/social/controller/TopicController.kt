@@ -4,6 +4,7 @@ import com.mars.social.model.Topic
 import com.mars.social.model.Topics
 import com.mars.social.utils.R
 import org.ktorm.database.Database
+import org.ktorm.dsl.and
 import org.ktorm.dsl.eq
 import org.ktorm.entity.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,7 @@ class TopicController {
 
     @GetMapping("/list")
     fun list(@RequestParam uid:Long): ResponseEntity<R> {
-        val topics = database.sequenceOf(Topics).filter { it.authorUid eq uid}.toList()
+        val topics = database.sequenceOf(Topics).filter { it.authorUid eq uid}.filter { it.isDelete eq "false" }.toList()
         return ResponseEntity.ok().body(R.ok(topics))
     }
 
@@ -59,5 +60,18 @@ class TopicController {
         }
         return ResponseEntity.ok().body(R.ok("topic published"))
     }
+
+    @GetMapping("/delete")
+    fun delete(@RequestParam id:Long): ResponseEntity<R>{
+        val topics = database.sequenceOf(Topics)
+        var topic = topics.find { it.id eq id }
+        if (topic != null) {
+            topic.isDelete = "true"
+            topics.update(topic)
+        }
+        return ResponseEntity.ok().body(R.ok("topic is deleted"))
+    }
+
+
 
 }
