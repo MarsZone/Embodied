@@ -25,6 +25,18 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok(topics))
     }
 
+    @GetMapping("/show")
+    fun show(@RequestParam id:Long): ResponseEntity<R>{
+        val topics = database.sequenceOf(Topics)
+        var topic = topics.find { it.id eq id }
+        if(topic!=null){
+            topic.visits += 1
+            topics.update(topic)
+            return ResponseEntity.ok().body(R.ok(topic))
+        }
+        return ResponseEntity.ok().body(R.fail("Not found topic"))
+    }
+
     @PostMapping("/save")
     fun save(@RequestBody topic:Topic): ResponseEntity<R>{
         if(topic.authorUid == null){
