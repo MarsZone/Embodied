@@ -3,7 +3,8 @@ import { GridItem, Tabbar, TabbarItem } from 'react-vant'
 import { CommentO, HomeO, Search, UserO, AddO } from '@react-vant/icons'
 import './TabNavigator.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
-
+import { useDispatch } from 'react-redux'
+import { fetchUserInfo } from '@/store/modules/user'
 
 const tabs = [
   {
@@ -47,6 +48,12 @@ const TabNavigator = () => {
     navigate(route)
     setTabRoute(route)
   }
+
+  //触发个人用户信息action
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUserInfo())
+  }, [dispatch])
 
   return (
     <div>

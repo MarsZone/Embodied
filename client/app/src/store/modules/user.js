@@ -8,7 +8,8 @@ const userStore = createSlice({
   name: "user", //模块名
   //数据状态
   initialState: {
-    token: _getToken() || '' //后端返回的类型是什么，这里的类型就是什么（这里是类型String）
+    token: _getToken() || '', //后端返回的类型是什么，这里的类型就是什么（这里是类型String）
+    userInfo: {}
   },
   //同步修改方法
   reducers: {
@@ -16,12 +17,15 @@ const userStore = createSlice({
       //state.token --> 拿到上面的state数据
       //action.payload --> 把action对象中payload载荷赋值给state，做到同步修改
       state.token = action.payload
+    },
+    setUserInfo(state, action){
+      state.userInfo = action.payload
     }
   }
 })
 
 //解构出actionCreater
-const { setToken } = userStore.actions
+const { setToken, setUserInfo } = userStore.actions
 
 //获取reducer函数
 const userReducer = userStore.reducer
@@ -29,22 +33,15 @@ const userReducer = userStore.reducer
 //异步方法 完成登录获取token
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
-
     //1.发送异步请求
     const res = await request.post(
       '/api/users/login', 
       loginForm,
       { withCredentials: true }
     )
-
-    //从Header中获取cookie中的token --> 好像获取不到cookie，暂时注释
-    //const cookieHeader = res.headers['set-cookie']
-    //const token = extractToken(cookieHeader)
-
     //2.提交同步action进行token的存入
     console.log('发送的数据：', loginForm)
     console.log('登录成功：', res.data)
-    console.log('返回的Headers：', res.headers) //null
     console.log('Cookies：', document.cookie)
 
     const token = res.data.tokenValue
@@ -56,6 +53,18 @@ const fetchLogin = (loginForm) => {
 }
 
 
+//异步方法 获取个人用户信息
+const fetchUserInfo = () => {
+  return async (dispatch) => {
+    const res = request.get('')
+    dispatch(setUserInfo(res.data))
+    
+    //localStorage存一份token
+    //_setToken(token)
+  }
+}
+
+
 //导出
-export { fetchLogin, setToken }
+export { fetchLogin, fetchUserInfo, setToken }
 export default userReducer
