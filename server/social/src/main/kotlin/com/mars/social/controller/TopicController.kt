@@ -1,9 +1,13 @@
 package com.mars.social.controller
 
+import cn.dev33.satoken.annotation.SaCheckLogin
+import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
-import com.mars.social.model.Topic
-import com.mars.social.model.Topics
+import com.mars.social.model.topic.Topic
+import com.mars.social.model.topic.TopicLike
+import com.mars.social.model.topic.TopicLikes
+import com.mars.social.model.topic.Topics
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
 import org.ktorm.database.Database
@@ -56,7 +60,7 @@ class TopicController {
     }
 
     @PostMapping("/save")
-    fun save(@RequestBody topic:Topic): ResponseEntity<R>{
+    fun save(@RequestBody topic: Topic): ResponseEntity<R>{
         if(topic.authorUid == null){
             return ResponseEntity.ok().body(R.fail("Uid params needed"))
         }
@@ -72,7 +76,7 @@ class TopicController {
     }
 
     @PostMapping("/publishTopic")
-    fun publishTopic(@RequestBody topic:Topic): ResponseEntity<R>{
+    fun publishTopic(@RequestBody topic: Topic): ResponseEntity<R>{
         if(topic.authorUid == null){
             return ResponseEntity.ok().body(R.fail("Uid params needed"))
         }
@@ -102,6 +106,33 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok("topic is deleted"))
     }
 
+    //like,comment,bookmark
 
+    @SaCheckLogin
+    @GetMapping("/like")
+    fun like(@RequestParam tid:Long):ResponseEntity<R>{
+        val uid = StpUtil.getLoginId()
+        val topicLikes = database.sequenceOf(TopicLikes)
+        var tlike =  Entity.create<TopicLike>()
+        tlike.tid = tid
+        tlike.uid = uid.toString().toLong()
+        tlike.createTime = LocalDateTime.now()
+        val tCheck = topicLikes.find{ (it.uid eq uid.toString().toLong())  and  (it.tid eq tid)  }
+        if(tCheck!=null){
+            database.update(Topics){
+                set(it.likes,it.likes-1)
+                where { it.id eq tid }
+            }
+            tCheck.delete()
+            return ResponseEntity.ok().body(R.ok(uid.toString()+"you don't like that"))
+        }else{
+            database.update(Topics){
+                set(it.likes,it.likes+1)
+                where { it.id eq tid }
+            }
+            topicLikes.add(tlike)
+            return ResponseEntity.ok().body(R.ok(uid.toString()+"you like that"))
+        }
+    }
 
 }

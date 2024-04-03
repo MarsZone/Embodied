@@ -1,4 +1,4 @@
-package com.mars.social.model
+package com.mars.social.model.user
 
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*

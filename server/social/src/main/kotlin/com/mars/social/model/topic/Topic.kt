@@ -1,4 +1,4 @@
-package com.mars.social.model
+package com.mars.social.model.topic
 
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*
@@ -15,6 +15,7 @@ interface Topic : Entity<Topic> {
 	var likes: Int
 	var comments: Int
 	var shares: Int
+	var bookmarks: Int
 	var createTime: LocalDateTime
 	var updateTime: LocalDateTime
 	var isDelete: String
@@ -32,6 +33,7 @@ object Topics : Table<Topic>("topic") {
 	val likes = int("likes").bindTo { it.likes }
 	val comments = int("comments").bindTo { it.comments }
 	val shares = int("shares").bindTo { it.shares }
+	val bookmarks = int("bookmarks").bindTo { it.bookmarks }
 	val createTime = datetime("create_time").bindTo { it.createTime }
 	val updateTime = datetime("update_time").bindTo { it.updateTime }
 	val isDelete = varchar("is_delete").bindTo { it.isDelete }

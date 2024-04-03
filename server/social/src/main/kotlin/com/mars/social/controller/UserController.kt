@@ -3,10 +3,10 @@ package com.mars.social.controller
 import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.annotation.SaCheckRole
 import cn.dev33.satoken.stp.StpUtil
-import com.mars.social.model.User
-import com.mars.social.model.UserDetail
-import com.mars.social.model.UserDetails
-import com.mars.social.model.Users
+import com.mars.social.model.user.User
+import com.mars.social.model.user.UserDetail
+import com.mars.social.model.user.UserDetails
+import com.mars.social.model.user.Users
 import com.mars.social.utils.MessageUtil
 import com.mars.social.utils.R
 import org.ktorm.database.Database

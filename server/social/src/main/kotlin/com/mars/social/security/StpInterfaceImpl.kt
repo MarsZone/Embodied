@@ -1,12 +1,10 @@
 package com.mars.social.security;
 
 import cn.dev33.satoken.stp.StpInterface
-import com.mars.social.model.UserRoles
-import com.mars.social.model.Users
+import com.mars.social.model.user.UserRoles
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.entity.filter
-import org.ktorm.entity.find
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import org.springframework.beans.factory.annotation.Autowired
