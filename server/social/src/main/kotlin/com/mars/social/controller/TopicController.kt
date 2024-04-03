@@ -1,11 +1,13 @@
 package com.mars.social.controller
 
+import com.mars.social.dto.PageDTO
+import com.mars.social.dto.PageRequest
 import com.mars.social.model.Topic
 import com.mars.social.model.Topics
+import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
 import org.ktorm.database.Database
-import org.ktorm.dsl.and
-import org.ktorm.dsl.eq
+import org.ktorm.dsl.*
 import org.ktorm.entity.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -23,6 +25,22 @@ class TopicController {
     fun list(@RequestParam uid:Long): ResponseEntity<R> {
         val topics = database.sequenceOf(Topics).filter { it.authorUid eq uid}.filter { it.isDelete eq "false" }.toList()
         return ResponseEntity.ok().body(R.ok(topics))
+    }
+
+    @PostMapping("page")
+    fun page(@RequestBody pageRequest: PageRequest,@RequestParam uid:Long):ResponseEntity<R>{
+        val totalRecords = database.sequenceOf(Topics).filter { it.authorUid eq uid}.filter { it.isDelete eq "false" }.totalRecordsInAllPages;
+        val offset = PageCalculator.calculateOffset(pageRequest, totalRecords)
+        val limit = PageCalculator.calculateLimit(pageRequest, totalRecords)
+
+        val query = database.from(Topics).select()
+                    .where{ (Topics.authorUid eq uid) and (Topics.isDelete eq "false") }
+                    .limit(offset, limit)
+            .map { row -> Topics.createEntity(row) }
+        query.forEach{ println(it) }
+
+        val page = PageDTO(query.toList(),totalRecords,pageRequest)
+        return ResponseEntity.ok().body(R.ok(page))
     }
 
     @GetMapping("/show")
