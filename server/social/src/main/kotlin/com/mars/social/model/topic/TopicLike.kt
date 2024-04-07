@@ -6,8 +6,8 @@ import java.time.*
 
 interface TopicLike : Entity<TopicLike> {
     var id: Long
-	var tid: Long
-	var uid: Long
+	var tid: Long					//topic外键
+	var uid: Long					//用户外键
 	var createTime: LocalDateTime
 }
 

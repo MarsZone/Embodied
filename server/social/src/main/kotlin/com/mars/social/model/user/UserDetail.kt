@@ -7,15 +7,15 @@ import java.time.*
 interface UserDetail : Entity<UserDetail> {
     var id: Long
     var uid: Long
-    var firstName: String
-    var secondName: String
-    var nickName: String
-    var gender: String
-    var birthdate: LocalDate
-    var country: String
-    var city: String
-    var address: String
-    var avatar: String
+    var firstName: String           //姓
+    var secondName: String          //名
+    var nickName: String            //昵称
+    var gender: String              //性别
+    var birthdate: LocalDate        //出生日期
+    var country: String             //国籍
+    var city: String                //城市
+    var address: String             //住址
+    var avatar: String              //头像，先存链接吧，后面要想想怎么弄个OSS存储
     var createTime: LocalDateTime
 }
 

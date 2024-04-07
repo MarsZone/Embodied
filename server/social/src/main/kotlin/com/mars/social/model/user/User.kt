@@ -6,13 +6,13 @@ import java.time.LocalDateTime
 
 interface User : Entity<User> {
     val id: Long
-    var userName: String
-    var password: String
+    var userName: String                //账号
+    var password: String                //密码
     var email: String
     var phone: String
     var registerTime: LocalDateTime
     var lastLoginTime: LocalDateTime
-    var isActive: String
+    var isActive: String                //是否启用状态，字符串的true false
 }
 
 object Users : Table<User>("user") {
