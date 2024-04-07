@@ -20,6 +20,7 @@ interface Topic : Entity<Topic> {
 	var updateTime: LocalDateTime
 	var isDelete: String			//是否删除
 	var visits: Long				//访问
+	var channelKey: String				//频道
 }
 
 object Topics : Table<Topic>("topic") {
@@ -38,4 +39,5 @@ object Topics : Table<Topic>("topic") {
 	val updateTime = datetime("update_time").bindTo { it.updateTime }
 	val isDelete = varchar("is_delete").bindTo { it.isDelete }
 	val visits = long("visits").bindTo { it.visits }
+	val channelKey = varchar("channel_key").bindTo { it.channelKey   }
 }
