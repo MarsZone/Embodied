@@ -26,9 +26,20 @@ class TopicController {
     protected lateinit var database: Database
 
     @GetMapping("/list")
-    fun list(@RequestParam uid:Long): ResponseEntity<R> {
-        val topics = database.sequenceOf(Topics).filter { it.authorUid eq uid}.filter { it.isDelete eq "false" }.toList()
-        return ResponseEntity.ok().body(R.ok(topics))
+    fun list(@RequestParam uid:Long,@RequestParam channelKey:String = "information_plaza"): ResponseEntity<R> {
+        val actualChannelKey = channelKey.ifBlank { "information_plaza" }
+        val filteredTopics = database.sequenceOf(Topics)
+            .filter { it.authorUid eq uid }
+            .filter { it.isDelete eq "false" }
+            .let { topics ->
+                when (actualChannelKey) {
+                    "information_plaza" -> topics
+                    else -> topics.filter { it.channelKey eq channelKey }
+                }
+            }
+            .toList()
+            .reversed()
+        return ResponseEntity.ok().body(R.ok(filteredTopics))
     }
 
     @PostMapping("page")
