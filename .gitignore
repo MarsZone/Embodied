@@ -2,3 +2,4 @@
 /.idea
 /server/.idea
 /client/app/yarn.lock
+/server/social/.mvn
