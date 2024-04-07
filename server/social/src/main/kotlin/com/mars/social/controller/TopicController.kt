@@ -4,10 +4,9 @@ import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
-import com.mars.social.model.topic.Topic
-import com.mars.social.model.topic.TopicLike
-import com.mars.social.model.topic.TopicLikes
-import com.mars.social.model.topic.Topics
+import com.mars.social.model.mix.Tag
+import com.mars.social.model.mix.Tags
+import com.mars.social.model.topic.*
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
 import org.ktorm.database.Database
@@ -144,6 +143,33 @@ class TopicController {
             topicLikes.add(tlike)
             return ResponseEntity.ok().body(R.ok(uid.toString()+"you like that"))
         }
+    }
+
+    data class TagRequest(val tid: Long, val tags: Array<String>)
+    @PostMapping("toTag")
+    fun toTag(@RequestBody tagParams: TagRequest):ResponseEntity<R>{
+        val tid = tagParams.tid
+        val tags = database.sequenceOf(Tags)
+//        val topicTags = database.sequenceOf(TopicTagsRelation).filter { it.topicId eq tid }.toList()    //查出这个标题所有的tag
+        //标签先全删了
+        database.sequenceOf(TopicTagsRelation).removeIf { it.topicId eq tid }
+        tagParams.tags.forEach { value ->
+            //加标签
+            val tag = database.from(Tags).select().where{ Tags.tagName eq value }.map { row -> Tags.createEntity(row) }.firstOrNull()
+            //看看这个标签存不存在
+            var tagId = tag?.id
+            if(tag==null){
+                var tagItem =  Entity.create<Tag>()
+                tagItem.tagName = value
+                tags.add(tagItem)   //加标签
+                tagId = tagItem.id
+            }
+            database.insert(TopicTagsRelation) {
+                set(it.topicId, tid)
+                set(it.tagId, tagId)
+            }
+        }
+        return ResponseEntity.ok().body(R.ok("you tag it"))
     }
 
 }
