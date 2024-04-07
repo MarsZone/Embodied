@@ -6,20 +6,20 @@ import java.time.*
 
 interface Topic : Entity<Topic> {
 	var id: Long
-	var title : String?
-	var authorUid: Long?
-	var contentType: String?
-	var content: String
-	var publishTime: LocalDateTime
-	var status: String?
-	var likes: Int
-	var comments: Int
-	var shares: Int
-	var bookmarks: Int
+	var title : String?				//标题
+	var authorUid: Long?			//作者UID
+	var contentType: String?		//内容类型，先都默认是text
+	var content: String				//内容
+	var publishTime: LocalDateTime	//发布日期
+	var status: String?				//状态，草稿，已发布
+	var likes: Int					//赞
+	var comments: Int				//注释
+	var shares: Int					//分享
+	var bookmarks: Int				//收藏
 	var createTime: LocalDateTime
 	var updateTime: LocalDateTime
-	var isDelete: String
-	var visits: Long
+	var isDelete: String			//是否删除
+	var visits: Long				//访问
 }
 
 object Topics : Table<Topic>("topic") {
