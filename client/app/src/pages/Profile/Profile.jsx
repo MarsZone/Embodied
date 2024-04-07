@@ -10,28 +10,21 @@ const Profile = () => {
   return (
 
     <div className="layout">
-      <div className='profile-background'>
-        <NavBar className='top-bar'
-          title="个人主页"
-          leftText="返回"
-          rightText="按钮"
-          onClickLeft={() => Toast('返回')}
-          onClickRight={() => Toast('按钮')}
-        />
 
-        <div className="container">
-          <div className='profile-info'>
-            <div className='profile-img'>
-              <Image round fit='cover' src={src} />
-            </div>
-            <div className='profile-description'>该用户还没有写简介</div>
 
+      <div className="container">
+        <div className='profile-info'>
+          <div className='profile-img'>
+            <Image round fit='cover' src={src} />
           </div>
-          我是用户信息页Profile
-          {/* <Outlet /> */}
-        </div>
+          <div className='profile-description'>该用户还没有写简介</div>
 
+        </div>
+        我是用户信息页Profile
+        {/* <Outlet /> */}
       </div>
+
+
 
 
       <div className="footer">
