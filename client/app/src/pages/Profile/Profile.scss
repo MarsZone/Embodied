@@ -9,28 +9,66 @@
 //   //justify-content: center;
 //   //align-items: center;
 //   //background-image: linear-gradient(135deg, #9055ff, #13e2da); // box-shadow: 0.25em 0.25em 2em rgba(0, 0, 0, 0.25);
+// }
 
+// .layout {
+//   position: relative; /* 设置相对定位 */
+//   width: 100vw;
+//   height: 100vh;
+//   margin: 0;
+// }
+
+// .nav-bar {
+//   display: flex;
+//   position: relative;
+//   //top: 0;
+//   //left: 0;
+//   width: 100%; /* 宽度为100% */
+//   //height: 5vh; /* 固定高度为10%的视口高度 */
 // }
 
 .top-layout {
   display: flex;
   position: relative;
-  margin: 0;
+  margin: 46px auto 0;
   height: 30vh;
   width: 100vw;
   background-color: #e5f6f8;
 
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+
   .profile-img {
-    //width: 100%;
-    //height: 27vw;
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -30%);
+    width: 80px;
+    height: 80px;
+    padding-top: 10px;
+    //position: absolute;
+    //top: 40%;
     //left: 50%;
-    //top: 50%;
+    //transform: translate(-50%, -30%);
+  }
+
+  .profile-username {
+    text-align: center;
+    font-size: 25px;
+  }
+
+  .profile-social{
+    width: 100vw;
+    margin: 10px 0;
+    justify-content: space-around;
+
+
+    .rv-flexbox {
+      //margin-bottom: 10px;
+      color: #000000;
+      font-size: 13px;
+      line-height: 30px;
+      text-align: center;
+      background-clip: content-box;
+    }
+    
 
   }
 }
@@ -41,7 +79,10 @@
   position: relative;
   margin: 0;
   height: 60vh;
-  width: 100vw;
   //flex-grow: 1;
   background-color: #f8e5f6;
+
+  .bottom-tabs{
+    
+  }
 }
