@@ -1,22 +1,22 @@
 import React from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
-import { Outlet, useNavigate, useLocation} from 'react-router-dom'
-import { Image, NavBar, Toast, Flex, Tabs} from 'react-vant'
+import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { Image, NavBar, Toast, Flex, Tabs } from 'react-vant'
 import { Edit } from '@react-vant/icons'
 import './Profile.scss'
 
 const Profile = () => {
 
   const tabs = [
-    { 
+    {
       key: '/like',
       title: "点赞"
     },
-    { 
+    {
       key: '/bookmark',
       title: "收藏"
     },
-    { 
+    {
       key: '/history',
       title: "历史"
     }];
@@ -47,13 +47,13 @@ const Profile = () => {
           <div className='profile-social'>
             <Flex gutter={16}>
               <Flex.Item span={8}>
-                <div className='count'>111</div>关注
+                关注<div className='count'>111</div>
               </Flex.Item>
               <Flex.Item span={8}>
-                <div className='count'>222</div>粉丝
+                粉丝<div className='count'>222</div>
               </Flex.Item>
               <Flex.Item span={8}>
-                <div className='count'>333</div>获赞
+                获赞<div className='count'>333</div>
               </Flex.Item>
             </Flex>
           </div>
