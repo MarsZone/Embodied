@@ -8,6 +8,7 @@ import Profile from '@/pages/Profile/Profile' //个人信息页
 import UserDetail from '@/pages/Profile/UserDetail/UserDetail' //个性信息修改
 import Bookmark from '@/pages/Profile/Bookmark/Bookmark' //个人信息页-我的收藏
 import Like from '@/pages/Profile/Like/Like' //个人信息页-我的点赞
+import MyPost from '@/pages/Profile/MyPost/MyPost' //个人信息页-我的发布
 
 import Discover from '@/pages/Discover/Discover' //发现页
 import Post from '@/pages/Post/Post' //新贴发布页
@@ -52,15 +53,19 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: <Profile />,
-    children :[
+    children: [
       {
-        index: true,
-        element: <Like />
+        path: 'myPost',
+        element: <MyPost />
       },
       {
         path: 'bookmark',
         element: <Bookmark />
-      }
+      },
+      {
+        path: 'like',
+        element: <Like />
+      },
     ]
   },
   {
