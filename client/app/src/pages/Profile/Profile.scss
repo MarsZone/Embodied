@@ -75,14 +75,11 @@
 
 
 .bottom-layout {
-  display: flex;
   position: relative;
   margin: 0;
-  height: 60vh;
+  height: 60vh; //占据下面所有空间
   //flex-grow: 1;
   background-color: #f8e5f6;
 
-  .bottom-tabs{
-    
-  }
+
 }

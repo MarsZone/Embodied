@@ -1,14 +1,28 @@
 import React from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
+import { Outlet, useNavigate, useLocation} from 'react-router-dom'
 import { Image, NavBar, Toast, Flex, Tabs} from 'react-vant'
 import { Edit } from '@react-vant/icons'
 import './Profile.scss'
 
 const Profile = () => {
 
-  const tabs = ["收藏", "点赞", "历史"];
+  const tabs = [
+    { 
+      key: '/like',
+      title: "点赞"
+    },
+    { 
+      key: '/bookmark',
+      title: "收藏"
+    },
+    { 
+      key: '/history',
+      title: "历史"
+    }];
 
   const src = 'https://img.yzcdn.cn/vant/cat.jpeg'
+  const navigate = useNavigate()
 
   return (
 
@@ -20,7 +34,7 @@ const Profile = () => {
         leftText='返回'
         onClickLeft={() => Toast('返回')}
         rightText={<Edit fontSize={20} />}
-        onClickRight={() => Toast('按钮')}
+        onClickRight={() => navigate('/userDetail')}
       />
 
       <div className="container">
@@ -46,22 +60,20 @@ const Profile = () => {
         </div>
 
         <div className='bottom-layout'>
-          <Tabs className='bottom-tabs'>
+          <Tabs className='profile-tabs'>
             {tabs.map(
               item => (
-                <Tabs.TabPane key={item} title={item}>
-                  我是用户信息页Profile
+                <Tabs.TabPane key={item.title} title={item.title}>
+                  <div>
+                    {/* <Outlet /> */}
+                  </div>
                 </Tabs.TabPane>
               )
             )}
           </Tabs>
-          我是用户信息页Profile
         </div>
 
-        {/* <Outlet /> */}
       </div>
-
-
 
 
       <div className="footer">

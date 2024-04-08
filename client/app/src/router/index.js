@@ -3,7 +3,12 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { AuthRoute } from '@/components/AuthRoute'
 import Home from '@/pages/Home/Home' //主页
+
 import Profile from '@/pages/Profile/Profile' //个人信息页
+import UserDetail from '@/pages/Profile/UserDetail/UserDetail' //个性信息修改
+import Bookmark from '@/pages/Profile/Bookmark/Bookmark' //个人信息页-我的收藏
+import Like from '@/pages/Profile/Like/Like' //个人信息页-我的点赞
+
 import Discover from '@/pages/Discover/Discover' //发现页
 import Post from '@/pages/Post/Post' //新贴发布页
 import Message from '@/pages/Message/Message' //消息页
@@ -46,7 +51,17 @@ const router = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: <Profile />
+    element: <Profile />,
+    children :[
+      {
+        index: true,
+        element: <Like />
+      },
+      {
+        path: 'bookmark',
+        element: <Bookmark />
+      }
+    ]
   },
   {
     path: '/login',
@@ -55,6 +70,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />
+  },
+  {
+    path: '/userDetail',
+    element: <UserDetail />
   },
   {
     path: '/test',
