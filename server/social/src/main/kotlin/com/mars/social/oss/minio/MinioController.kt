@@ -30,8 +30,8 @@ class MinioController(val minioClient: MinioClient, @Value("\${minio.bucketname}
         return ResponseEntity.ok(R.ok(fileNames))
     }
 
-    @GetMapping("/download/{fileName}")
-    fun downloadFile(@PathVariable fileName: String): ResponseEntity<ByteArray> {
+    @GetMapping("/download")
+    fun downloadFile(@RequestParam fileName: String): ResponseEntity<ByteArray> {
         val objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).`object`(fileName).build())
         val byteArray = objectResponse.readAllBytes()
         val headers = HttpHeaders()
