@@ -8,7 +8,7 @@ interface Topic : Entity<Topic> {
 	var id: Long
 	var title : String?				//标题
 	var authorUid: Long?			//作者UID
-	var contentType: String?		//内容类型，先都默认是text
+	var contentType: String?		//内容类型，先都默认是common
 	var content: String				//内容
 	var publishTime: LocalDateTime	//发布日期
 	var status: String?				//状态，草稿，已发布

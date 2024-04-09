@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { Image, NavBar, Toast, Flex, Tabs } from 'react-vant'
 import { Edit } from '@react-vant/icons'
+import { useDispatch } from 'react-redux'
 import './Profile.scss'
+import { fetchUserInfo } from '@/store/modules/user'
 
 const Profile = () => {
-
   const tabs = [
+    {
+      key: '/myPost',
+      title: "我的创作"
+    },
     {
       key: '/like',
       title: "点赞"
@@ -15,14 +20,23 @@ const Profile = () => {
     {
       key: '/bookmark',
       title: "收藏"
-    },
-    {
-      key: '/history',
-      title: "历史"
     }];
 
-  const src = 'https://img.yzcdn.cn/vant/cat.jpeg'
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchUserInfo())
+  }, [dispatch])
+
+  
+
+  const src = 'https://img.yzcdn.cn/vant/cat.jpeg'
+
+  const onTabChange = (path) => {
+    console.log('切换路由：', path)
+    navigate(`/profile${path}`)
+  }
 
   return (
 
@@ -60,12 +74,15 @@ const Profile = () => {
         </div>
 
         <div className='bottom-layout'>
-          <Tabs className='profile-tabs'>
+          <Tabs
+            className='profile-tabs'
+            defaultActive={tabs[0].key}
+            onChange={(name, tabIndex) => onTabChange(name)}>
             {tabs.map(
               item => (
-                <Tabs.TabPane key={item.title} title={item.title}>
+                <Tabs.TabPane name={item.key} key={item.key} title={item.title}>
                   <div>
-                    {/* <Outlet /> */}
+                    <Outlet />
                   </div>
                 </Tabs.TabPane>
               )
