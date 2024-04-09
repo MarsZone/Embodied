@@ -8,6 +8,7 @@ import com.mars.social.model.mix.Files
 import com.mars.social.model.topic.TopicLike
 import com.mars.social.utils.R
 import io.minio.*
+import io.minio.http.Method
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.ktorm.entity.Entity
@@ -96,4 +97,20 @@ class MinioController(val minioClient: MinioClient, @Value("\${minio.bucketname}
 
         return ResponseEntity.ok(file?.let { R.ok(it) })
     }
+
+    @GetMapping("/preview")
+    fun getPreviewUrl(@RequestParam fid: Long): ResponseEntity<R> {
+        val file = database.from(Files).select().where{ Files.id eq fid }.map { row -> Files.createEntity(row) }.firstOrNull()
+        val fileName = file?.fileName;
+        val url = minioClient.getPresignedObjectUrl(
+            GetPresignedObjectUrlArgs.builder()
+                .method(Method.GET)
+                .bucket(bucketName)
+                .`object`(fileName) // 注意这里的`object`需要加上反引号，因为是Kotlin的关键字
+                .expiry(36000) // 链接有效期，单位为秒
+                .build()
+        )
+        return ResponseEntity.ok(R.ok(url))
+    }
+
 }
