@@ -1,8 +1,19 @@
 package com.mars.social.oss.minio
 
+import cn.dev33.satoken.annotation.SaCheckLogin
+import cn.dev33.satoken.annotation.SaCheckRole
 import com.mars.social.dto.FileInfo
+import com.mars.social.model.mix.File
+import com.mars.social.model.mix.Files
+import com.mars.social.model.topic.TopicLike
 import com.mars.social.utils.R
 import io.minio.*
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import org.ktorm.entity.Entity
+import org.ktorm.entity.add
+import org.ktorm.entity.sequenceOf
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -17,11 +28,17 @@ import java.util.*
 @RestController
 @RequestMapping("/oss")
 class MinioController(val minioClient: MinioClient, @Value("\${minio.bucketname}") val bucketName: String) {
-    @GetMapping("/list-buckets")
-    fun listBuckets(): List<String> {
-        return minioClient.listBuckets().map { it.name() }
-    }
 
+    @Autowired
+    protected lateinit var database: Database
+
+//    @GetMapping("/list-buckets")
+//    fun listBuckets(): List<String> {
+//        return minioClient.listBuckets().map { it.name() }
+//    }
+
+    @SaCheckLogin
+    @SaCheckRole("sys")
     @GetMapping("/list")
     fun listFiles(): ResponseEntity<R> {
         val objectList = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).maxKeys(100).build())
@@ -31,7 +48,10 @@ class MinioController(val minioClient: MinioClient, @Value("\${minio.bucketname}
     }
 
     @GetMapping("/download")
-    fun downloadFile(@RequestParam fileName: String): ResponseEntity<ByteArray> {
+    fun downloadFile(@RequestParam fid: Long): ResponseEntity<ByteArray> {
+        val file = database.from(Files).select().where{ Files.id eq fid }.map { row -> Files.createEntity(row) }.firstOrNull()
+
+        val fileName = file?.fileName;
         val objectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).`object`(fileName).build())
         val byteArray = objectResponse.readAllBytes()
         val headers = HttpHeaders()
@@ -39,17 +59,17 @@ class MinioController(val minioClient: MinioClient, @Value("\${minio.bucketname}
         return ResponseEntity(byteArray, headers, HttpStatus.OK)
     }
 
-    data class UploadedFile(val fileName: String, val originalFilename: String)
+//    data class UploadedFile(val fileName: String, val originalFilename: String)
     @PostMapping("/upload")
     fun uploadFiles(@RequestBody files: List<MultipartFile>): ResponseEntity<R> {
-        val uploadedFiles = mutableListOf<UploadedFile>()
+        val uploadedFiles = mutableListOf<File>()
 
         for (file in files) {
 //            val fileName = "${UUID.randomUUID()}-${file.originalFilename}"
             val uuid = UUID.randomUUID().toString().substring(0, 8)
             val dateTime = LocalDateTime.now()
             val dateTimeFormatted = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
-            val fileName = "$dateTimeFormatted-$uuid-${file.originalFilename}"
+            var fileName = "$dateTimeFormatted-$uuid-${file.originalFilename}"
             val putObjectArgs = PutObjectArgs.builder()
                 .bucket(bucketName)
                 .`object`(fileName)
@@ -59,34 +79,21 @@ class MinioController(val minioClient: MinioClient, @Value("\${minio.bucketname}
             val result = minioClient.putObject(putObjectArgs)
             val originalFilename = file.originalFilename
 
-            val uploadedFile = UploadedFile(fileName, originalFilename.toString())
+//            val uploadedFile = Entity<File>(fileName, originalFilename.toString())
+            val uploadedFile = Entity.create<File>()
+            uploadedFile.fileName = fileName
+            uploadedFile.originalFileName = file.originalFilename.toString()
+            uploadedFile.createTime = LocalDateTime.now()
+            database.sequenceOf(Files).add(uploadedFile)
             uploadedFiles.add(uploadedFile)
         }
         return ResponseEntity.ok(R.ok("Files uploaded successfully",uploadedFiles))
     }
 
     @GetMapping("/detail")
-    fun getFileInfoByFileName(@RequestParam fileName: String): ResponseEntity<R> {
-        val listObjectsArgs = ListObjectsArgs.builder()
-            .bucket(bucketName)
-            .build()
+    fun getFileInfoByFileName(@RequestParam fid: Long): ResponseEntity<R> {
+        val file = database.from(Files).select().where{ Files.id eq fid }.map { row -> Files.createEntity(row) }.firstOrNull()
 
-        val objectList = minioClient.listObjects(listObjectsArgs)
-        val fileInfoList = mutableListOf<FileInfo>()
-
-        for (objectInfo in objectList) {
-            val objectName = objectInfo.get().objectName()
-            if (objectName == fileName) {
-                val metaData = minioClient.statObject(StatObjectArgs.builder().bucket(bucketName).`object`(objectName).build())
-                val fileInfo = FileInfo(objectName, metaData.size(), metaData.contentType(), metaData.lastModified())
-                fileInfoList.add(fileInfo)
-            }
-        }
-
-        return if (fileInfoList.isNotEmpty()) {
-            ResponseEntity.ok(R.ok("File information found for fileName: $fileName", fileInfoList))
-        } else {
-            ResponseEntity.notFound().build()
-        }
+        return ResponseEntity.ok(file?.let { R.ok(it) })
     }
 }
