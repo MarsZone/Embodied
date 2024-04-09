@@ -17,3 +17,4 @@
 * Sa-Token
 * Druid
 * OSS
+* minio
