@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 import java.util.concurrent.TimeUnit
 
 @Component
-class ApiCall{
+class   ApiCall{
     fun call() {
         val apiUrl = "http://127.0.0.1:8000/v1/chat/completions"
         val apiKey = "EMPTY" // 此处放置您的有效 API Key

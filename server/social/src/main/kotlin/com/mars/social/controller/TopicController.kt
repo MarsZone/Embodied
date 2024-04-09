@@ -60,7 +60,7 @@ class TopicController {
     @GetMapping("/show")
     fun show(@RequestParam id:Long): ResponseEntity<R>{
         val topics = database.sequenceOf(Topics)
-        var topic = topics.find { it.id eq id }
+        val topic = topics.find { it.id eq id }
         if(topic!=null){
             topic.visits += 1
             topics.update(topic)
@@ -108,7 +108,7 @@ class TopicController {
     @GetMapping("/delete")
     fun delete(@RequestParam id:Long): ResponseEntity<R>{
         val topics = database.sequenceOf(Topics)
-        var topic = topics.find { it.id eq id }
+        val topic = topics.find { it.id eq id }
         if (topic != null) {
             topic.isDelete = "true"
             topics.update(topic)
@@ -123,7 +123,7 @@ class TopicController {
     fun like(@RequestParam tid:Long):ResponseEntity<R>{
         val uid = StpUtil.getLoginId()
         val topicLikes = database.sequenceOf(TopicLikes)
-        var tlike =  Entity.create<TopicLike>()
+        val tlike =  Entity.create<TopicLike>()
         tlike.tid = tid
         tlike.uid = uid.toString().toLong()
         tlike.createTime = LocalDateTime.now()
@@ -159,7 +159,7 @@ class TopicController {
             //看看这个标签存不存在
             var tagId = tag?.id
             if(tag==null){
-                var tagItem =  Entity.create<Tag>()
+                val tagItem =  Entity.create<Tag>()
                 tagItem.tagName = value
                 tags.add(tagItem)   //加标签
                 tagId = tagItem.id
