@@ -10,6 +10,9 @@ data class R(
         fun ok(data: Any): R {
             return R(20000, "成功", data)
         }
+        fun ok(message: String, data: Any?): R {
+            return R(20000, "成功", data)
+        }
         fun fail(message: String): R {
             return R(30000, message, {})
         }

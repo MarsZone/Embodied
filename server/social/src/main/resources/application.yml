@@ -64,6 +64,11 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
     encoding: UTF-8
+  #设置文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
@@ -86,3 +91,11 @@ sa-token:
 #logging:
 #  level:
 #    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+
+
+#minio配置
+minio:
+  endpoint: http://120.78.142.84:9000/
+  accessKey: 9mheJLVpHTohzMYlOcXl
+  secretKey: GYuPsHER732uwYOuRJc2yTfqhXI3nH2z2GAAJTg0
+  bucketname: embodied
