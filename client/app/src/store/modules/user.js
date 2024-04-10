@@ -2,7 +2,10 @@
 
 import { createSlice } from '@reduxjs/toolkit'
 import { request } from '@/utils'
-import { setToken as _setToken, getToken as _getToken} from '@/utils'
+import {
+  setToken as _setToken, getToken as _getToken,
+  setUserId as _setUserId, getUserId as _getUserId
+} from '@/utils'
 
 const userStore = createSlice({
   name: "user", //模块名
@@ -18,7 +21,7 @@ const userStore = createSlice({
       //action.payload --> 把action对象中payload载荷赋值给state，做到同步修改
       state.token = action.payload
     },
-    setUserInfo(state, action){
+    setUserInfo(state, action) {
       state.userInfo = action.payload
     }
   }
@@ -33,22 +36,38 @@ const userReducer = userStore.reducer
 //异步方法 完成登录获取token
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
-    //1.发送异步请求
-    const res = await request.post(
-      '/api/users/login', 
-      loginForm,
-      { withCredentials: true }
-    )
-    //2.提交同步action进行token的存入
-    console.log('发送的数据：', loginForm)
-    console.log('登录成功：', res.data)
-    console.log('Cookies：', document.cookie)
+    try {
+      //1.发送异步请求
+      const res = await request.post(
+        '/api/users/login',
+        loginForm,
+        { withCredentials: true}
+      )
 
-    const token = res.data.tokenValue
-    dispatch(setToken(token))
+      console.log('发送的数据：', loginForm)
+      console.log('Cookies：', document.cookie)
+      console.log('token：', res.data.tokenValue)
 
-    //localStorage存一份token
-    _setToken(token)
+      if (res.code === 20000) {
+        //2.提交同步action进行token的存入
+        const token = res.data.tokenValue
+        dispatch(setToken(token))
+
+        //localStorage存一份token
+        _setToken(token)
+
+        //localStorage存一份uid
+        _setUserId(res.data.loginId)
+        console.log('userId：', _getUserId)
+
+        return true
+
+      } else {
+        throw new Error('登录失败')
+      }
+    } catch (error) {
+      throw error
+    }
   }
 }
 
@@ -56,7 +75,13 @@ const fetchLogin = (loginForm) => {
 //异步方法 获取个人用户信息
 const fetchUserInfo = () => {
   return async (dispatch) => {
-    const res = request.get('/api/users/userDetail')
+    const res = await request.get(
+      '/api/users/userDetail', {
+      params: {
+        uid: _getUserId()
+      }
+    })
+
     dispatch(setUserInfo(res.data))
   }
 }

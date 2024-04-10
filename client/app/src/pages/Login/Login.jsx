@@ -14,12 +14,16 @@ const Login = () => {
   const onFinish = async (values) => {
     console.log('登录信息：', values)
     //触发异步action fetchLogin
-    await dispatch(fetchLogin(values)) //参数就是收集到的表单数据values
-    console.log(111)
+    const loginSuccess = await dispatch(fetchLogin(values)) //参数就是收集到的表单数据values
 
-    //登录完成后，1跳转到首页 2提示用户是否登录成功
-    navigate('/')
-    Notify.show('登录成功')
+    if (loginSuccess) {
+      //登录完成后，1跳转到首页 2提示用户是否登录成功
+      navigate('/')
+      Notify.show('登录成功')
+    } else {
+      Notify.show('登录失败')
+    }
+
   }
 
 

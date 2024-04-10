@@ -3,7 +3,7 @@ import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { Image, NavBar, Toast, Flex, Tabs } from 'react-vant'
 import { Edit } from '@react-vant/icons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import './Profile.scss'
 import { fetchUserInfo } from '@/store/modules/user'
 
@@ -25,11 +25,12 @@ const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  //触发个人用户信息action
   useEffect(() => {
     dispatch(fetchUserInfo())
   }, [dispatch])
 
-  
+  const userName = useSelector(state => state.user.userInfo.userName)
 
   const src = 'https://img.yzcdn.cn/vant/cat.jpeg'
 
@@ -56,7 +57,7 @@ const Profile = () => {
           <div className='profile-img'>
             <Image round fit='cover' src={src} />
           </div>
-          <div className='profile-username'>Embodied</div>
+          <div className='profile-username'>{ userName }</div>
 
           <div className='profile-social'>
             <Flex gutter={16}>
