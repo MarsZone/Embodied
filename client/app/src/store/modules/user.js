@@ -41,7 +41,7 @@ const fetchLogin = (loginForm) => {
       const res = await request.post(
         '/api/users/login',
         loginForm,
-        { withCredentials: true}
+        { withCredentials: true }
       )
 
       console.log('发送的数据：', loginForm)
@@ -76,11 +76,13 @@ const fetchLogin = (loginForm) => {
 const fetchUserInfo = () => {
   return async (dispatch) => {
     const res = await request.get(
-      '/api/users/userDetail', {
-      params: {
-        uid: _getUserId()
-      }
-    })
+      '/api/users/userDetail',
+      {
+        params: {
+          uid: _getUserId()
+        }
+      },
+      { withCredentials: true})
 
     dispatch(setUserInfo(res.data))
   }

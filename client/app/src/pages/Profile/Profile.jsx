@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { Image, NavBar, Toast, Flex, Tabs } from 'react-vant'
-import { Edit } from '@react-vant/icons'
+import { Image, NavBar, Toast, Flex, Tabs, Cell, Dialog } from 'react-vant'
+import { Edit, Revoke } from '@react-vant/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import './Profile.scss'
 import { fetchUserInfo } from '@/store/modules/user'
@@ -32,6 +32,7 @@ const Profile = () => {
 
   const userName = useSelector(state => state.user.userInfo.userName)
 
+
   const src = 'https://img.yzcdn.cn/vant/cat.jpeg'
 
   const onTabChange = (path) => {
@@ -39,17 +40,24 @@ const Profile = () => {
     navigate(`/profile${path}`)
   }
 
+  const [showLogout, setShowLogout] = useState(false)
+  const handleLogout = () => {
+
+  }
+
+
   return (
-
     <div className="layout">
-
       <NavBar
         className='nav-bar'
         title='我的'
-        leftText='返回'
-        onClickLeft={() => Toast('返回')}
-        rightText={<Edit fontSize={20} />}
-        onClickRight={() => navigate('/userDetail')}
+        leftText={<Edit fontSize={20} />}
+        onClickLeft={() => navigate('/userDetail')}
+        rightText='退出'
+        //onClickRight={() => setShowLogout(true)}
+        onClickRight={() => Dialog.confirm({
+          title: '确定退出当前账号？',
+        })}
       />
 
       <div className="container">
@@ -57,7 +65,7 @@ const Profile = () => {
           <div className='profile-img'>
             <Image round fit='cover' src={src} />
           </div>
-          <div className='profile-username'>{ userName }</div>
+          <div className='profile-username'>{userName}</div>
 
           <div className='profile-social'>
             <Flex gutter={16}>
