@@ -1,6 +1,5 @@
 package com.mars.social.model.mix
 
-import com.mars.social.model.topic.Topics.bindTo
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table
 import org.ktorm.schema.datetime
