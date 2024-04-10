@@ -6,6 +6,8 @@ import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
 import com.mars.social.model.mix.Tag
 import com.mars.social.model.mix.Tags
+import com.mars.social.model.mix.TopicComment
+import com.mars.social.model.mix.TopicComments
 import com.mars.social.model.topic.*
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
@@ -172,4 +174,20 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok("you tag it"))
     }
 
+    @SaCheckLogin
+    @PostMapping("toComment")
+    fun toComment(@RequestBody topicComment: TopicComment):ResponseEntity<R>{
+        val topicComments = database.sequenceOf(TopicComments)
+        val uid = StpUtil.getLoginId()
+        topicComment.createTime = LocalDateTime.now()
+        topicComment.uid = uid.toString().toLong()
+        topicComments.add(topicComment)
+        return ResponseEntity.ok().body(R.ok("comment it"))
+    }
+
+    @GetMapping("loadComments")
+    fun loadComments(@RequestParam tid: Long):ResponseEntity<R>{
+        val topicComments = database.sequenceOf(TopicComments).filter { TopicComments.tid eq tid }.toList()
+        return ResponseEntity.ok().body(R.ok(topicComments))
+    }
 }
