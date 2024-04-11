@@ -1,14 +1,19 @@
-.layout{
-  display: flex;
+
+.container {
+  //display: flex;
   position: relative;
+  margin: 46px auto 0;
+  padding-top: 10px;
+  width: 100vw;
+  //background-color: #e5f6f8;
 
-
-  .nav-bar {
-    position: absolute;
-  }
-
-
-  .container{
-    position: absolute;
-  }
+  //flex-direction: column;
+  //align-items: center;
+  //align-content: center;
 }
+
+
+// .post-form {
+//   display: block;
+//   position: relative;
+// }

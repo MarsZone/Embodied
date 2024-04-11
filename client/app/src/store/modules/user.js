@@ -25,7 +25,7 @@ const userStore = createSlice({
     setUserInfo(state, action) {
       state.userInfo = action.payload
     },
-    clearUserInfo(state){
+    clearUserInfo(state) {
       state.token = ''
       state.userInfo = {}
       removeToken()
@@ -45,12 +45,6 @@ const fetchLogin = (loginForm) => {
   return async (dispatch) => {
     try {
       //1.发送异步请求
-      // const res = await request.post(
-      //   '/api/users/login',
-      //   loginForm,
-      //   { withCredentials: true }
-      // )
-
       const res = await loginAPI(loginForm)
 
       console.log('发送的数据：', loginForm)
@@ -80,19 +74,10 @@ const fetchLogin = (loginForm) => {
   }
 }
 
-
 //异步方法 获取个人用户信息
 const fetchUserInfo = () => {
   return async (dispatch) => {
-    const res = await request.get(
-      '/api/users/userDetail',
-      {
-        params: {
-          uid: _getUserId()
-        }
-      },
-      { withCredentials: true})
-
+    const res = await getProfileAPI()
     dispatch(setUserInfo(res.data))
   }
 }

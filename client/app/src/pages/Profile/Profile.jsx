@@ -30,15 +30,14 @@ const Profile = () => {
     dispatch(fetchUserInfo())
   }, [dispatch])
 
-  const userName = useSelector(state => state.user.userInfo.userName)
 
+  const userName = useSelector(state => state.user.userInfo.userName)
   const userImgUrl = 'https://img.yzcdn.cn/vant/cat.jpeg'
 
   const onTabChange = (path) => {
     console.log('切换路由：', path)
     navigate(`/profile${path}`)
   }
-
 
   const [logoutDialogVisible, setLogoutDialogVisible] = useState(false)
 
