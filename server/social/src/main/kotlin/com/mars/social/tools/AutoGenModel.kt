@@ -14,9 +14,9 @@
 //    val connection = DriverManager.getConnection(url, username, password)
 //    val metaData = connection.metaData
 //
-//    val tableName = "topic_comment"
-//    val typeName = "TopicComment";
-//    val typeTable = "topic_comment";
+//    val tableName = "messages"
+//    val typeName = "messages";
+//    val typeTable = "messages";
 //
 //    val resultSet = metaData.getColumns(null, null, tableName, null)
 //    val primaryKeys = metaData.getPrimaryKeys(null, null, tableName)
