@@ -6,6 +6,7 @@ import {
   setToken as _setToken, getToken as _getToken,
   setUserId as _setUserId, getUserId as _getUserId
 } from '@/utils'
+import { loginAPI, getProfileAPI } from '@/apis/user'
 
 const userStore = createSlice({
   name: "user", //模块名
@@ -44,11 +45,13 @@ const fetchLogin = (loginForm) => {
   return async (dispatch) => {
     try {
       //1.发送异步请求
-      const res = await request.post(
-        '/api/users/login',
-        loginForm,
-        { withCredentials: true }
-      )
+      // const res = await request.post(
+      //   '/api/users/login',
+      //   loginForm,
+      //   { withCredentials: true }
+      // )
+
+      const res = await loginAPI(loginForm)
 
       console.log('发送的数据：', loginForm)
       console.log('Cookies：', document.cookie)
