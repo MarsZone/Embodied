@@ -9,7 +9,12 @@ function getUserId(){
   return localStorage.getItem(USER_ID)
 }
 
+function removeUserId(){
+  localStorage.removeItem(USER_ID)
+}
+
 export {
   setUserId,
-  getUserId
+  getUserId,
+  removeUserId
 }
