@@ -25,9 +25,7 @@ const Post = () => {
     getChannelList()
   }, [])
 
-
   console.log(channalList)
-
 
   return (
     <div className="layout">
@@ -64,7 +62,7 @@ const Post = () => {
 
           <Form.Item
             rules={[{ required: true, message: '' }]}
-            name='picker'
+            name='channelKey'
             label='频道选择'
             trigger='onConfirm'
             onClick={(_, action) => {
@@ -73,18 +71,18 @@ const Post = () => {
           >
             <Picker
               popup
-              columns={channalList.map(item => ({text: item.name, value: item.id}))}
-              //columnsFieldNames={}
+              columns={channalList.map(item => ({ key: item.id, text: item.name, value: item.key }))}
               onChange={(val, selectRow, index) => {
-                console.log('选中项: ', selectRow)
-                //Toast.info(`选中值${val}，索引: ${index}`)
+                console.log('选中项: ', val, selectRow, index)
               }}
             >
               {val => val || '请选择频道'}
             </Picker>
           </Form.Item>
 
-          <Form.Item name='textarea' label='内容'>
+          <Form.Item
+            name='content'
+            label='内容'>
             <Input.TextArea rows={3} autoSize maxLength={140} showWordLimit />
           </Form.Item>
         </Form>
