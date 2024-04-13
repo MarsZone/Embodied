@@ -44,18 +44,23 @@ class MessageController  {
     }
 
     //Current user, get top x different people message and check status.
-    data class HistoryResult(val senderUid: String, val status: String, val count: Int)
+    data class HistoryResult(val senderUid: String, val status: String, val count: Int, val string: String)
     @SaCheckLogin
     @GetMapping("history")
     fun history(@RequestParam size: Int):ResponseEntity<R>{
         val uid =StpUtil.getLoginId().toString().toLong()
         val historyList = database.useConnection { conn ->
             val sql = """
-                SELECT m.sender_uid, m.status, COUNT(*) AS count from embodied.messages m
-                where status = 'unCheck' and receiver_uid = ?
-                GROUP BY m.sender_uid, m.status
-                ORDER BY MAX(id) DESC
-                limit 0,?
+                SELECT t.sender_uid, t.status, t.count, COALESCE(ud.nick_name, 'unknown') AS nick_name
+                FROM (
+                    SELECT m.sender_uid, m.status, COUNT(*) AS count
+                    FROM embodied.messages m
+                    WHERE m.status = 'unCheck' AND m.receiver_uid = ?
+                    GROUP BY m.sender_uid, m.status, m.id
+                    ORDER BY m.id DESC
+                    LIMIT 0, ?
+                ) AS t
+                LEFT JOIN embodied.user_details ud ON ud.uid = t.sender_uid;
             """.trimIndent()
             conn.prepareStatement(sql).use { statement ->
                 statement.setLong(1, uid)
@@ -64,7 +69,8 @@ class MessageController  {
                     HistoryResult(
                         it.getString("sender_uid"),
                         it.getString("status"),
-                        it.getInt("count")
+                        it.getInt("count"),
+                        it.getString("nick_name")
                     )
                 }
             }
@@ -73,6 +79,7 @@ class MessageController  {
         return ResponseEntity.ok().body(R.ok(historyList))
     }
 
-    //Get Unread Top 10 Message List
+    //Get Top 10 Message List
+
 
 }
