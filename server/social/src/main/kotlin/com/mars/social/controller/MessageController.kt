@@ -12,10 +12,7 @@ import com.mars.social.utils.R
 import org.ktorm.database.Database
 import org.ktorm.database.asIterable
 import org.ktorm.dsl.*
-import org.ktorm.entity.Entity
-import org.ktorm.entity.add
-import org.ktorm.entity.filter
-import org.ktorm.entity.sequenceOf
+import org.ktorm.entity.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -110,5 +107,21 @@ class MessageController  {
         return ResponseEntity.ok().body(R.ok(page))
     }
 
+    //写的一般，暂时这样
+    @SaCheckLogin
+    @GetMapping("checkSenderMsg")
+    fun checkSenderMsg(@RequestParam suid:Long):ResponseEntity<R>{
+        val ruid = StpUtil.getLoginId().toString().toLong()
+        database.batchUpdate(Messages){
+            item{
+                set(it.status,"checked")
+                where{
+                    (it.senderUid eq suid) and (it.receiverUid eq ruid) and (it.status eq "unCheck")
+                }
+            }
+        }
+
+        return ResponseEntity.ok().body(R.ok("msg all checked"))
+    }
 
 }
