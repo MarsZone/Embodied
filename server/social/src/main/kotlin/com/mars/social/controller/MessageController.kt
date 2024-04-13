@@ -58,9 +58,9 @@ class MessageController  {
                 FROM (
                     SELECT m.sender_uid, m.status, COUNT(*) AS count
                     FROM embodied.messages m
-                    WHERE m.status = 'unCheck' AND m.receiver_uid = ?
-                    GROUP BY m.sender_uid, m.status, m.id
-                    ORDER BY m.id DESC
+                    WHERE m.receiver_uid = ?
+                    GROUP BY m.sender_uid, m.status
+                    ORDER BY Max(m.id) DESC
                     LIMIT 0, ?
                 ) AS t
                 LEFT JOIN embodied.user_details ud ON ud.uid = t.sender_uid;
