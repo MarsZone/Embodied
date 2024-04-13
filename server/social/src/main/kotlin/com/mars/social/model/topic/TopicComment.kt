@@ -1,4 +1,4 @@
-package com.mars.social.model.mix
+package com.mars.social.model.topic
 
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*

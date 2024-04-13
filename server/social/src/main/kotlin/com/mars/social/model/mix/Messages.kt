@@ -1,4 +1,4 @@
-package com.mars.social.model.user
+package com.mars.social.model.mix
 
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*
@@ -11,7 +11,7 @@ interface Message : Entity<Message> {
 	var receiverUid: Long			//收件人ID
 	var content: String?			//
 	var sendTime: LocalDateTime		//发送日期
-	var status: String?				//unread checked deleted
+	var status: String?				//unCheck checked deleted
 	var mark: String?				//important top
 	var sysMsgType: String?			//先默认都是notice
 	var receiveTime: LocalDateTime	//阅读时间

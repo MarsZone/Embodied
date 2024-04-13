@@ -6,8 +6,8 @@ import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
 import com.mars.social.model.mix.Tag
 import com.mars.social.model.mix.Tags
-import com.mars.social.model.mix.TopicComment
-import com.mars.social.model.mix.TopicComments
+import com.mars.social.model.topic.TopicComment
+import com.mars.social.model.topic.TopicComments
 import com.mars.social.model.topic.*
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
