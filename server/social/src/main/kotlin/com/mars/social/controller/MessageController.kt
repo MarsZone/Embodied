@@ -2,13 +2,19 @@ package com.mars.social.controller
 
 import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.StpUtil
+import com.mars.social.dto.PageDTO
+import com.mars.social.dto.PageRequest
 import com.mars.social.model.mix.Message
 import com.mars.social.model.mix.Messages
+import com.mars.social.model.topic.Topics
+import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
 import org.ktorm.database.Database
 import org.ktorm.database.asIterable
+import org.ktorm.dsl.*
 import org.ktorm.entity.Entity
 import org.ktorm.entity.add
+import org.ktorm.entity.filter
 import org.ktorm.entity.sequenceOf
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -79,7 +85,30 @@ class MessageController  {
         return ResponseEntity.ok().body(R.ok(historyList))
     }
 
-    //Get Top 10 Message List
+    //Get Top x Message detail List from one user.
+    @SaCheckLogin
+    @PostMapping("getMsgPageData")
+    fun getMsgPageData(@RequestBody pageRequest: PageRequest,@RequestParam suid: Long):ResponseEntity<R>{
+        val ruid = StpUtil.getLoginId().toString().toLong()
+        val totalRecords = database.sequenceOf(Messages).filter { it.senderUid eq suid }
+            .filter { it.status neq "deleted" }
+            .filter { it.receiverUid eq ruid }
+            .totalRecordsInAllPages
+        val offset = PageCalculator.calculateOffset(pageRequest, totalRecords)
+        val limit = PageCalculator.calculateLimit(pageRequest, totalRecords)
+
+        val query = database.from(Messages).select()
+            .where{ (Messages.senderUid eq suid) and
+                    (Messages.status neq "deleted") and
+                    (Messages.receiverUid eq ruid) }
+            .limit(offset, limit)
+            .map { row -> Messages.createEntity(row) }
+
+        query.forEach{ println(it) }
+
+        val page = PageDTO(query.toList(),totalRecords,pageRequest)
+        return ResponseEntity.ok().body(R.ok(page))
+    }
 
 
 }
