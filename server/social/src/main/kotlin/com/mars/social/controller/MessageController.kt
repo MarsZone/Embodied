@@ -30,7 +30,7 @@ class MessageController  {
     @SaCheckLogin
     @PostMapping("send")
     fun send(@RequestBody dto:MessageDto):ResponseEntity<R> {
-        val message:Message = Entity.create<Message >()
+        val message:Message = Entity.create<Message>()
         message.msgType="u";
         message.senderUid = StpUtil.getLoginId().toString().toLong()
         message.receiverUid = dto.to
@@ -44,6 +44,21 @@ class MessageController  {
         messages.add(message)
 
         return ResponseEntity.ok().body(R.ok("message send"))
+    }
+
+    fun sendSysMsg(suid:Long,to:Long, content:String){
+        val message:Message = Entity.create<Message>()
+        message.msgType="s";
+        message.senderUid = suid
+        message.receiverUid = to
+        message.content = content
+        message.sendTime= LocalDateTime.now()
+        message.status = "unCheck"
+        message.mark = ""
+        message.sysMsgType="notice"
+
+        val messages = database.sequenceOf(Messages)
+        messages.add(message)
     }
 
     //Current user, get top x different people message and check status.

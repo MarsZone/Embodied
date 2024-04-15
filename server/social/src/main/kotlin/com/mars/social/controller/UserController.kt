@@ -4,10 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.annotation.SaCheckRole
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.UserInfoDto
-import com.mars.social.model.user.User
-import com.mars.social.model.user.UserDetail
-import com.mars.social.model.user.UserDetails
-import com.mars.social.model.user.Users
+import com.mars.social.model.user.*
 import com.mars.social.utils.MessageUtil
 import com.mars.social.utils.R
 import org.ktorm.database.Database
@@ -33,6 +30,9 @@ class UserController {
 
     @Autowired
     private val messageSource: MessageSource? = null
+
+    @Autowired
+    private lateinit var messageController:MessageController
 
     @PostMapping("/register")
     fun registerUser(@RequestBody user: User): ResponseEntity<R> {
@@ -98,7 +98,7 @@ class UserController {
         return if(uInfo != null){
             ResponseEntity.ok().body(R.ok(uInfo))
         }else{
-            ResponseEntity.ok().body(R.fail("查询失败"))
+            ResponseEntity.ok().body(R.fail("query failed"))
         }
     }
 
@@ -114,6 +114,29 @@ class UserController {
             userDetail.id = detail.id
             userDetails.update(userDetail)
         }
-        return ResponseEntity.ok(R.ok("用户信息已更新"))
+        return ResponseEntity.ok(R.ok("user info updated"))
     }
+
+    @SaCheckLogin
+    @GetMapping("/applyToFriend")
+    fun applyToFriend(@RequestParam targetUser:Long): ResponseEntity<R> {
+        val suid = StpUtil.getLoginId().toString().toLong()
+        val applyRequest = Entity.create<Friendship>()
+        applyRequest.uidSource=suid
+        applyRequest.uidTo=targetUser
+        applyRequest.createTime= LocalDateTime.now()
+        applyRequest.updateTime= LocalDateTime.now()
+        applyRequest.status="applying"
+
+        val friendships = database.sequenceOf(Friendships)
+        val check = friendships.filter { it.uidSource eq suid }.filter { it.uidTo eq targetUser }.firstOrNull()
+        if(check!=null){
+            return ResponseEntity.ok(R.ok("request existed"))
+        }else{
+            friendships.add(applyRequest)
+            messageController.sendSysMsg(suid,targetUser,"you have a new friends request")
+        }
+        return ResponseEntity.ok(R.ok("request applied"))
+    }
+
 }
