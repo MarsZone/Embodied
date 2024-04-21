@@ -4,6 +4,8 @@ import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
+import com.mars.social.model.mix.BookMark
+import com.mars.social.model.mix.BookMarks
 import com.mars.social.model.mix.Tag
 import com.mars.social.model.mix.Tags
 import com.mars.social.model.topic.TopicComment
@@ -190,4 +192,46 @@ class TopicController {
         val topicComments = database.sequenceOf(TopicComments).filter { TopicComments.tid eq tid }.toList()
         return ResponseEntity.ok().body(R.ok(topicComments))
     }
+
+    @SaCheckLogin
+    @GetMapping("addBookMark")
+    fun addBookMark(@RequestParam tid: Long):ResponseEntity<R>{
+        val suid = StpUtil.getLoginId().toString().toLong()
+        val bookMarks = database.sequenceOf(BookMarks)
+        val check = database.sequenceOf(BookMarks).filter { it.uid eq suid }.filter { it.tid eq tid }.firstOrNull()
+        if(check==null){
+            val bookMark = Entity.create<BookMark>()
+            bookMark.uid=suid
+            bookMark.tid=tid
+            bookMark.createTime= LocalDateTime.now()
+            bookMarks.add(bookMark)
+            //update topic bookMake count
+            database.update(Topics){
+                set(it.bookmarks,it.bookmarks+1)
+                where { it.id eq tid }
+            }
+            return ResponseEntity.ok().body(R.ok("topic bookMarked"))
+        }
+        return ResponseEntity.ok().body(R.fail("already bookMarked"))
+    }
+
+    @SaCheckLogin
+    @GetMapping("removeBookMark")
+    fun removeBookMark(@RequestParam tid: Long):ResponseEntity<R>{
+        val suid = StpUtil.getLoginId().toString().toLong()
+        val bookMarks = database.sequenceOf(BookMarks)
+        val cBookMark = bookMarks.find { (it.uid eq suid.toString().toLong()) and
+                (it.tid eq tid) }
+        if(cBookMark!=null){
+            cBookMark.delete()
+            database.update(Topics){
+                set(it.bookmarks,it.bookmarks - 1)
+                where { it.id eq tid }
+            }
+            return ResponseEntity.ok().body(R.ok("bookMark removed"))
+        }
+
+        return ResponseEntity.ok().body(R.fail("bookMark not found"))
+    }
+
 }

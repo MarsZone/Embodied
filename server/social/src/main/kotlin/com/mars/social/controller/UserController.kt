@@ -111,7 +111,7 @@ class UserController {
             val userInfo = UserInfo(detail.uid,detail.nickName);
             return ResponseEntity.ok().body(R.ok(userInfo))
         }
-        return ResponseEntity.ok().body(R.ok("not found"))
+        return ResponseEntity.ok().body(R.fail("not found"))
     }
 
     @PostMapping("/setUserDetail")
@@ -143,7 +143,7 @@ class UserController {
         val friendships = database.sequenceOf(Friendships)
         val check = friendships.filter { it.uidSource eq suid }.filter { it.uidTo eq targetUser }.firstOrNull()
         if(check!=null){
-            return ResponseEntity.ok(R.ok("request existed"))
+            return ResponseEntity.ok(R.fail("request existed"))
         }else{
             friendships.add(applyRequest)
             messageController.sendSysMsg(suid,targetUser,"you have a new friends request")
@@ -180,7 +180,7 @@ class UserController {
             friendships.update(check)
             return ResponseEntity.ok(R.ok("apply accepted"))
         }
-        return ResponseEntity.ok(R.ok("no apply record"))
+        return ResponseEntity.ok(R.fail("no apply record"))
     }
 
 
