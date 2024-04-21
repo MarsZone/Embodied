@@ -43,7 +43,7 @@ class UserController {
         user.lastLoginTime = LocalDateTime.now()
         val users = database.sequenceOf(Users)
         users.add(user)
-        var data = messageUtil.get("account.register.succeed")
+        val data = messageUtil.get("account.register.succeed")
         return ResponseEntity.ok().body(R.ok(data))
     }
 
@@ -78,13 +78,13 @@ class UserController {
     @RequestMapping("/logout")
     fun logout(): ResponseEntity<R> {
         StpUtil.logout()
-        var data = messageUtil.get("sign.out");
+        val data = messageUtil.get("sign.out");
         return ResponseEntity.ok().body(R.ok(data))
     }
 
     @RequestMapping("/isLogin")
     fun isLogin(): ResponseEntity<R> {
-        var data = messageUtil.get("login.state") + StpUtil.isLogin()
+        val data = messageUtil.get("login.state") + StpUtil.isLogin()
         return ResponseEntity.ok().body(R.ok(data))
     }
 
@@ -93,13 +93,25 @@ class UserController {
     fun detailList(@RequestParam uid:Long): ResponseEntity<R> {
         val userDetails = database.sequenceOf(UserDetails)
         val detail = userDetails.find { it.uid eq uid }
-        var user = database.from(Users).select().where{ Users.id eq uid }.map { row -> Users.createEntity(row) }.firstOrNull()
-        var uInfo = user?.let { UserInfoDto(it.userName,user.email,user.phone,detail) }
+        val user = database.from(Users).select().where{ Users.id eq uid }.map { row -> Users.createEntity(row) }.firstOrNull()
+        val uInfo = user?.let { UserInfoDto(it.userName,user.email,user.phone,detail) }
         return if(uInfo != null){
             ResponseEntity.ok().body(R.ok(uInfo))
         }else{
             ResponseEntity.ok().body(R.fail("query failed"))
         }
+    }
+
+    data class UserInfo(val uid:Long,val nickName:String)
+    @GetMapping("/userSimpleInfo")
+    fun userSimpleInfo(@RequestParam uid:Long): ResponseEntity<R> {
+        val userDetails = database.sequenceOf(UserDetails)
+        val detail = userDetails.find { it.uid eq uid }
+        if(detail!=null){
+            val userInfo = UserInfo(detail.uid,detail.nickName);
+            return ResponseEntity.ok().body(R.ok(userInfo))
+        }
+        return ResponseEntity.ok().body(R.ok("not found"))
     }
 
     @PostMapping("/setUserDetail")
@@ -138,5 +150,38 @@ class UserController {
         }
         return ResponseEntity.ok(R.ok("request applied"))
     }
+
+    //query user friends
+    @SaCheckLogin
+    @GetMapping("getMyFriends")
+    fun getMyFriends():ResponseEntity<R>{
+        val suid = StpUtil.getLoginId().toString().toLong()
+        val friendships = database.sequenceOf(Friendships).filter{ it.status eq "friends" }.filter { (it.uidSource eq suid) or (it.uidTo eq suid) }.toList().reversed()
+        return ResponseEntity.ok(R.ok(friendships))
+    }
+
+    //get apply list reverse
+    @SaCheckLogin
+    @GetMapping("/getMyApplyList")
+    fun getMyApplyList():ResponseEntity<R>{
+        val suid = StpUtil.getLoginId().toString().toLong()
+        val friendships = database.sequenceOf(Friendships).filter { it.uidTo eq suid }.toList().reversed()
+        return ResponseEntity.ok().body(R.ok(friendships))
+    }
+
+    @SaCheckLogin
+    @GetMapping("/approveApply")
+    fun approveApply(@RequestParam applyId:Long):ResponseEntity<R>{
+        val friendships = database.sequenceOf(Friendships)
+        val check = friendships.filter { it.id eq applyId }.firstOrNull()
+        if(check!=null){
+            check.status = "friends"
+            check.updateTime = LocalDateTime.now()
+            friendships.update(check)
+            return ResponseEntity.ok(R.ok("apply accepted"))
+        }
+        return ResponseEntity.ok(R.ok("no apply record"))
+    }
+
 
 }
