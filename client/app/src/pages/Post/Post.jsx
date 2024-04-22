@@ -3,14 +3,28 @@ import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker } from 'react-v
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scss'
-import { getChannelAPI } from '@/apis/post'
+import { createTopicApi, getChannelAPI } from '@/apis/post'
+import { getUserId as _getUserId, getUserId } from '@/utils'
 
 const Post = () => {
 
   const navigate = useNavigate()
   const [form] = Form.useForm()
-  const onFinish = values => {
-    console.log(values)
+
+  const onFinish = fromValues => {
+    const { title, content, channelKey } = fromValues //解构表单数据
+    console.log('提交表单数据：', fromValues)
+    const reqData = {
+      title, //标题
+      content, //内容
+      channelKey, //频道
+      autherUid: getUserId, //作者UID
+      status: '', //状态（草稿/已发布）
+      coverImg: '', //封面图片id
+      contentType: 'common', //内容类型（默认common）
+    }
+    //调用接口提交
+    createTopicApi(reqData)
   }
 
   //获取频道列表
