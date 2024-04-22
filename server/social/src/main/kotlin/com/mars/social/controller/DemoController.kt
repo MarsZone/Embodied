@@ -1,6 +1,7 @@
 package com.mars.social.controller
 
 import com.mars.social.model.Demo
+import org.jasypt.encryption.StringEncryptor
 import org.ktorm.database.Database
 import org.ktorm.dsl.from
 import org.ktorm.dsl.limit
@@ -10,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+
 @RestController
 class DemoController {
     @Autowired
     lateinit var apiCall:ApiCall
-
 
     @GetMapping("/")
     fun index() = "Hello, mars!"
