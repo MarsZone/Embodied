@@ -1,10 +1,10 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/embodied
+    url: jdbc:mysql://120.78.142.84:3307/embodied
     driver: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 123456
+    username: approot
+    password: ENC(3DXRxPX2xnG7iKkdtXF0Y+fcT+VU+jHn)
     druid:
       # 初始化时建立物理连接的个数
       initial-size: 5
@@ -69,6 +69,11 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+
+jasypt:
+  encryptor:
+    password: fa7bd4edd42448aea8c9
+    algorithm: PBEWithMD5AndDES
 
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
