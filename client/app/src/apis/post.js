@@ -8,3 +8,12 @@ export function getChannelAPI() {
     method: 'GET'
   })
 }
+
+//2.发布话题
+export function createTopicApi(data){
+  return request({
+    url: '/api/topics/publishTopic', //状态已发布？
+    method: 'POST',
+    data
+  })
+}
