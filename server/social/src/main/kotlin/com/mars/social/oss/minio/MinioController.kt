@@ -94,7 +94,6 @@ class MinioController(val minioClient: MinioClient, @Value("\${minio.bucketname}
     @GetMapping("/detail")
     fun getFileInfoByFileName(@RequestParam fid: Long): ResponseEntity<R> {
         val file = database.from(Files).select().where{ Files.id eq fid }.map { row -> Files.createEntity(row) }.firstOrNull()
-
         return ResponseEntity.ok(file?.let { R.ok(it) })
     }
 

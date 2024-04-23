@@ -4,10 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
-import com.mars.social.model.mix.BookMark
-import com.mars.social.model.mix.BookMarks
-import com.mars.social.model.mix.Tag
-import com.mars.social.model.mix.Tags
+import com.mars.social.model.mix.*
 import com.mars.social.model.topic.TopicComment
 import com.mars.social.model.topic.TopicComments
 import com.mars.social.model.topic.*
@@ -73,11 +70,11 @@ class TopicController {
         return ResponseEntity.ok().body(R.fail("Not found topic"))
     }
 
+    @SaCheckLogin
     @PostMapping("/save")
     fun save(@RequestBody topic: Topic): ResponseEntity<R>{
-        if(topic.authorUid == null){
-            return ResponseEntity.ok().body(R.fail("Uid params needed"))
-        }
+        val uid = StpUtil.getLoginId()
+        topic.authorUid = uid.toString().toLong()
         val topics = database.sequenceOf(Topics)
         topic.updateTime = LocalDateTime.now()
         if(topic.id == 0L){
@@ -89,11 +86,11 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok("draft saved"))
     }
 
+    @SaCheckLogin
     @PostMapping("/publishTopic")
     fun publishTopic(@RequestBody topic: Topic): ResponseEntity<R>{
-        if(topic.authorUid == null){
-            return ResponseEntity.ok().body(R.fail("Uid params needed"))
-        }
+        val uid = StpUtil.getLoginId()
+        topic.authorUid = uid.toString().toLong()
         val topics = database.sequenceOf(Topics)
         val check = topics.find {it.id eq topic.id}
         topic.status="released"
@@ -232,6 +229,49 @@ class TopicController {
         }
 
         return ResponseEntity.ok().body(R.fail("bookMark not found"))
+    }
+
+    data class FileParams(val tid: String, val files: List<Int>)
+    @SaCheckLogin
+    @PostMapping("setTopicFiles")
+    fun setTopicFiles(@RequestBody fileParams:FileParams):ResponseEntity<R>{
+        val uid = StpUtil.getLoginId()
+        val uidL = uid.toString().toLong()
+        val tidL = fileParams.tid.toString().toLong()
+        //check if this topic auth is current user
+        val topicDetail = database.from(Topics).select().where{ Topics.authorUid eq uidL }.map { row -> Topics.createEntity(row) }.firstOrNull()
+        if(topicDetail==null){
+            return ResponseEntity.ok().body(R.fail("topic not found"))
+        }
+//        if(topicDetail.authorUid != uidL){
+//            return ResponseEntity.ok().body(R.fail("you can't modify this topic."))
+//        }
+
+        val topicFiles = database.sequenceOf(TopicFiles)
+        database.update(TopicFiles){
+            set(it.isDelete,"true")
+            set(it.updateTime, LocalDateTime.now())
+            where{ (it.uid eq uidL)  and (it.tid eq tidL) }
+        }
+        for(file in fileParams.files){
+            val temp = Entity.create<TopicFile>()
+            temp.uid = uidL
+            temp.tid = tidL
+            temp.fid = file.toLong()
+            val file = database.from(Files).select().where{ Files.id eq temp.fid }.map { row -> Files.createEntity(row) }.firstOrNull()
+            if(file!=null){
+                temp.fileDesc = file.originalFileName
+            }
+            temp.createTime = LocalDateTime.now()
+            topicFiles.add(temp)
+        }
+        return ResponseEntity.ok().body(R.ok("files set"))
+    }
+
+    @GetMapping("getTopicFiles")
+    fun getTopicFiles(@RequestParam tid:Long):ResponseEntity<R>{
+        val topicFiles = database.sequenceOf(TopicFiles).filter { it.tid eq tid }.filter { it.isDelete eq "false" }.toList().reversed()
+        return ResponseEntity.ok().body(R.ok(topicFiles))
     }
 
 }
