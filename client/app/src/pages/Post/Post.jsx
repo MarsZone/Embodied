@@ -5,6 +5,7 @@ import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scss'
 import { createTopicApi, getChannelAPI } from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
+import { uploadFileApi } from '@/apis/file'
 
 
 const Post = () => {
@@ -20,8 +21,15 @@ const Post = () => {
     },
   ]
 
+
+
   const onChangeImg = (value) => {
     console.log('正在上传中：', value)
+  }
+
+  const uploadCoverImg = async (file) => {
+    const res = await uploadFileApi(file)
+    console.log(res.data)
   }
 
   const navigate = useNavigate()
@@ -123,6 +131,7 @@ const Post = () => {
             <Uploader
               multiple
               maxCount={9}
+              upload={uploadCoverImg}
               onChange={onChangeImg}
               accept='*' />
           </Form.Item>
