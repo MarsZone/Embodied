@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker } from 'react-vant'
+import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker, Uploader } from 'react-vant'
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scss'
 import { createTopicApi, getChannelAPI } from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
 
+
 const Post = () => {
+
+  const demoData = [
+    {
+      url: 'https://img.yzcdn.cn/vant/sand.jpg',
+      filename: '图片名称',
+    },
+    {
+      url: 'https://img.yzcdn.cn/vant/tree.jpg',
+      filename: '图片名称',
+    },
+  ]
+
+  const onChangeImg = (value) => {
+    console.log('正在上传中：', value)
+  }
 
   const navigate = useNavigate()
   const [form] = Form.useForm()
@@ -19,7 +35,6 @@ const Post = () => {
       content, //内容
       channelKey, //频道
       autherUid: getUserId, //作者UID
-      status: '', //状态（草稿/已发布）
       coverImg: '', //封面图片id
       contentType: 'common', //内容类型（默认common）
     }
@@ -95,10 +110,25 @@ const Post = () => {
           </Form.Item>
 
           <Form.Item
+            rules={[{ required: true, message: '' }]}
             name='content'
             label='内容'>
             <Input.TextArea rows={3} autoSize maxLength={140} showWordLimit />
           </Form.Item>
+
+          <Form.Item
+            label='上传图片'
+            name='coverImg'
+          >
+            <Uploader
+              multiple
+              maxCount={9}
+              onChange={onChangeImg}
+              accept='*' />
+          </Form.Item>
+
+
+
         </Form>
       </div>
 
