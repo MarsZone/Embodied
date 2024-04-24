@@ -16,7 +16,6 @@ const request = axios.create({
 })
 
 
-
 //添加请求拦截器：在请求发送之前做拦截，插入一些自定义的配置
 request.interceptors.request.use((config) => {
   //操作config对象，在请求头里注入token
