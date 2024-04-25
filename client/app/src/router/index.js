@@ -16,6 +16,7 @@ import Message from '@/pages/Message/Message' //消息页
 import Login from '@/pages/Login/Login' //登录页
 import Register from '@/pages/Register/Register' //注册页
 import Test from '@/pages/Test' //测试页
+import FileUpload from '@/components/fileUpload' //文件上传测试页
 
 
 
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
   {
     path: '/test',
     element: <Test />
+  },
+  {
+    path: '/fileUpload',
+    element: <FileUpload />
   },
 ])
 
