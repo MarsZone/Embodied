@@ -2,6 +2,7 @@ package com.mars.social.controller
 
 import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.annotation.SaCheckRole
+import cn.dev33.satoken.secure.SaSecureUtil
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.UserInfoDto
 import com.mars.social.model.user.*
@@ -36,12 +37,18 @@ class UserController {
 
     @PostMapping("/register")
     fun registerUser(@RequestBody user: User): ResponseEntity<R> {
-        //Todo user name 需要校验
+        //Todo user name 需要校验,check if user is created
+        var users  = database.sequenceOf(Users)
+
+        val check  = users.find { it.userName eq user.userName }
+        if(check!=null){
+            return ResponseEntity.ok().body(R.fail("user already register"))
+        }
         //Todo password 加密
+        user.password = SaSecureUtil.md5(user.password);
         user.isActive = "true"
         user.registerTime = LocalDateTime.now()
         user.lastLoginTime = LocalDateTime.now()
-        val users = database.sequenceOf(Users)
         users.add(user)
         val data = messageUtil.get("account.register.succeed")
         return ResponseEntity.ok().body(R.ok(data))
@@ -64,7 +71,8 @@ class UserController {
         val user = users.find { it.userName eq dto.userName  }
         var data = ""
         if (user != null) {
-            if(user.password == dto.password){
+            val encryptPass = SaSecureUtil.md5(dto.password);
+            if(user.password == encryptPass){
                 StpUtil.login(user.id)
 //                data = messageUtil.get("sign.in.succeed")
                 val tokenInfo = StpUtil.getTokenInfo()
