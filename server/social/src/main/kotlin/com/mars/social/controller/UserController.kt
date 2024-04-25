@@ -96,6 +96,17 @@ class UserController {
         return ResponseEntity.ok().body(R.ok(data))
     }
 
+//    @RequestMapping("resetPassword")
+//    fun resetPassword(): ResponseEntity<R>{
+//        val usersList = database.sequenceOf(Users).toList()
+//        val users = database.sequenceOf(Users)
+//        for(user in usersList){
+//            user.password = SaSecureUtil.md5("123456");
+//            users.update(user)
+//        }
+//        return ResponseEntity.ok().body(R.ok("done"))
+//    }
+
     //用户信息详情部分
     @GetMapping("/userDetail")
     fun detailList(@RequestParam uid:Long): ResponseEntity<R> {

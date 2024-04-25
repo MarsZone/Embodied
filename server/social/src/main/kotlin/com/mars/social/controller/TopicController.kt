@@ -65,9 +65,52 @@ class TopicController {
         if(topic!=null){
             topic.visits += 1
             topics.update(topic)
+            //add views history
+            val topicViewHisDB = database.sequenceOf(TopicViewHisDB)
+            val isLogin = StpUtil.isLogin();
+            if(isLogin){
+                val uid = StpUtil.getLoginId()
+                val uidL =uid.toString().toLong()
+                val checkHis = topicViewHisDB.find{ (it.uid eq uidL) and(it.tid eq id)}
+                if(checkHis!=null){
+                    checkHis.delete()
+                }
+                val topicViewHis = Entity.create<TopicViewHis>()
+                topicViewHis.uid = uidL
+                topicViewHis.tid = id
+                topicViewHis.createTime = LocalDateTime.now()
+                topicViewHisDB.add(topicViewHis)
+            }
             return ResponseEntity.ok().body(R.ok(topic))
         }
         return ResponseEntity.ok().body(R.fail("Not found topic"))
+    }
+
+    @SaCheckLogin
+    @GetMapping("/getTopicViewHisCount")
+    fun getTopicViewHisCount():ResponseEntity<R>{
+        val uid = StpUtil.getLoginId()
+        val uidL =uid.toString().toLong()
+        val count = database.sequenceOf(TopicViewHisDB).filter { it.uid eq uidL }.totalRecordsInAllPages
+        return ResponseEntity.ok().body(R.ok(count))
+    }
+
+    data class TopicHisDto( var id :Long?,var uid : Long?,var tid: Long?,
+                            var createTime : LocalDateTime?,var title:String?)
+    @SaCheckLogin
+    @GetMapping("/getTopicViewHisList")
+    fun getTopicViewHisList():ResponseEntity<R>{
+        val uid = StpUtil.getLoginId()
+        val uidL =uid.toString().toLong()
+        val topicViewHisList = database.from(TopicViewHisDB)
+            .leftJoin(Topics, on = TopicViewHisDB.tid eq Topics.id)
+            .select(TopicViewHisDB.id,TopicViewHisDB.tid,TopicViewHisDB.uid,TopicViewHisDB.createTime,Topics.title)
+            .orderBy(TopicViewHisDB.id.desc())
+            .limit(100)
+            .where{ TopicViewHisDB.uid eq uidL }
+            .map { row ->  TopicHisDto(id = row[TopicViewHisDB.id], uid = row[TopicViewHisDB.uid],tid = row[TopicViewHisDB.tid],
+                createTime = row[TopicViewHisDB.createTime],title = row[Topics.title] )}
+        return ResponseEntity.ok().body(R.ok(topicViewHisList))
     }
 
     @SaCheckLogin
