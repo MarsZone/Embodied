@@ -3,19 +3,19 @@
 import { request } from "@/utils";
 
 //1.上传文件
-export function uploadFileApi(file){
+export function uploadFileApi(files) {
   return request({
     url: '/oss/upload',
     method: 'POST',
-    data: file
+    data: files
   })
 }
 
-//2.预览文件
-export function previewFileApi(fid){
+//2.预览文件URL
+export function previewFileApi(fid) {
   return request({
     url: '/oss/preview',
     method: 'GET',
-    fid
+    params: { fid }
   })
 }
