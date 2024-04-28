@@ -5,7 +5,7 @@ import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scss'
 import { createTopicApi, getChannelAPI } from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
-import { uploadFileApi } from '@/apis/file'
+import { previewFileApi, uploadFileApi } from '@/apis/file'
 
 
 const Post = () => {
@@ -21,15 +21,32 @@ const Post = () => {
     },
   ]
 
+  const [imgId, setImgId] = useState()
+  const [imgUrl, setImgUrl] = useState()
+
+  // const onChangeImg = (value) => {
+  //   console.log('正在上传中：', value)
+  // }
 
 
-  const onChangeImg = (value) => {
-    console.log('正在上传中：', value)
-  }
 
   const uploadCoverImg = async (file) => {
-    const res = await uploadFileApi(file)
-    console.log(res.data)
+
+    const files = new FormData();
+    files.append('files', file);
+
+    const res = await uploadFileApi(files)
+      .then(data => {
+        setImgId(data.data[0].id)
+        console.log('上传图片id：', imgId)
+      }
+    )
+
+    const getImgUrlRes = previewFileApi(imgId)
+    setImgUrl(getImgUrlRes.data)
+    console.log('上传图片url：', imgUrl)
+
+    return imgUrl
   }
 
   const navigate = useNavigate()
@@ -43,7 +60,7 @@ const Post = () => {
       content, //内容
       channelKey, //频道
       autherUid: getUserId, //作者UID
-      coverImg: '', //封面图片id
+      coverImg: imgId, //封面图片id
       contentType: 'common', //内容类型（默认common）
     }
     //调用接口提交
@@ -129,10 +146,10 @@ const Post = () => {
             name='coverImg'
           >
             <Uploader
-              multiple
-              maxCount={9}
+              // multiple
+              // maxCount={1}
               upload={uploadCoverImg}
-              onChange={onChangeImg}
+              // onChange={onChangeImg}
               accept='*' />
           </Form.Item>
 

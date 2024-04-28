@@ -1,8 +1,13 @@
+.container {
+  padding: 0;
+  margin: 0;
+}
+
 .top-layout {
   display: flex;
   position: relative;
-  margin: 46px auto 0;
-  height: 30vh;
+  // margin: 46px auto 0;
+  // height: 30vh;
   width: 100vw;
   background-color: #e5f6f8;
 
@@ -13,7 +18,6 @@
   .profile-img {
     width: 80px;
     height: 80px;
-    padding-top: 10px;
     //position: absolute;
     //top: 40%;
     //left: 50%;
@@ -26,32 +30,26 @@
     margin-top: 8px;
   }
 
-  .profile-social{
+  .profile-social {
     width: 100vw;
     margin: 10px 0;
     justify-content: space-around;
 
-
     .rv-flexbox {
-      //margin-bottom: 10px;
       color: #000000;
       font-size: 13px;
       line-height: 20px;
       text-align: center;
       background-clip: content-box;
     }
-    
 
   }
 }
 
-
 .bottom-layout {
   position: relative;
   margin: 0;
-  height: 60vh; //占据下面所有空间
+  // height: 60vh; //占据下面所有空间
   //flex-grow: 1;
   background-color: #f8e5f6;
-
-
 }

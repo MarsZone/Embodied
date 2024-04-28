@@ -62,6 +62,8 @@ const TabNavigator = () => {
         value={tabRoute}
         onChange={v => onTabbarClick(v)}
         activeColor='#f44336' inactiveColor='#000'
+        placeholder
+        fixed
       >
         {tabs.map(item => (
           <TabbarItem key={item.key} name={item.key} icon={item.icon}>{item.title}</TabbarItem>

@@ -64,51 +64,51 @@ const Profile = () => {
         onCancel={() => setLogoutDialogVisible(false)}
       />
 
-        <div className="container">
-          <div className='top-layout'>
-            <div className='profile-img'>
-              <Image round fit='cover' src={userImgUrl} />
-            </div>
-            <div className='profile-username'>{userName}</div>
-
-            <div className='profile-social'>
-              <Flex gutter={16}>
-                <Flex.Item span={8}>
-                  关注<div className='count'>111</div>
-                </Flex.Item>
-                <Flex.Item span={8}>
-                  粉丝<div className='count'>222</div>
-                </Flex.Item>
-                <Flex.Item span={8}>
-                  获赞<div className='count'>333</div>
-                </Flex.Item>
-              </Flex>
-            </div>
+      {/* <div className="container"> */}
+        <div className='top-layout'>
+          <div className='profile-img'>
+            <Image round fit='cover' src={userImgUrl} />
           </div>
+          <div className='profile-username'>{userName}</div>
 
-          <div className='bottom-layout'>
-            <Tabs
-              className='profile-tabs'
-              defaultActive={tabs[0].key}
-              onChange={(name, tabIndex) => onTabChange(name)}>
-              {tabs.map(
-                item => (
-                  <Tabs.TabPane name={item.key} key={item.key} title={item.title}>
-                    <div>
-                      <Outlet />
-                    </div>
-                  </Tabs.TabPane>
-                )
-              )}
-            </Tabs>
+          <div className='profile-social'>
+            <Flex gutter={16}>
+              <Flex.Item span={8}>
+                关注<div className='count'>111</div>
+              </Flex.Item>
+              <Flex.Item span={8}>
+                粉丝<div className='count'>222</div>
+              </Flex.Item>
+              <Flex.Item span={8}>
+                获赞<div className='count'>333</div>
+              </Flex.Item>
+            </Flex>
           </div>
-
         </div>
 
-
-        <div className="footer">
-          <TabNavigator />
+        <div className='bottom-layout'>
+          <Tabs
+            className='profile-tabs'
+            defaultActive={tabs[0].key}
+            onChange={(name, tabIndex) => onTabChange(name)}>
+            {tabs.map(
+              item => (
+                <Tabs.TabPane name={item.key} key={item.key} title={item.title}>
+                  <div>
+                    <Outlet />
+                  </div>
+                </Tabs.TabPane>
+              )
+            )}
+          </Tabs>
         </div>
+
+      {/* </div> */}
+
+
+      <div className="footer">
+        <TabNavigator />
+      </div>
 
 
     </div>
