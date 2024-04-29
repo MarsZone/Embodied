@@ -8,6 +8,8 @@ import com.mars.social.model.mix.*
 import com.mars.social.model.topic.TopicComment
 import com.mars.social.model.topic.TopicComments
 import com.mars.social.model.topic.*
+import com.mars.social.model.user.UserFollow
+import com.mars.social.model.user.UserFollowDB
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
 import org.ktorm.database.Database
@@ -320,6 +322,20 @@ class TopicController {
     fun getTopicFiles(@RequestParam tid:Long):ResponseEntity<R>{
         val topicFiles = database.sequenceOf(TopicFiles).filter { it.tid eq tid }.filter { it.isDelete eq "false" }.toList().reversed()
         return ResponseEntity.ok().body(R.ok(topicFiles))
+    }
+
+    @SaCheckLogin
+    @GetMapping("follow")
+    fun follow(@RequestParam followedUid:Long):ResponseEntity<R> {
+        val uid = StpUtil.getLoginId()
+        val followUid = uid.toString().toLong()
+        val userFollowDB = database.sequenceOf(UserFollowDB)
+        val userFollow = Entity.create<UserFollow>()
+        userFollow.followerUid=followUid
+        userFollow.followedUid=followedUid
+        userFollow.createTime = LocalDateTime.now()
+        userFollowDB.add(userFollow)
+        return ResponseEntity.ok().body(R.ok("Done"))
     }
 
 }
