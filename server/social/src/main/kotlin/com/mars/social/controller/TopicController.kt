@@ -224,6 +224,11 @@ class TopicController {
         topicComment.createTime = LocalDateTime.now()
         topicComment.uid = uid.toString().toLong()
         topicComments.add(topicComment)
+        //add comment count
+        database.update(Topics){
+            set(it.comments,it.comments+1)
+            where { it.id eq topicComment.tid }
+        }
         return ResponseEntity.ok().body(R.ok("comment it"))
     }
 
