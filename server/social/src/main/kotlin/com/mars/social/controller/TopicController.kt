@@ -324,18 +324,4 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok(topicFiles))
     }
 
-    @SaCheckLogin
-    @GetMapping("follow")
-    fun follow(@RequestParam followedUid:Long):ResponseEntity<R> {
-        val uid = StpUtil.getLoginId()
-        val followUid = uid.toString().toLong()
-        val userFollowDB = database.sequenceOf(UserFollowDB)
-        val userFollow = Entity.create<UserFollow>()
-        userFollow.followerUid=followUid
-        userFollow.followedUid=followedUid
-        userFollow.createTime = LocalDateTime.now()
-        userFollowDB.add(userFollow)
-        return ResponseEntity.ok().body(R.ok("Done"))
-    }
-
 }
