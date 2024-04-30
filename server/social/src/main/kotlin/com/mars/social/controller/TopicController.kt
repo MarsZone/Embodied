@@ -8,6 +8,8 @@ import com.mars.social.model.mix.*
 import com.mars.social.model.topic.TopicComment
 import com.mars.social.model.topic.TopicComments
 import com.mars.social.model.topic.*
+import com.mars.social.model.user.UserFollow
+import com.mars.social.model.user.UserFollowDB
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
 import org.ktorm.database.Database
@@ -224,6 +226,11 @@ class TopicController {
         topicComment.createTime = LocalDateTime.now()
         topicComment.uid = uid.toString().toLong()
         topicComments.add(topicComment)
+        //add comment count
+        database.update(Topics){
+            set(it.comments,it.comments+1)
+            where { it.id eq topicComment.tid }
+        }
         return ResponseEntity.ok().body(R.ok("comment it"))
     }
 

@@ -202,5 +202,46 @@ class UserController {
         return ResponseEntity.ok(R.fail("no apply record"))
     }
 
+    @SaCheckLogin
+    @GetMapping("follow")
+    fun follow(@RequestParam targetUid:Long):ResponseEntity<R> {
+        val uid = StpUtil.getLoginId()
+        val followUid = uid.toString().toLong()
+        val userFollowDB = database.sequenceOf(UserFollowDB)
+        var check = userFollowDB.filter{ UserFollowDB.followedUid eq targetUid}.filter{ UserFollowDB.followerUid eq followUid}.firstOrNull()
+        if(check==null){
+            val userFollow = Entity.create<UserFollow>()
+            userFollow.followerUid=followUid
+            userFollow.followedUid=targetUid
+            userFollow.createTime = LocalDateTime.now()
+            userFollowDB.add(userFollow)
+            return ResponseEntity.ok().body(R.ok("Done"))
+        }
+        return ResponseEntity.ok().body(R.fail("already followed"))
+    }
+
+    @SaCheckLogin
+    @GetMapping("unFollow")
+    fun unFollow(@RequestParam targetUid:Long):ResponseEntity<R> {
+        val uid = StpUtil.getLoginId()
+        val followUid = uid.toString().toLong()
+        val check = database.sequenceOf(UserFollowDB).filter{ UserFollowDB.followedUid eq targetUid}.filter{ UserFollowDB.followerUid eq followUid}.firstOrNull()
+        if(check!=null){
+            check.delete()
+        }
+        return ResponseEntity.ok().body(R.ok("Done"))
+    }
+
+    @SaCheckLogin
+    @GetMapping("checkFollow")
+    fun checkFollow(@RequestParam targetUid:Long):ResponseEntity<R> {
+        val uid = StpUtil.getLoginId()
+        val followUid = uid.toString().toLong()
+        val check = database.sequenceOf(UserFollowDB).filter{ UserFollowDB.followedUid eq targetUid}.filter{ UserFollowDB.followerUid eq followUid}.firstOrNull()
+        if(check!=null){
+            return ResponseEntity.ok().body(R.ok("true"))
+        }
+        return ResponseEntity.ok().body(R.ok("false"))
+    }
 
 }
