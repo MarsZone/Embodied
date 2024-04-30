@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker, Uploader } from 'react-vant'
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
-import './Post.scss'
+import './Post.scoped.scss'
 import { createTopicApi, getChannelAPI } from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
@@ -40,7 +40,7 @@ const Post = () => {
         setImgId(data.data[0].id)
         console.log('上传图片id：', imgId)
       }
-    )
+      )
 
     const getImgUrlRes = previewFileApi(imgId)
     setImgUrl(getImgUrlRes.data)

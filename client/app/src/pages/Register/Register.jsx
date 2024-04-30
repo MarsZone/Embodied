@@ -3,7 +3,7 @@ import { request } from "@/utils";
 import React, { useState } from 'react';
 import { Card, Cell, Button, Input, Form, Notify } from 'react-vant';
 import { UserO, Lock, EnvelopO, PhoneO } from '@react-vant/icons'
-import './Register.scss'
+import './Register.scoped.scss'
 
 
 const Register = () => {
@@ -24,7 +24,7 @@ const Register = () => {
 
   return (
     <div className="register-page">
-     <Form
+      <Form
         className='register-form'
         validateTrigger='onblur'
         onFinish={onFinish}
@@ -39,16 +39,16 @@ const Register = () => {
         }
       >
         <p className='logo'>Embodied</p>
-        <Form.Item 
+        <Form.Item
           className='register-input'
-          name = 'userName' //userName 需要和后端接口保持一致
-          rules = {[
+          name='userName' //userName 需要和后端接口保持一致
+          rules={[
             {
               required: true,
               message: '请填写用户名'
             },
           ]}
-          leftIcon = <UserO  />
+          leftIcon=<UserO />
         >
           <Input placeholder='请输入用户名' />
         </Form.Item>
@@ -63,26 +63,28 @@ const Register = () => {
               message: '密码长度为8到16位，至少包含一个大写字母、一个小写字母和一个数字'
             }
           ]}
-          leftIcon = <Lock />
+          leftIcon=<Lock />
         >
           <Input placeholder='请输入密码' />
         </Form.Item>
-        <Form.Item 
+        <Form.Item
           className='register-input'
           name='passwordConfirm'
           rules={[
             { required: true, message: '请重新输入密码' },
-            { validator: (_, value) => {
-              return new Promise((resolve, reject) => {
-                if (value === form.getFieldValue('password')){
-                  resolve();//校验通过
-                } else {
-                  reject(new Error('输入的密码不一致，请确认密码'))//校验失败
-                }
-              })
-            }}
+            {
+              validator: (_, value) => {
+                return new Promise((resolve, reject) => {
+                  if (value === form.getFieldValue('password')) {
+                    resolve();//校验通过
+                  } else {
+                    reject(new Error('输入的密码不一致，请确认密码'))//校验失败
+                  }
+                })
+              }
+            }
           ]}
-          leftIcon = <Lock />
+          leftIcon=<Lock />
         >
           <Input placeholder='请重新输入密码' />
         </Form.Item>
@@ -90,10 +92,12 @@ const Register = () => {
           className='register-input'
           name='phone'
           rules={[
-            { pattern: /^1[3456789]\d{9}$/,
-              message: '请输入正确的手机号' }
+            {
+              pattern: /^1[3456789]\d{9}$/,
+              message: '请输入正确的手机号'
+            }
           ]}
-          leftIcon = <EnvelopO />
+          leftIcon=<EnvelopO />
         >
           <Input placeholder='请输入手机号' />
         </Form.Item>
@@ -101,10 +105,12 @@ const Register = () => {
           className='register-input'
           name='email'
           rules={[
-            { pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: '请输入正确的邮箱地址' }
+            {
+              pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: '请输入正确的邮箱地址'
+            }
           ]}
-          leftIcon = <PhoneO />
+          leftIcon=<PhoneO />
         >
           <Input placeholder='请输入邮箱' />
         </Form.Item>

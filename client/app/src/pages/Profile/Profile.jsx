@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { Image, NavBar, Toast, Flex, Tabs, Cell, Dialog } from 'react-vant'
+import { Image, NavBar, Toast, Flex, Tabs, Cell, Dialog, Space, Typography, } from 'react-vant'
 import { Edit, Revoke } from '@react-vant/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import './Profile.scss'
+import './Profile.scoped.scss'
 import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
 
 const Profile = () => {
@@ -65,43 +65,61 @@ const Profile = () => {
       />
 
       {/* <div className="container"> */}
-        <div className='top-layout'>
-          <div className='profile-img'>
-            <Image round fit='cover' src={userImgUrl} />
-          </div>
-          <div className='profile-username'>{userName}</div>
 
-          <div className='profile-social'>
-            <Flex gutter={16}>
-              <Flex.Item span={8}>
-                关注<div className='count'>111</div>
-              </Flex.Item>
-              <Flex.Item span={8}>
-                粉丝<div className='count'>222</div>
-              </Flex.Item>
-              <Flex.Item span={8}>
-                获赞<div className='count'>333</div>
-              </Flex.Item>
-            </Flex>
-          </div>
+      <div className='top-layout'>
+        <div className='profile-img'>
+          <Image round fit='cover' src={userImgUrl} />
+        </div>
+        <div className='profile-username'>{userName}</div>
+
+        {/* <div className='profile-social'> */}
+        {/* <Flex gutter={16} className='profile-social'>
+          <Flex.Item span={8}>
+            关注<div className='count'>111</div>
+          </Flex.Item>
+          <Flex.Item span={8}>
+            粉丝<div className='count'>222</div>
+          </Flex.Item>
+          <Flex.Item span={8}>
+            获赞<div className='count'>333</div>
+          </Flex.Item>
+        </Flex> */}
+
+        <div className='profile-social'>
+          <Space
+            align="center"
+            gap={40}>
+            <Typography.Link>
+              关注<div className='count'>111</div>
+            </Typography.Link>
+            <Typography.Link>
+              粉丝<div className='count'>222</div>
+            </Typography.Link>
+            <Typography.Link>
+              获赞<div className='count'>333</div>
+            </Typography.Link>
+          </Space>
         </div>
 
-        <div className='bottom-layout'>
-          <Tabs
-            className='profile-tabs'
-            defaultActive={tabs[0].key}
-            onChange={(name, tabIndex) => onTabChange(name)}>
-            {tabs.map(
-              item => (
-                <Tabs.TabPane name={item.key} key={item.key} title={item.title}>
-                  <div>
-                    <Outlet />
-                  </div>
-                </Tabs.TabPane>
-              )
-            )}
-          </Tabs>
-        </div>
+
+      </div>
+
+      <div className='bottom-layout'>
+        <Tabs
+          className='profile-tabs'
+          defaultActive={tabs[0].key}
+          onChange={(name, tabIndex) => onTabChange(name)}>
+          {tabs.map(
+            item => (
+              <Tabs.TabPane name={item.key} key={item.key} title={item.title}>
+                <div>
+                  <Outlet />
+                </div>
+              </Tabs.TabPane>
+            )
+          )}
+        </Tabs>
+      </div>
 
       {/* </div> */}
 

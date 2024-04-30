@@ -1,7 +1,7 @@
 import React, { useDebugValue, useEffect, useState } from 'react'
 import { GridItem, Tabbar, TabbarItem } from 'react-vant'
 import { CommentO, HomeO, Search, UserO, AddO } from '@react-vant/icons'
-import './TabNavigator.scss'
+import './TabNavigator.scoped.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { fetchUserInfo } from '@/store/modules/user'

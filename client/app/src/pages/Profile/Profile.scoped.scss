@@ -6,8 +6,6 @@
 .top-layout {
   display: flex;
   position: relative;
-  // margin: 46px auto 0;
-  // height: 30vh;
   width: 100vw;
   background-color: #e5f6f8;
 
@@ -31,9 +29,8 @@
   }
 
   .profile-social {
-    width: 100vw;
-    margin: 10px 0;
-    justify-content: space-around;
+    position: relative;
+    padding: 10px 10px;
 
     .rv-flexbox {
       color: #000000;
@@ -47,9 +44,7 @@
 }
 
 .bottom-layout {
-  position: relative;
-  margin: 0;
+  //position: relative;
   // height: 60vh; //占据下面所有空间
-  //flex-grow: 1;
   background-color: #f8e5f6;
 }

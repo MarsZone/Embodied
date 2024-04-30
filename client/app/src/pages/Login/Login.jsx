@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Cell, Button, Input, Form, Notify } from 'react-vant';
-import './Login.scss'
+import './Login.scoped.scss'
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '@/store/modules/user';
 import { useNavigate } from 'react-router-dom';

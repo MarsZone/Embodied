@@ -2,7 +2,7 @@ import React from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Search, Image, NavBar, Toast, Tabs } from 'react-vant'
 import { useState } from 'react'
-import './Home.scss'
+import './Home.scoped.scss'
 
 
 
