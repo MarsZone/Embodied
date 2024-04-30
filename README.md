@@ -8,6 +8,7 @@
 * axios
 * Redux
 * normalize
+* react-scoped-css
 
 ### BackEnd Technology
 * Kotlin
