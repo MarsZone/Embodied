@@ -3,21 +3,26 @@ import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Search, Image, NavBar, Toast, Tabs } from 'react-vant'
 import { useState } from 'react'
 import './Home.scoped.scss'
+import useChannelList from '@/hooks/useChannelList'
 
 
 
 const Home = () => {
-  const [value, setValue] = useState('');
+  //获取频道列表
+  const { channelList, loading } = useChannelList()
+  const [ selectChannel, setSelectChannel ] = useState()
+
+  //点击频道切换
+  const onTabClick = (channel) => {
+    console.log('选中频道：', channel.name)
+    setSelectChannel(channel.name)
+  }
+
+  
 
 
   return (
     <div className="layout">
-
-      {/* <NavBar className='top-bar'
-        leftText={<Search value={value} onChange={setValue} clearable placeholder="请输入搜索关键词" />}
-        rightText="搜索"
-        onClickRight={() => Toast('搜索')}
-      /> */}
 
       <NavBar
         title="首页"
@@ -26,15 +31,15 @@ const Home = () => {
       />
 
       <div className="container">
-        <Tabs>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
-            <Tabs.TabPane key={item} title={`标签${item}`}>
-              内容 {item}
+        <Tabs onClickTab={v => onTabClick(v)}>
+          {channelList.map(item => (
+            <Tabs.TabPane key={item.key} title={`${item.name}`} name={item.key}>
+              内容 {item.name}
             </Tabs.TabPane>
           ))}
         </Tabs>
 
-        我是首页Home
+
         {/* <Outlet /> */}
       </div>
       <div className="footer">

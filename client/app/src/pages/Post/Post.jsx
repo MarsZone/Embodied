@@ -6,6 +6,7 @@ import './Post.scoped.scss'
 import { createTopicApi, getChannelAPI } from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
+import useChannelList from '@/hooks/useChannelList'
 
 
 const Post = () => {
@@ -68,18 +69,8 @@ const Post = () => {
   }
 
   //获取频道列表
-  const [channalList, setChennalList] = useState([])
-  useEffect(() => {
-    //1.封装函数，在函数体内调用接口
-    const getChannelList = async () => {
-      const res = await getChannelAPI()
-      setChennalList(res.data)
-    }
-    //2.调用函数
-    getChannelList()
-  }, [])
-
-  console.log(channalList)
+  const { channelList, loading } = useChannelList()
+  console.log(channelList)
 
   return (
     <div className="layout">
@@ -125,7 +116,11 @@ const Post = () => {
           >
             <Picker
               popup
-              columns={channalList.map(item => ({ key: item.id, text: item.name, value: item.key }))}
+              columns={channelList.map(item => ({ 
+                key: item.id, 
+                text: item.name, 
+                value: item.key 
+              }))}
               onChange={(val, selectRow, index) => {
                 console.log('选中项: ', val, selectRow, index)
               }}
