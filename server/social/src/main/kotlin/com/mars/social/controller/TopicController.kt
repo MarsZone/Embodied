@@ -44,6 +44,25 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok(filteredTopics))
     }
 
+    /**
+     * 获取指定频道的话题
+     */
+    @GetMapping("/channelTopics")
+    fun list(@RequestParam channelKey:String = "information_plaza"): ResponseEntity<R> {
+        val actualChannelKey = channelKey.ifBlank { "information_plaza" }
+        val filteredTopics = database.sequenceOf(Topics)
+            .filter { it.isDelete eq "false" }
+            .let { topics ->
+                when (actualChannelKey) {
+                    "information_plaza" -> topics
+                    else -> topics.filter { it.channelKey eq channelKey }
+                }
+            }
+            .toList()
+            .reversed()
+        return ResponseEntity.ok().body(R.ok(filteredTopics))
+    }
+
     @PostMapping("page")
     fun page(@RequestBody pageRequest: PageRequest,@RequestParam uid:Long):ResponseEntity<R>{
         val totalRecords = database.sequenceOf(Topics).filter { it.authorUid eq uid}.filter { it.isDelete eq "false" }.totalRecordsInAllPages;
