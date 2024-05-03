@@ -1,5 +1,5 @@
-import React, { useDebugValue, useEffect, useState } from 'react'
-import { GridItem, Tabbar, TabbarItem } from 'react-vant'
+import React, { useEffect, useState } from 'react'
+import { Tabbar, TabbarItem } from 'react-vant'
 import { CommentO, HomeO, Search, UserO, AddO } from '@react-vant/icons'
 import './TabNavigator.scoped.scss'
 import { useLocation, useNavigate } from 'react-router-dom'

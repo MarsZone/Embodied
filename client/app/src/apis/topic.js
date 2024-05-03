@@ -10,10 +10,10 @@ export function getChannelAPI() {
   })
 }
 
-//2.获取话题列表（传参uid channelKey，只能查看当前用户的指定频道话题?）
+//2.获取指定频道的话题
 export function getChannelTopics(channelKey){
   return request({
-    url: '/api/topics/list',
+    url: '/api/topics/channelTopics',
     method: 'GET',
     params: { channelKey: channelKey }
   })
