@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
-import { Image, NavBar, Toast, Tabs } from 'react-vant'
+import { Image, NavBar, Toast, Tabs, Card, Space, Button } from 'react-vant'
+import { Arrow, Like } from '@react-vant/icons'
 import { useState } from 'react'
 import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
 import { getChannelTopics } from '@/apis/topic'
+import { previewFileApi } from '@/apis/file'
 
 
 
@@ -44,12 +46,34 @@ const Home = () => {
         <Tabs onClickTab={v => onTabClick(v)}>
           {channelList.map(item => (
             <Tabs.TabPane key={item.key} title={`${item.name}`} name={item.key}>
-              内容 {item.name}{item.key}
-              {
-                channelTopics.map(topic => (
-                  <div>标题：{ topic.title }
-                  内容：{ topic.content }</div>
-                ))
+              {channelTopics.map(topic => (
+                <Card round
+                  key={topic.id}>
+                  <Card.Header>{topic.title}</Card.Header>
+                  <Card.Cover>
+                    {/* <Image src={ previewFileApi(topic.coverImg).data } /> */}
+                    <Image src={ previewFileApi(46).data } />
+                  </Card.Cover>
+                  <Card.Body>
+                    内容：{topic.content}
+                  </Card.Body>
+                  <Card.Footer>
+                    <Space>
+                      <Button round size='small'>
+                        更多
+                      </Button>
+                      <Button
+                        icon={<Like />}
+                        round
+                        color='linear-gradient(to right, #ff6034, #ee0a24)'
+                        size='small'
+                      >
+                        Like
+                      </Button>
+                    </Space>
+                  </Card.Footer>
+                </Card>
+              ))
               }
             </Tabs.TabPane>
           ))}

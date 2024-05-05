@@ -25,11 +25,6 @@ const Post = () => {
   const [imgId, setImgId] = useState()
   const [imgUrl, setImgUrl] = useState()
 
-  // const onChangeImg = (value) => {
-  //   console.log('正在上传中：', value)
-  // }
-
-
 
   const uploadCoverImg = async (file) => {
 
@@ -40,15 +35,22 @@ const Post = () => {
       .then(data => {
         setImgId(data.data[0].id)
         console.log('上传图片id：', imgId)
-      }
-      )
+      })
 
-    const getImgUrlRes = previewFileApi(imgId)
+    const getImgUrlRes = await previewFileApi(imgId)
     setImgUrl(getImgUrlRes.data)
     console.log('上传图片url：', imgUrl)
 
-    return imgUrl
+    return { imgUrl }
   }
+
+  const formatData = (urls) => {
+    return urls.map(url => ({
+      url
+    }));
+  };
+
+
 
   const navigate = useNavigate()
   const [form] = Form.useForm()
@@ -116,10 +118,10 @@ const Post = () => {
           >
             <Picker
               popup
-              columns={channelList.map(item => ({ 
-                key: item.id, 
-                text: item.name, 
-                value: item.key 
+              columns={channelList.map(item => ({
+                key: item.id,
+                text: item.name,
+                value: item.key
               }))}
               onChange={(val, selectRow, index) => {
                 console.log('选中项: ', val, selectRow, index)
@@ -141,11 +143,11 @@ const Post = () => {
             name='coverImg'
           >
             <Uploader
-              // multiple
-              // maxCount={1}
               upload={uploadCoverImg}
+              maxCount={1}
               // onChange={onChangeImg}
               accept='*' />
+
           </Form.Item>
 
 
