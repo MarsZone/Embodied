@@ -3,10 +3,11 @@ import { request } from "@/utils";
 
 
 //2.发布话题
-export function createTopicApi(data){
+export function createTopicApi(formData) {
   return request({
     url: '/api/topics/publishTopic', //状态已发布？
     method: 'POST',
-    data
+    data: formData,
+    withCredentials: true
   })
 }

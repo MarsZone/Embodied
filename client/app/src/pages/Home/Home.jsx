@@ -7,6 +7,7 @@ import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
 import { getChannelTopics } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
+import { Link } from 'react-router-dom'
 
 
 
@@ -15,6 +16,7 @@ const Home = () => {
   const { channelList, loading } = useChannelList()
   const [selectChannel, setSelectChannel] = useState()
   const [channelTopics, setChannelTopics] = useState([])
+
 
   //点击频道切换
   const onTabClick = async (channel) => {
@@ -26,11 +28,19 @@ const Home = () => {
     setChannelTopics(channelTopicsRes.data)
   }
 
+
   useEffect(() => {
-    console.log('频道话题：', channelTopics)
-  }, [channelTopics])
-
-
+    //在组件挂载时，加载初始话题列表
+    const fetchDefaultChannelTopics = async () => {
+      console.log('频道1：', channelList[0].key)
+      const defaultChannelKey = channelList[0].key
+      const channelTopicsRes = await getChannelTopics(defaultChannelKey)
+      setChannelTopics(channelTopicsRes.data)
+    }
+    if (!loading) {
+      fetchDefaultChannelTopics()
+    }
+  }, [channelList, loading])
 
 
   return (
@@ -49,10 +59,20 @@ const Home = () => {
               {channelTopics.map(topic => (
                 <Card round
                   key={topic.id}>
-                  <Card.Header>{topic.title}</Card.Header>
+
+
+                  <Link to={`/topicDetail/${topic.id}`}>
+                    <Card.Header
+                      extra={<Arrow />}
+                    // onClick={() => { <Link to={`/topicDetail/${topic.id}`}> </Link> }}
+                    >
+                      {topic.title}
+                    </Card.Header>
+                  </Link>
+
                   <Card.Cover>
                     {/* <Image src={ previewFileApi(topic.coverImg).data } /> */}
-                    <Image src={ previewFileApi(46).data } />
+                    <Image src={previewFileApi(46).data} />
                   </Card.Cover>
                   <Card.Body>
                     内容：{topic.content}

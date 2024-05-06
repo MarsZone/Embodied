@@ -14,12 +14,12 @@ export function loginAPI(formData) {
 }
 
 //2.获取用户信息
-export function getProfileAPI() {
+export function getProfileAPI(uid) {
   //以下写法是axios的通用写法，任何一个请求都可以这样写
   return request({ //return返回的结果是一个promise 调用这个函数可以用async await接收返回值
     url: '/api/users/userDetail',
     method: 'GET',
-    params: { uid: _getUserId()},
+    params: { uid: uid },
     withCredentials: true
   })
 }

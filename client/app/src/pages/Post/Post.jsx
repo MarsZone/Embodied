@@ -55,9 +55,9 @@ const Post = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
 
-  const onFinish = fromValues => {
-    const { title, content, channelKey } = fromValues //解构表单数据
-    console.log('提交表单数据：', fromValues)
+  const onFinish = async formValues => {
+    const { title, content, channelKey, imgId } = formValues //解构表单数据
+    console.log('提交表单数据：', formValues)
     const reqData = {
       title, //标题
       content, //内容
@@ -67,7 +67,8 @@ const Post = () => {
       contentType: 'common', //内容类型（默认common）
     }
     //调用接口提交
-    createTopicApi(reqData)
+    const res = await createTopicApi(reqData)
+    console.log('提交反馈：', res)
   }
 
   //获取频道列表

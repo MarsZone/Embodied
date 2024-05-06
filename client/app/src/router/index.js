@@ -12,7 +12,9 @@ import MyPost from '@/pages/Profile/MyPost/MyPost' //个人信息页-我的发�
 
 import Discover from '@/pages/Discover/Discover' //发现页
 import Post from '@/pages/Post/Post' //新贴发布页
+import TopicDetail from '@/pages/TopicDetail/TopicDetail' //发布页详情
 import Message from '@/pages/Message/Message' //消息页
+
 import Login from '@/pages/Login/Login' //登录页
 import Register from '@/pages/Register/Register' //注册页
 import Test from '@/pages/Test' //测试页
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/discover',
-    element: <AuthRoute> <Discover /> </AuthRoute>, 
+    element: <AuthRoute> <Discover /> </AuthRoute>,
     children: [
       {
         index: true,
@@ -88,6 +90,10 @@ const router = createBrowserRouter([
   {
     path: '/fileUpload',
     element: <FileUpload />
+  },
+  {
+    path: '/topicDetail/:topicId',
+    element: <TopicDetail />
   },
 ])
 

@@ -77,7 +77,7 @@ const fetchLogin = (loginForm) => {
 //异步方法 获取个人用户信息
 const fetchUserInfo = () => {
   return async (dispatch) => {
-    const res = await getProfileAPI()
+    const res = await getProfileAPI(_getUserId)
     dispatch(setUserInfo(res.data))
   }
 }
