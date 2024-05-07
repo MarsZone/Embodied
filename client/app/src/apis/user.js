@@ -20,6 +20,6 @@ export function getProfileAPI(uid) {
     url: '/api/users/userDetail',
     method: 'GET',
     params: { uid: uid },
-    withCredentials: true
+    //withCredentials: true
   })
 }
