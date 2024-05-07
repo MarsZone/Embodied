@@ -1,11 +1,11 @@
 import { previewFileApi } from "@/apis/file";
-import { getIndividualTopic } from "@/apis/topic";
+import { getCommentsApi, getIndividualTopicApi, postCommentApi } from "@/apis/topic";
 import { getProfileAPI } from "@/apis/user";
 import useUserDetail from "@/hooks/useUserDetail";
 import { request } from "@/utils";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Image, NavBar, Typography, Divider, ActionBar } from "react-vant";
+import { Button, Image, NavBar, Typography, Divider, ActionBar, Popup, Input } from "react-vant";
 import { CartO, ChatO, Star } from '@react-vant/icons'
 import './TopicDetail.scss'
 
@@ -31,6 +31,22 @@ const TopicDetail = () => {
     }
   })
   const [avatarUrl, setAvatarUrl] = useState('')
+  const [topicComments, setTopicComments] = useState([])
+
+  //评论弹出层状态
+  const [commentEditVisible, setCommentEditVisible] = useState(false)
+
+  //发表评论
+  const [comment, setComment] = useState()
+  const onSubmitComment = () => {
+    const submitComment = { tid: topicId, content: comment}
+    console.log('发表评论：', submitComment)
+    postCommentApi(submitComment)
+    setComment('')
+    setCommentEditVisible(false)
+  }
+
+
 
   useEffect(() => {
     loadData()
@@ -38,7 +54,7 @@ const TopicDetail = () => {
 
   const loadData = async () => {
     //获取话题详情
-    const topicRes = await getIndividualTopic(topicId)
+    const topicRes = await getIndividualTopicApi(topicId)
     setTopicDetail(topicRes.data)
 
     //获取用户信息
@@ -46,10 +62,14 @@ const TopicDetail = () => {
     const userProfileRes = await getProfileAPI(topicRes.data.authorUid)
     setUserProfile(userProfileRes.data)
 
-    //获取用户头像url 
+    //获取用户头像url (设定一个默认头像，暂定为5)
     var avatarId = parseInt(userProfileRes.data.userDetail.avatar) === null ? 5 : parseInt(userProfileRes.data.userDetail.avatar)
     const userAvatarRes = await previewFileApi(avatarId)
     setAvatarUrl(userAvatarRes.data)
+
+    //获取话题评论
+    const topicCommentsRes = await getCommentsApi(topicId)
+    setTopicComments(topicCommentsRes.data)
 
     //根据用户id获取用户数据
     // const userDetail = useUserDetail(topicDetail.authorUid)
@@ -59,6 +79,7 @@ const TopicDetail = () => {
     console.log('话题详情：', topicRes.data.title)
     console.log('用户详情：', userProfileRes.data)
     console.log('用户头像：', userAvatarRes.data)
+    console.log('话题评论：', topicCommentsRes.data)
   }
 
   // if (!topicDetail) {
@@ -73,7 +94,8 @@ const TopicDetail = () => {
       // onClickLeft={() => }
       />
 
-      {topicDetail === null || userProfile === null || avatarUrl === null ? (
+      {topicDetail === null || userProfile === null || 
+        avatarUrl === null || topicComments === null ? (
         <div>loading...</div>
       ) : (
         <div>
@@ -89,6 +111,12 @@ const TopicDetail = () => {
           <div>用户名: {userProfile.userName}</div>
           <div>发布时间: {topicDetail.publishTime}</div>
 
+          <p>评论</p>
+          {topicComments.map(item => (
+            <div>评论内容： {item.content} </div>
+          ))}
+
+
           <ActionBar>
             {/* <ActionBar.Button
               className="comment-button"
@@ -100,12 +128,27 @@ const TopicDetail = () => {
             /> */}
             <Button
               className="comment-button"
-              // plain
-              // type='default'
               size='normal'
               text='留下你的评论吧...'
-              onClick={() => console.log('button click')}
+              onClick={() => setCommentEditVisible(true)}
             />
+            <Popup
+              visible={commentEditVisible}
+              style={{ height: '30%' }}
+              position='bottom'
+              onClose={() => setCommentEditVisible(false)}
+            >
+              <Input
+                suffix={
+                  <Button size="small" type="primary" onClick={onSubmitComment}>
+                    发送
+                  </Button>}
+                placeholder="留下你的评论吧..."
+                value={comment}
+                onChange={text => setComment(text)}
+              />
+            </Popup>
+
             <ActionBar.Icon icon={<ChatO color='red' />} text='客服' />
             <ActionBar.Icon icon={<CartO color='red' />} text='购物车' />
             <ActionBar.Icon icon={<Star color='red' />} text='店铺' />

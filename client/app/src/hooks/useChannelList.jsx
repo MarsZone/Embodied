@@ -1,6 +1,6 @@
 //自定义hook：获取频道列表
 import { useState, useEffect } from 'react'
-import { getChannelAPI } from '@/apis/topic'
+import { getChannelApi } from '@/apis/topic'
 
 
 const useChannelList = () => {
@@ -11,7 +11,7 @@ const useChannelList = () => {
   useEffect(() => {
     //1.封装函数，在函数体内调用接口
     const getChannelList = async () => {
-      const res = await getChannelAPI()
+      const res = await getChannelApi()
       setChannelList(res.data)
       setLoading(false);
     }

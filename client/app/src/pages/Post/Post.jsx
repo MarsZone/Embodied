@@ -3,7 +3,7 @@ import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker, Uploader } fro
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scoped.scss'
-import { createTopicApi, getChannelAPI } from '@/apis/post'
+import { createTopicApi} from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
 import useChannelList from '@/hooks/useChannelList'

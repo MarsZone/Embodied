@@ -5,7 +5,7 @@ import { Arrow, Like } from '@react-vant/icons'
 import { useState } from 'react'
 import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
-import { getChannelTopics } from '@/apis/topic'
+import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
 import { Link } from 'react-router-dom'
 
@@ -24,7 +24,7 @@ const Home = () => {
     console.log('选中频道：', channelKey)
 
     //根据切换的channelKey，切换展示的话题
-    const channelTopicsRes = await getChannelTopics(channelKey)
+    const channelTopicsRes = await getChannelTopicsApi(channelKey)
     setChannelTopics(channelTopicsRes.data)
   }
 
@@ -34,7 +34,7 @@ const Home = () => {
     const fetchDefaultChannelTopics = async () => {
       console.log('频道1：', channelList[0].key)
       const defaultChannelKey = channelList[0].key
-      const channelTopicsRes = await getChannelTopics(defaultChannelKey)
+      const channelTopicsRes = await getChannelTopicsApi(defaultChannelKey)
       setChannelTopics(channelTopicsRes.data)
     }
     if (!loading) {
