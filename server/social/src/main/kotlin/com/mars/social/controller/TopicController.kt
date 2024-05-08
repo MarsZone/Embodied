@@ -199,14 +199,16 @@ class TopicController {
                 where { it.id eq tid }
             }
             tCheck.delete()
-            return ResponseEntity.ok().body(R.ok(uid.toString()+"you don't like that"))
+            //return ResponseEntity.ok().body(R.ok(uid.toString()+"you don't like that"))
+            return ResponseEntity.ok().body(R.ok("unlike"))
         }else{
             database.update(Topics){
                 set(it.likes,it.likes+1)
                 where { it.id eq tid }
             }
             topicLikes.add(tlike)
-            return ResponseEntity.ok().body(R.ok(uid.toString()+"you like that"))
+            //return ResponseEntity.ok().body(R.ok(uid.toString()+"you like that"))
+            return ResponseEntity.ok().body(R.ok("like"))
         }
     }
 

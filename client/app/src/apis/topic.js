@@ -37,7 +37,7 @@ export function getCommentsApi(topicId) {
   })
 }
 
-//5.发表评论
+//5.发表评论_登录校验
 export function postCommentApi(form) {
   return request({
     url: '/api/topics/toComment',
@@ -46,3 +46,29 @@ export function postCommentApi(form) {
   })
 }
 
+//6.点赞_登录校验
+export function likeApi(topicId) {
+  return request({
+    url: '/api/topics/like',
+    method: 'GET',
+    params: { tid: topicId }
+  })
+}
+
+//7.添加收藏
+export function addBookmarkApi(topicId) {
+  return request({
+    url: '/api/topics/addBookMark',
+    method: 'GET',
+    params: { tid: topicId }
+  })
+}
+
+//8.取消收藏
+export function removeBookmarkApi(topicId) {
+  return request({
+    url: '/api/topics/removeBookMark',
+    method: 'GET',
+    params: { tid: topicId }
+  })
+}

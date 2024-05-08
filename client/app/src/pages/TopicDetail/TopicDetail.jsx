@@ -1,12 +1,11 @@
 import { previewFileApi } from "@/apis/file";
-import { getCommentsApi, getIndividualTopicApi, postCommentApi } from "@/apis/topic";
+import { getCommentsApi, getIndividualTopicApi, likeApi, postCommentApi } from "@/apis/topic";
 import { getProfileAPI } from "@/apis/user";
 import useUserDetail from "@/hooks/useUserDetail";
-import { request } from "@/utils";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Image, NavBar, Typography, Divider, ActionBar, Popup, Input } from "react-vant";
-import { CartO, ChatO, Star } from '@react-vant/icons'
+import { Star, LikeO, BookmarkO, ShareO } from '@react-vant/icons'
 import './TopicDetail.scss'
 
 const TopicDetail = () => {
@@ -32,20 +31,8 @@ const TopicDetail = () => {
   })
   const [avatarUrl, setAvatarUrl] = useState('')
   const [topicComments, setTopicComments] = useState([])
-
-  //评论弹出层状态
-  const [commentEditVisible, setCommentEditVisible] = useState(false)
-
-  //发表评论
   const [comment, setComment] = useState()
-  const onSubmitComment = () => {
-    const submitComment = { tid: topicId, content: comment}
-    console.log('发表评论：', submitComment)
-    postCommentApi(submitComment)
-    setComment('')
-    setCommentEditVisible(false)
-  }
-
+  const [commentEditVisible, setCommentEditVisible] = useState(false) //评论弹出层状态
 
 
   useEffect(() => {
@@ -82,6 +69,20 @@ const TopicDetail = () => {
     console.log('话题评论：', topicCommentsRes.data)
   }
 
+  //发表评论
+  const onSubmitComment = () => {
+    const submitComment = { tid: topicId, content: comment }
+    console.log('发表评论：', submitComment)
+    postCommentApi(submitComment)
+    setComment('')
+    setCommentEditVisible(false)
+  }
+
+  //点赞
+  const onClickLike = () => {
+    likeApi(topicId)
+  }
+
   // if (!topicDetail) {
   //   return <div>Loading...</div>
   // }
@@ -94,7 +95,7 @@ const TopicDetail = () => {
       // onClickLeft={() => }
       />
 
-      {topicDetail === null || userProfile === null || 
+      {topicDetail === null || userProfile === null ||
         avatarUrl === null || topicComments === null ? (
         <div>loading...</div>
       ) : (
@@ -149,9 +150,13 @@ const TopicDetail = () => {
               />
             </Popup>
 
-            <ActionBar.Icon icon={<ChatO color='red' />} text='客服' />
-            <ActionBar.Icon icon={<CartO color='red' />} text='购物车' />
-            <ActionBar.Icon icon={<Star color='red' />} text='店铺' />
+            <ActionBar.Icon
+              icon={<LikeO color='red' />}
+              text='点赞'
+              onClick={onClickLike}
+            />
+            <ActionBar.Icon icon={<BookmarkO color='red' />} text='收藏' />
+            <ActionBar.Icon icon={<ShareO color='red' />} text='分享' />
           </ActionBar>
 
         </div>
