@@ -2,39 +2,56 @@ import React, { useEffect, useState } from 'react'
 import { Tabbar, TabbarItem } from 'react-vant'
 import { CommentO, HomeO, Search, UserO, AddO } from '@react-vant/icons'
 import './TabNavigator.scoped.scss'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { fetchUserInfo } from '@/store/modules/user'
+import { getUserId as _getUserId } from '@/utils'
 
-const tabs = [
-  {
-    key: '/home',
-    title: '首页',
-    icon: <HomeO />,
-  },
-  {
-    key: '/discover',
-    title: '发现',
-    icon: <Search />,
-  },
-  {
-    key: '/post',
-    title: '发布',
-    icon: <AddO />,
-  },
-  {
-    key: '/message',
-    title: '消息',
-    icon: <CommentO />,
-  },
-  {
-    key: '/profile',
-    title: '我的',
-    icon: <UserO />,
-  },
-]
+
 
 const TabNavigator = () => {
+
+  const [loginUserId, setLoginUserId] = useState()
+  const { userId } = useParams()
+
+  //当前登录用户
+  useEffect(() => {
+    //const loginUsername = _getUserId
+    setLoginUserId(_getUserId)
+  }, [])
+
+  const tabs = [
+    {
+      key: '/home',
+      title: '首页',
+      icon: <HomeO />,
+    },
+    {
+      key: '/discover',
+      title: '发现',
+      icon: <Search />,
+    },
+    {
+      key: '/post',
+      title: '发布',
+      icon: <AddO />,
+    },
+    {
+      key: '/message',
+      title: '消息',
+      icon: <CommentO />,
+    },
+    {
+      key: `/profile/${loginUserId}`,
+      title: '我的',
+      icon: <UserO />,
+    },
+    // {
+    //   key: '/profile/:username',
+    //   title: '我的',
+    //   icon: <UserO />,
+    // },
+  ]
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -57,7 +74,6 @@ const TabNavigator = () => {
 
   return (
     <div>
-      {/* <Tabbar value={tabRoute} selectedKey={selectedKey} onChange={v => onTabbarClick(v)}></Tabbar> */}
       <Tabbar
         value={tabRoute}
         onChange={v => onTabbarClick(v)}

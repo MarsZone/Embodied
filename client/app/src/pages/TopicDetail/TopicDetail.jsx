@@ -33,7 +33,7 @@ const TopicDetail = () => {
   const [topicComments, setTopicComments] = useState([])
   const [comment, setComment] = useState()
   const [commentEditVisible, setCommentEditVisible] = useState(false) //评论弹出层状态
-
+  const [likeFlag, setLikeFlag] = useState()
 
   useEffect(() => {
     loadData()
@@ -79,8 +79,11 @@ const TopicDetail = () => {
   }
 
   //点赞
-  const onClickLike = () => {
-    likeApi(topicId)
+  const onClickLike = async () => {
+    const likeRes = await likeApi(topicId)
+    if (likeRes.data === 'like') {
+
+    }
   }
 
   // if (!topicDetail) {

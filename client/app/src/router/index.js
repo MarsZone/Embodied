@@ -54,7 +54,7 @@ const router = createBrowserRouter([
     element: <Message />
   },
   {
-    path: '/profile',
+    path: '/profile/:userId',
     element: <Profile />,
     children: [
       {
