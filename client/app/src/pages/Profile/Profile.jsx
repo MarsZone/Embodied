@@ -4,22 +4,16 @@ import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Image, NavBar, Toast, Flex, Tabs, Cell, Dialog, Space, Typography, } from 'react-vant'
 import { Edit, Revoke } from '@react-vant/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import './Profile.scoped.scss'
 import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
 import { getUserId as _getUserId } from '@/utils'
-import MyProfile from './MyProfile/MyProfile'
 import OtherProfile from './OtherProfile/OtherProfile'
+import MyProfile from './MyProfile/MyProfile'
 
 const Profile = () => {
 
   //从url参数中获取用户名
   const { userId } = useParams()
   const [loginUserId, setLoginUserId] = useState(_getUserId)
-
-  // useEffect(() => {
-  //   //获取登录用户
-  //   const loginUsername = _getUserId
-  // },[])
 
   return (
     <div>

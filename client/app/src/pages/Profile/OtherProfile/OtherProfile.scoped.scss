@@ -1,0 +1,38 @@
+.container {
+  padding: 0;
+  margin: 0;
+}
+
+.top-layout {
+  display: flex;
+  position: relative;
+  width: 100vw;
+  background-color: #e5f6f8;
+
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+
+  .profile-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-username {
+    text-align: center;
+    font-size: 25px;
+    margin-top: 8px;
+  }
+
+  .profile-social {
+    position: relative;
+    padding: 10px 10px;
+  }
+
+}
+
+.bottom-layout {
+  //position: relative;
+  // height: 60vh; //占据下面所有空间
+  background-color: #f8e5f6;
+}

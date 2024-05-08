@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
-import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Image, NavBar, Toast, Flex, Tabs, Cell, Dialog, Space, Typography, } from 'react-vant'
 import { Edit, Revoke } from '@react-vant/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
+import './MyProfile.scoped.scss'
+import useUserDetail from '@/hooks/useUserDetail'
+import { getUserId as _getUserId } from '@/utils'
 
 const MyProfile = () => {
   const tabs = [
@@ -23,19 +26,17 @@ const MyProfile = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { userId } = useParams()
 
-  //触发个人用户信息action
-  useEffect(() => {
-    dispatch(fetchUserInfo())
-  }, [dispatch])
+  const { userProfile, avatarUrl } = useUserDetail(_getUserId())
+  console.log('用户详情：', userProfile, '头像url：', avatarUrl)
 
-
-  //const userName = useSelector(state => state.user.userInfo.userName)
+  const username = userProfile.userName
   const userImgUrl = 'https://img.yzcdn.cn/vant/cat.jpeg'
 
   const onTabChange = (path) => {
     console.log('切换路由：', path)
-    navigate(`/profile${path}`)
+    navigate(`/profile/${userId}${path}`)
   }
 
   const [logoutDialogVisible, setLogoutDialogVisible] = useState(false)
@@ -69,20 +70,7 @@ const MyProfile = () => {
         <div className='profile-img'>
           <Image round fit='cover' src={userImgUrl} />
         </div>
-        {/* <div className='profile-username'>{userName}</div> */}
-
-        {/* <div className='profile-social'> */}
-        {/* <Flex gutter={16} className='profile-social'>
-          <Flex.Item span={8}>
-            关注<div className='count'>111</div>
-          </Flex.Item>
-          <Flex.Item span={8}>
-            粉丝<div className='count'>222</div>
-          </Flex.Item>
-          <Flex.Item span={8}>
-            获赞<div className='count'>333</div>
-          </Flex.Item>
-        </Flex> */}
+        <div className='profile-username'>{username}</div>
 
         <div className='profile-social'>
           <Space

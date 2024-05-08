@@ -42,15 +42,10 @@ const TabNavigator = () => {
       icon: <CommentO />,
     },
     {
-      key: `/profile/${loginUserId}`,
+      key: `/profile/${loginUserId}/myPost`,
       title: '我的',
       icon: <UserO />,
     },
-    // {
-    //   key: '/profile/:username',
-    //   title: '我的',
-    //   icon: <UserO />,
-    // },
   ]
 
   const navigate = useNavigate()

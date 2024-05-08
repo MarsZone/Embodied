@@ -3,7 +3,7 @@ import { Card, Cell, Button, Input, Form, Notify } from 'react-vant';
 import './Login.scoped.scss'
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '@/store/modules/user';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
@@ -26,7 +26,6 @@ const Login = () => {
 
   }
 
-
   return (
     <div className='login-page'>
       <Form
@@ -38,7 +37,9 @@ const Login = () => {
           <div>
             <Button className='login-button' nativeType='submit'>登录</Button>
             <div className="route-to-register">
-              <p>还没有账户? <a href="#">注册</a></p>
+              <p>还没有账户?
+                <Link to='/register'>注册</Link>
+              </p>
             </div>
           </div>
         }

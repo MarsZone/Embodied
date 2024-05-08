@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, Button, Radio, NavBar, Toast, DatetimePicker } from 'react-vant'
 import { useNavigate } from 'react-router-dom'
+import { getUserId as _getUserId } from '@/utils'
+import { useDispatch } from 'react-redux'
+import { fetchUserInfo } from '@/store/modules/user'
 
 const UserDetail = () => {
 
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-
   const [form] = Form.useForm()
+
+  // useEffect(() => {
+  //   const userInfo = dispatch(fetchUserInfo())
+  //   console.log(userInfo)
+  // }, [dispatch])
 
   const onFinish = values => {
     console.log(values)
   }
-
 
   return (
     <div>
@@ -20,7 +27,7 @@ const UserDetail = () => {
         className='nav-bar'
         title='个人信息'
         leftText='返回'
-        onClickLeft={() => navigate('/profile')}
+        onClickLeft={() => navigate(`/profile/${_getUserId}`)}
       />
 
       <Form

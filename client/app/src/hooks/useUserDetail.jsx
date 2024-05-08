@@ -1,31 +1,49 @@
-//自定义hook：获取用户数据
+//自定义hook：获取用户信息、头像url
 import { previewFileApi } from '@/apis/file'
 import { getProfileAPI } from '@/apis/user'
 import { useState, useEffect } from 'react'
 
 const useUserDetail = (uid) => {
-  const [userDetail, setUserDetail] = useState()
+  const [userProfile, setUserProfile] = useState({
+    userName: '',
+    email: '',
+    phone: '',
+    userDetail: {
+      id: null,
+      uid: null,
+      firstName: '',
+      secondName: '',
+      nickName: '',
+      gender: '',
+      birthdate: '',
+      country: '',
+      address: '',
+      avatar: '',
+      createTime: ''
+    }
+  })
+  const [avatarUrl, setAvatarUrl] = useState('')
 
   useEffect(() => {
-    //根据用户id获取用户数据
-    const getUserData = async (uid) => {
-      //获取用户详细信息
-      const getProfileRes = await getProfileAPI(uid)
-      //获取头像链接
-      const getAvatarUrlRes = await previewFileApi(getProfileRes.data.avatar)
+    loadData()
+  }, [])
 
-      //合并用户数据
-      const userData = {
-        ...getProfileRes.data,
-        avatarUrl: getAvatarUrlRes
-      }
-      setUserDetail(userData)
-    }
+  const loadData = async () => {
+    //获取用户信息
+    // const uid = parseInt(topicDetail.authorUid)
+    const userProfileRes = await getProfileAPI(uid)
+    setUserProfile(userProfileRes.data)
 
-    getUserData()
-  }, [uid])
+    //获取用户头像url (设定一个默认头像，暂定为5)
+    var avatarId = parseInt(userProfileRes.data.userDetail.avatar) === null ? 5 : parseInt(userProfileRes.data.userDetail.avatar)
+    const userAvatarRes = await previewFileApi(avatarId)
+    setAvatarUrl(userAvatarRes.data)
 
-  return userDetail
+    console.log('用户详情：', userProfileRes.data)
+    console.log('用户头像：', userAvatarRes.data)
+  }
+
+  return { userProfile, avatarUrl }
 }
 
 export default useUserDetail

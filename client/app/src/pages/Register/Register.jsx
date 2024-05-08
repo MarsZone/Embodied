@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { request } from "@/utils";
 import React, { useState } from 'react';
 import { Card, Cell, Button, Input, Form, Notify } from 'react-vant';
 import { UserO, Lock, EnvelopO, PhoneO } from '@react-vant/icons'
 import './Register.scoped.scss'
+import { registerAPI } from "@/apis/user";
 
 
 const Register = () => {
@@ -15,10 +16,12 @@ const Register = () => {
   const onFinish = async (registerForm) => {
     console.log('注册信息：', registerForm)
 
-    const res = await request.post(
-      '/api/users/register',
-      registerForm
-    )
+    const res = registerAPI(registerForm)
+
+    // const res = await request.post(
+    //   '/api/users/register',
+    //   registerForm
+    // )
     console.log('注册成功：', res.data)
   }
 
@@ -33,7 +36,9 @@ const Register = () => {
           <div>
             <Button className='register-button' nativeType='submit'>注册</Button>
             <div className="route-to-signup">
-              <p>已经有账户? <a href="#">登录</a></p>
+              <p>已经有账户?
+                <Link to='/login'>登录</Link>
+              </p>
             </div>
           </div>
         }
@@ -97,7 +102,7 @@ const Register = () => {
               message: '请输入正确的手机号'
             }
           ]}
-          leftIcon=<EnvelopO />
+          leftIcon=<PhoneO />
         >
           <Input placeholder='请输入手机号' />
         </Form.Item>
@@ -110,7 +115,7 @@ const Register = () => {
               message: '请输入正确的邮箱地址'
             }
           ]}
-          leftIcon=<PhoneO />
+          leftIcon=<EnvelopO />
         >
           <Input placeholder='请输入邮箱' />
         </Form.Item>
