@@ -22,7 +22,7 @@ const OtherProfile = () => {
   //初始化
   useEffect(() => {
     loadData()
-  })
+  }, [])
 
   const loadData = async () => {
     //查看是否关注
@@ -31,13 +31,29 @@ const OtherProfile = () => {
 
     //查看是否好友
     const getFriendsRes = await getMyFriendsAPI()
-
   }
 
   //加关注(取消关注)
-  const onClickFollow = () => {
-    const followRes = followAPI(userId)
-    const unFollowRes = unFollowAPI(userId)
+  const onClickFollow = async () => {
+    if (isFollow) {
+      const unFollowRes = await unFollowAPI(userId)
+      if (unFollowRes.code === 20000) {
+        console.log('取消关注成功')
+        setIsFollow(false)
+      } else {
+        console.log('取消关注失败')
+      }
+    } else {
+      const followRes = await followAPI(userId)
+      if (followRes.code === 20000) {
+        console.log('关注成功')
+        setIsFollow(true)
+      } else {
+        console.log('关注失败')
+      }
+    }
+
+
     console.log()
   }
 
@@ -83,10 +99,20 @@ const OtherProfile = () => {
         </div>
 
         <div className='function-button'>
-          <Button
-            onClick={onClickFollow} type='primary' plain round >
-            关注
-          </Button>
+          {
+            isFollow ? (
+              <Button
+                onClick={onClickFollow} type='primary' plain round >
+                已关注
+              </Button>
+            ) : (
+              <Button
+                onClick={onClickFollow} type='primary' plain round >
+                关注
+              </Button>
+            )
+          }
+
           <Button
             onClick={onClickFriend} type='primary' plain round>
             加好友
