@@ -31,6 +31,10 @@ const OtherProfile = () => {
 
     //查看是否好友
     const getFriendsRes = await getMyFriendsAPI()
+    const haveFriend = getFriendsRes.data.some(item => {
+
+
+    })
   }
 
   //加关注(取消关注)
@@ -52,9 +56,6 @@ const OtherProfile = () => {
         console.log('关注失败')
       }
     }
-
-
-    console.log()
   }
 
   //加好友(取消好友)
@@ -73,8 +74,6 @@ const OtherProfile = () => {
         className='nav-bar'
         title={`profile of ${username}`}
       />
-
-      {/* <div className="container"> */}
 
       <div className='top-layout'>
         <div className='profile-img'>

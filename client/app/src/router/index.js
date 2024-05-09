@@ -14,11 +14,13 @@ import Discover from '@/pages/Discover/Discover' //发现页
 import Post from '@/pages/Post/Post' //新贴发布页
 import TopicDetail from '@/pages/TopicDetail/TopicDetail' //发布页详情
 import Message from '@/pages/Message/Message' //消息页
+import Chat from '@/pages/Chat/Chat' //聊天页
 
 import Login from '@/pages/Login/Login' //登录页
 import Register from '@/pages/Register/Register' //注册页
 import Test from '@/pages/Test' //测试页
 import FileUpload from '@/components/fileUpload' //文件上传测试页
+
 
 
 
@@ -94,6 +96,10 @@ const router = createBrowserRouter([
   {
     path: '/topicDetail/:topicId',
     element: <TopicDetail />
+  },
+  {
+    path: '/chat',
+    element: <Chat />
   },
 ])
 
