@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
-import { Image, NavBar, Toast, Flex, Tabs, Cell, Dialog, Space, Typography, } from 'react-vant'
+import { Image, NavBar, Toast, Button, Tabs, Cell, Dialog, Space, Typography, } from 'react-vant'
 import { Edit, Revoke } from '@react-vant/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
@@ -43,14 +43,14 @@ const MyProfile = () => {
 
   return (
     <div className="layout">
-      <NavBar
+      {/* <NavBar
         className='nav-bar'
         title='我的'
         leftText={<Edit fontSize={20} />}
         onClickLeft={() => navigate('/userDetail')}
         rightText='退出'
         onClickRight={() => setLogoutDialogVisible(true)}
-      />
+      /> */}
 
       <Dialog
         visible={logoutDialogVisible}
@@ -70,24 +70,36 @@ const MyProfile = () => {
         <div className='profile-img'>
           <Image round fit='cover' src={userImgUrl} />
         </div>
-        <div className='profile-username'>{username}</div>
 
         <div className='profile-social'>
-          <Space
-            align="center"
-            gap={40}>
-            <Typography.Link>
-              关注<div className='count'>111</div>
-            </Typography.Link>
-            <Typography.Link>
-              粉丝<div className='count'>222</div>
-            </Typography.Link>
-            <Typography.Link>
-              获赞<div className='count'>333</div>
-            </Typography.Link>
-          </Space>
+          <table>
+            <tr className='top-row'>
+              <td>2,146</td>
+              <td>51M</td>
+              <td>11</td>
+            </tr>
+            <tr className='bottom-row'>
+              <td>关注</td>
+              <td>粉丝</td>
+              <td>获赞</td>
+            </tr>
+          </table>
+
+          <Button
+            className='profile-edit-button'
+            onClick={() => navigate('/userDetail')}>
+            编辑个人信息
+          </Button>
+
+          <Button
+            className='profile-logout-button'
+            onClick={() => setLogoutDialogVisible(true)}>
+            退出
+          </Button>
         </div>
 
+
+        <div className='profile-username'>{username}</div>
 
       </div>
 
