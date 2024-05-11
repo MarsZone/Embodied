@@ -64,8 +64,6 @@ const MyProfile = () => {
         onCancel={() => setLogoutDialogVisible(false)}
       />
 
-      {/* <div className="container"> */}
-
       <div className='top-layout'>
 
         <div className='profile-social'>
@@ -108,12 +106,7 @@ const MyProfile = () => {
         <div className='profile-user'>
           <div className='profile-username'>{username}</div>
           <div className='profile-intro'>留下你的介绍吧......</div>
-
         </div>
-
-
-
-
       </div>
 
 
@@ -133,9 +126,6 @@ const MyProfile = () => {
           )}
         </Tabs>
       </div>
-
-      {/* </div> */}
-
 
       <div className="footer">
         <TabNavigator />

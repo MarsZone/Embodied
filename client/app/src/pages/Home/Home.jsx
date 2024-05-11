@@ -8,6 +8,8 @@ import useChannelList from '@/hooks/useChannelList'
 import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
 import { Link } from 'react-router-dom'
+import useUserDetail from '@/hooks/useUserDetail'
+import { getProfileAPI } from '@/apis/user'
 
 
 
@@ -16,6 +18,7 @@ const Home = () => {
   const { channelList, loading } = useChannelList()
   const [selectChannel, setSelectChannel] = useState()
   const [channelTopics, setChannelTopics] = useState([])
+  const [coverUrlList, setCoverUrlList] = useState([])
 
 
   //点击频道切换
@@ -29,18 +32,66 @@ const Home = () => {
   }
 
 
+  //获取发布者用户
+  const getUsername = async (uid) => {
+    // const { userProfile, avatarUrl } = useUserDetail(uid)
+    const getProfileRes = await getProfileAPI(uid)
+    const username = getProfileRes.data.userName
+    console.log(getProfileRes.data)
+    return username
+  }
+
+  // const getUsername = (uid) => {
+  //   return getProfileAPI(uid)
+  //     .then(response => response.data.userName)
+  //     .catch(error => {
+  //       console.error("Error fetching username:", error);
+  //       return "";
+  //     });
+  // }
+
+  //在组件挂载时，加载初始话题列表
+  const fetchDefaultChannelTopics = async () => {
+    console.log('频道1：', channelList[0].key)
+    const defaultChannelKey = channelList[0].key
+    const channelTopicsRes = await getChannelTopicsApi(defaultChannelKey)
+    setChannelTopics(channelTopicsRes.data)
+  }
+
+  //根据channelKey获取name
+  const getChannelNameByKey = (key) => {
+    const channel = channelList.find(item => item.key === key)
+    return channel ? channel.name : ''
+  }
+
+  //根据tid获取url
+  const fetchCoverUrlList = async () => {
+
+    const coverUrlList = channelTopics.map(
+      function (item) {
+        return item
+      })
+
+    console.log('新list：', coverUrlList)
+    // const res = await previewFileApi(pid)
+    // console.log(res)
+    // console.log('返回的url：', res.data)
+    // console.log('示例url：', url)
+    // return res.data
+  }
+
+  const url = "http://120.78.142.84:9000/embodied/20240409231020112-5b8bec60-1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9mheJLVpHTohzMYlOcXl%2F20240511%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240511T090600Z&X-Amz-Expires=36000&X-Amz-SignedHeaders=host&X-Amz-Signature=e01a89b2f9d332f3c43199e4d4532d497c03497121453795fb5e84388a2beb80"
+  console.log('示例url：', url)
+
   useEffect(() => {
-    //在组件挂载时，加载初始话题列表
-    const fetchDefaultChannelTopics = async () => {
-      console.log('频道1：', channelList[0].key)
-      const defaultChannelKey = channelList[0].key
-      const channelTopicsRes = await getChannelTopicsApi(defaultChannelKey)
-      setChannelTopics(channelTopicsRes.data)
-    }
     if (!loading) {
       fetchDefaultChannelTopics()
+
+      fetchCoverUrlList()
     }
   }, [channelList, loading])
+
+  console.log(channelList)
 
 
   return (
@@ -57,42 +108,48 @@ const Home = () => {
           {channelList.map(item => (
             <Tabs.TabPane key={item.key} title={`${item.name}`} name={item.key}>
               {channelTopics.map(topic => (
-                <Card round
-                  key={topic.id}>
+                <div className='topic-card'>
+                  <Card
+                    key={topic.id}>
+                    <Link to={`/topicDetail/${topic.id}`}>
+                      <Card.Header extra={<Arrow />} >
+                        <div className='topic-header'>
+                          <div className='topic-channel'>{getChannelNameByKey(topic.channelKey)}</div>
+                          <div className='topic-title'>{topic.title}</div>
+                        </div>
+                      </Card.Header>
+                    </Link>
 
+                    <Card.Cover>
+                      {/* <Image src={ previewFileApi(topic.coverImg).data } /> */}
+                      {/* <Image src={getUrlByPid(5)} />
+                      <Image src={url} /> */}
+                    </Card.Cover>
 
-                  <Link to={`/topicDetail/${topic.id}`}>
-                    <Card.Header
-                      extra={<Arrow />}
-                    // onClick={() => { <Link to={`/topicDetail/${topic.id}`}> </Link> }}
-                    >
-                      {topic.title}
-                    </Card.Header>
-                  </Link>
+                    {/* <Image src={getUrlByPid(5)} /> */}
 
-                  <Card.Cover>
-                    {/* <Image src={ previewFileApi(topic.coverImg).data } /> */}
-                    <Image src={previewFileApi(46).data} />
-                  </Card.Cover>
-                  <Card.Body>
-                    内容：{topic.content}
-                  </Card.Body>
-                  <Card.Footer>
-                    <Space>
-                      <Button round size='small'>
-                        更多
-                      </Button>
-                      <Button
-                        icon={<Like />}
-                        round
-                        color='linear-gradient(to right, #ff6034, #ee0a24)'
-                        size='small'
-                      >
-                        Like
-                      </Button>
-                    </Space>
-                  </Card.Footer>
-                </Card>
+                    <Card.Body>
+                      内容：{topic.content}
+                    </Card.Body>
+                    <Card.Footer>
+                      <Space>
+                        {/* <div>用户名: {getUsername(topic.authorUid)[0]}</div> */}
+
+                        <Button round size='small'>
+                          更多
+                        </Button>
+                        <Button
+                          icon={<Like />}
+                          round
+                          color='linear-gradient(to right, #ff6034, #ee0a24)'
+                          size='small'
+                        >
+                          Like
+                        </Button>
+                      </Space>
+                    </Card.Footer>
+                  </Card>
+                </div>
               ))
               }
             </Tabs.TabPane>
