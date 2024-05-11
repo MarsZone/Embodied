@@ -67,41 +67,55 @@ const MyProfile = () => {
       {/* <div className="container"> */}
 
       <div className='top-layout'>
-        <div className='profile-img'>
-          <Image round fit='cover' src={userImgUrl} />
-        </div>
 
         <div className='profile-social'>
-          <table>
-            <tr className='top-row'>
-              <td>2,146</td>
-              <td>51M</td>
-              <td>11</td>
-            </tr>
-            <tr className='bottom-row'>
-              <td>关注</td>
-              <td>粉丝</td>
-              <td>获赞</td>
-            </tr>
-          </table>
+          <div className='profile-img'>
+            <Image round fit='cover' src={userImgUrl} />
+          </div>
 
-          <Button
-            className='profile-edit-button'
-            onClick={() => navigate('/userDetail')}>
-            编辑个人信息
-          </Button>
 
-          <Button
-            className='profile-logout-button'
-            onClick={() => setLogoutDialogVisible(true)}>
-            退出
-          </Button>
+          <div className='profile-social-right'>
+            <table>
+              <tr className='top-row'>
+                <td>2,146</td>
+                <td>51M</td>
+                <td>11</td>
+              </tr>
+              <tr className='bottom-row'>
+                <td>关注</td>
+                <td>粉丝</td>
+                <td>获赞</td>
+              </tr>
+            </table>
+
+            <div className='profile-button'>
+              <Button
+                className='profile-edit-button'
+                onClick={() => navigate('/userDetail')}>
+                编辑个人信息
+              </Button>
+
+              <Button
+                className='profile-logout-button'
+                onClick={() => setLogoutDialogVisible(true)}>
+                退出
+              </Button>
+            </div>
+          </div>
+
+        </div>
+
+        <div className='profile-user'>
+          <div className='profile-username'>{username}</div>
+          <div className='profile-intro'>留下你的介绍吧......</div>
+
         </div>
 
 
-        <div className='profile-username'>{username}</div>
+
 
       </div>
+
 
       <div className='bottom-layout'>
         <Tabs
