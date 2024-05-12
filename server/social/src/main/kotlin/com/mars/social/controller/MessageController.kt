@@ -46,7 +46,7 @@ class MessageController  {
         return ResponseEntity.ok().body(R.ok("message send"))
     }
 
-    fun sendSysMsg(suid:Long,to:Long, content:String){
+    fun sendSysMsg(suid:Long,to:Long, content:String):Long{
         val message:Message = Entity.create<Message>()
         message.msgType="s";
         message.senderUid = suid
@@ -59,6 +59,12 @@ class MessageController  {
 
         val messages = database.sequenceOf(Messages)
         messages.add(message)
+        return message.id
+    }
+
+    fun retractMsg(msgId:Long){
+        val messages = database.sequenceOf(Messages)
+        messages.removeIf { it.id eq msgId }
     }
 
     //Current user, get top x different people message and check status.

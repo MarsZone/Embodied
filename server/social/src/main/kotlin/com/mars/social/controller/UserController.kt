@@ -164,11 +164,28 @@ class UserController {
         if(check!=null){
             return ResponseEntity.ok(R.fail("request existed"))
         }else{
+            applyRequest.msgId = messageController.sendSysMsg(suid,targetUser,"you have a new friends request")
             friendships.add(applyRequest)
-            messageController.sendSysMsg(suid,targetUser,"you have a new friends request")
         }
         return ResponseEntity.ok(R.ok("request applied"))
     }
+
+    @SaCheckLogin
+    @GetMapping("/cancelApplyToFriends")
+    fun cancelApplyToFriends(@RequestParam targetUser:Long):ResponseEntity<R>{
+        val suid = StpUtil.getLoginId().toString().toLong()
+        val friendships = database.sequenceOf(Friendships)
+        //val check = friendships.filter { it.uidSource eq suid }.filter { it.uidTo eq targetUser }.firstOrNull()
+        val check = friendships.find{ (it.uidSource eq suid) and (it.uidTo eq targetUser) and (it.status eq "applying") }
+        if(check!=null){
+            messageController.retractMsg(check.msgId)
+            check.delete();
+            return ResponseEntity.ok(R.ok("request canceled"))
+        }else{
+            return ResponseEntity.ok(R.fail("request existed"))
+        }
+    }
+
 
     //query user friends
     @SaCheckLogin
@@ -184,7 +201,7 @@ class UserController {
     @GetMapping("/getMyApplyList")
     fun getMyApplyList():ResponseEntity<R>{
         val suid = StpUtil.getLoginId().toString().toLong()
-        val friendships = database.sequenceOf(Friendships).filter { it.uidTo eq suid }.toList().reversed()
+        val friendships = database.sequenceOf(Friendships).filter { it.uidTo eq suid }.filter { it.status eq "applying" }.toList().reversed()
         return ResponseEntity.ok().body(R.ok(friendships))
     }
 

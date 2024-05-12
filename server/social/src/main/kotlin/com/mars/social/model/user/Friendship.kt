@@ -12,6 +12,7 @@ interface Friendship : Entity<Friendship> {
 	var rejectReson: String?		//拒绝原因
 	var createTime: LocalDateTime
 	var updateTime: LocalDateTime
+	var msgId: Long
 }
 
 object Friendships : Table<Friendship>("friendships") {
@@ -22,4 +23,5 @@ object Friendships : Table<Friendship>("friendships") {
 	val rejectReson = varchar("reject_reson").bindTo { it.rejectReson }
 	val createTime = datetime("create_time").bindTo { it.createTime }
 	val updateTime = datetime("update_time").bindTo { it.updateTime }
+	val msgId = long("msg_id").bindTo { it.msgId }
 }
