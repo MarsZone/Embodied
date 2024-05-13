@@ -4,7 +4,7 @@ import { getProfileAPI } from "@/apis/user";
 import useUserDetail from "@/hooks/useUserDetail";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Image, NavBar, Typography, Divider, ActionBar, Popup, Input } from "react-vant";
+import { Button, Image, NavBar, Sticky, Divider, ActionBar, Popup, Input } from "react-vant";
 import { Star, LikeO, BookmarkO, ShareO } from '@react-vant/icons'
 import './TopicDetail.scss'
 import dayjs from "dayjs";
@@ -125,7 +125,7 @@ const TopicDetail = () => {
             </div>
           </div>
 
-          <div className="topic-detail">
+          <div className="topic-box">
             <div className="topic-title">
               {topicDetail.title}
             </div>
@@ -137,12 +137,22 @@ const TopicDetail = () => {
             </div>
           </div>
 
-          <Divider></Divider>
+          <div className="comment-box">
+            <div className="comment-count">共 {topicDetail.comments} 条评论</div>
 
-          <p>评论</p>
-          {topicComments.map(item => (
-            <div>评论内容： {item.content} </div>
-          ))}
+            {topicComments.map(item => (
+              <div className="indv-comment">
+                <div className="commenter-info">
+                  {item.uid}
+                </div>
+                <div>
+                  <div className="comment-text">{item.content} </div>
+                  <div className="comment-time">{item.createTime} </div>
+                  <hr className="comment-seperator"></hr>
+                </div>
+              </div>
+            ))}
+          </div>
 
 
           <ActionBar>

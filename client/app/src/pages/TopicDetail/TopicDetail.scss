@@ -26,7 +26,7 @@
     }
 
     .post-time {
-      color: #ADB5BD;
+      color: #9ca3aa;
       // font-size: 3.5vw;
       font-size: 1rem;
     }
@@ -39,7 +39,7 @@
 }
 
 
-.topic-detail {
+.topic-box {
   padding: 0.8rem 0.4rem 0 0.4rem;
 
   .topic-title {
@@ -50,5 +50,45 @@
   .topic-content {
     font-size: 1.2rem;
     padding: 0.2rem 0 2rem 0;
+  }
+
+  .topic-visits{
+    color: #9ca3aa;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(235, 237, 240)
+  }
+}
+
+.rv-divider {
+  margin: 0;
+}
+
+
+.comment-box {
+  padding: 0.8rem 0.4rem 0 0.4rem;
+
+  .comment-count{
+    padding-bottom: 0.8rem;
+  }
+
+  .indv-comment{
+    padding-bottom: 0.8rem;
+    display: flex;
+    gap: 1rem;
+    // flex-direction: column;
+
+    .commenter-info{
+
+    }
+
+    .comment-text{
+      font-size: 1.1rem;
+    }
+
+    .comment-seperator {
+      border: none; /* 移除默认边框 */
+      width: 26rem; 
+      border-bottom: 1px solid rgb(235, 237, 240)
+    }
   }
 }
