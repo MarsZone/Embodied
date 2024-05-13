@@ -1,8 +1,17 @@
-html,
+html {
+  font-size: calc(100vw / 30); //设置根元素的字体大小1rem=视口宽度的1/40
+}
+
 body {
   margin: 0;
   padding: 0;
   height: 100%;
+
+
+  font: 1rem / 1.5 Helvetica Neue, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #292d33;
+  letter-spacing: 0.05rem;
 }
 
 #root {

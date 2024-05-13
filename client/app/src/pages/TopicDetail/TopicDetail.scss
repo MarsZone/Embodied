@@ -21,20 +21,34 @@
     flex-direction: column;
 
     .author-name {
-      color: #212529;
-      font-size: 5vw;
-      padding-top: 1vw;
+      //font-size: 5vw;
+      font-size: 1.5rem;
     }
 
     .post-time {
       color: #ADB5BD;
-      font-size: 3.5vw;
-      padding-top: 1vw;
+      // font-size: 3.5vw;
+      font-size: 1rem;
     }
   }
 
   .author-avatar {
     width: 12vw;
     height: 12vw;
+  }
+}
+
+
+.topic-detail {
+  padding: 0.8rem 0.4rem 0 0.4rem;
+
+  .topic-title {
+    font-size: 1.8rem;
+    font-weight: 550;
+  }
+  
+  .topic-content {
+    font-size: 1.2rem;
+    padding: 0.2rem 0 2rem 0;
   }
 }

@@ -125,13 +125,19 @@ const TopicDetail = () => {
             </div>
           </div>
 
-          <div className="topic-title">
-            <h3>标题: {topicDetail.title}</h3>
+          <div className="topic-detail">
+            <div className="topic-title">
+              {topicDetail.title}
+            </div>
+            <div className="topic-content">
+              {topicDetail.content}
+            </div>
+            <div className="topic-visits">
+              {topicDetail.visits} 次浏览
+            </div>
           </div>
 
-          <p>内容：{topicDetail.content}</p>
-
-          <Divider>分隔</Divider>
+          <Divider></Divider>
 
           <p>评论</p>
           {topicComments.map(item => (
