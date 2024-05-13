@@ -195,6 +195,18 @@ class UserController {
         val friendships = database.sequenceOf(Friendships).filter{ it.status eq "friends" }.filter { (it.uidSource eq suid) or (it.uidTo eq suid) }.toList().reversed()
         return ResponseEntity.ok(R.ok(friendships))
     }
+    @SaCheckLogin
+    @GetMapping("checkIsFriendByUid")
+    fun checkIsFriend(@RequestParam targetUser:Long):ResponseEntity<R>{
+        val suid = StpUtil.getLoginId().toString().toLong()
+        val check = database.sequenceOf(Friendships).filter{ it.status eq "friends" }
+            .filter { ((it.uidSource eq suid) and (it.uidTo eq targetUser)) or ((it.uidSource eq targetUser) and (it.uidTo eq suid)) }.firstOrNull()
+        if(check!=null){
+            return ResponseEntity.ok(R.ok("true"))
+        }else{
+            return ResponseEntity.ok(R.ok("false"))
+        }
+    }
 
     //get apply list reverse
     @SaCheckLogin
