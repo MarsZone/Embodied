@@ -9,10 +9,9 @@ axios.defaults.crossDomain = true
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*"
 
 const request = axios.create({
-  //baseURL: 'http://120.78.142.84:8080', //根域名配置
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://120.78.142.84:8080', //根域名配置
+  //baseURL: 'http://localhost:8080',
   withCredentials: true,
-  // baseURL: 'http://127.0.0.1:4523/m1/4182675-0-default',
   timeout: 100000 //超时时间
 })
 
