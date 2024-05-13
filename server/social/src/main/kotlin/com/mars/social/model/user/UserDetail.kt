@@ -17,6 +17,7 @@ interface UserDetail : Entity<UserDetail> {
     var address: String             //住址
     var avatar: String              //头像，先存链接吧，后面要想想怎么弄个OSS存储
     var createTime: LocalDateTime
+    var signature: String           //个性签名
 }
 
 object UserDetails : Table<UserDetail>("user_details") {
@@ -31,4 +32,5 @@ object UserDetails : Table<UserDetail>("user_details") {
     val address = varchar("address").bindTo { it.address }
     val avatar = varchar("avatar").bindTo { it.avatar }
     val createTime = datetime("create_time").bindTo { it.createTime }
+    val signature = varchar("signature").bindTo { it.signature }
 }

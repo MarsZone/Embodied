@@ -211,6 +211,32 @@ class TopicController {
             return ResponseEntity.ok().body(R.ok("like"))
         }
     }
+    @SaCheckLogin
+    @GetMapping("/likeComment")
+    fun likeComment(@RequestParam tcId:Long):ResponseEntity<R>{
+        val uid = StpUtil.getLoginId()
+        val commentLikeDb = database.sequenceOf(CommentLikeDb)
+        val cLike =  Entity.create<CommentLike>()
+        cLike.tcId = tcId
+        cLike.uid = uid.toString().toLong()
+        cLike.createTime = LocalDateTime.now()
+        val tCheck = commentLikeDb.find{ (it.uid eq uid.toString().toLong())  and  (it.tcId eq tcId)  }
+        if(tCheck!=null){
+            database.update(TopicComments){
+                set(it.likes,it.likes-1)
+                where { it.id eq tcId }
+            }
+            tCheck.delete()
+            return ResponseEntity.ok().body(R.ok("unlike"))
+        }else{
+            database.update(TopicComments){
+                set(it.likes,it.likes+1)
+                where { it.id eq tcId }
+            }
+            commentLikeDb.add(cLike)
+            return ResponseEntity.ok().body(R.ok("like"))
+        }
+    }
 
     data class TagRequest(val tid: Long, val tags: Array<String>)
     @PostMapping("toTag")

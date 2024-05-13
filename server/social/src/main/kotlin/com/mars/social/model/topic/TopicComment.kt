@@ -11,6 +11,7 @@ interface TopicComment : Entity<TopicComment> {
 	var content: String?	//内容
 	var replyId: Long		//回复的评论id，默认-1，表示回复的是当前文章
 	var createTime: LocalDateTime
+	var likes:Long //点赞
 }
 
 object TopicComments : Table<TopicComment>("topic_comment") {
@@ -20,4 +21,5 @@ object TopicComments : Table<TopicComment>("topic_comment") {
 	val content = varchar("content").bindTo { it.content }
 	val replyId = long("reply_id").bindTo { it.replyId }
 	val createTime = datetime("create_time").bindTo { it.createTime }
+	val likes = long("likes").bindTo { it.likes }
 }
