@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
-import { Image, NavBar, Toast, Tabs, Card, Space, Button } from 'react-vant'
+import { Image, NavBar, Toast, Tabs, Card, Space, Button, Sticky } from 'react-vant'
 import { Arrow, Like } from '@react-vant/icons'
 import { useState } from 'react'
 import './Home.scoped.scss'
@@ -97,14 +97,20 @@ const Home = () => {
   return (
     <div className="layout">
 
-      <NavBar
-        title="首页"
-        rightText="按钮"
-        onClickRight={() => Toast('按钮')}
-      />
+      {/* <div className='navbar-home'> */}
+      <Sticky>
+        <NavBar
+          title="首页"
+          rightText="按钮"
+          onClickRight={() => Toast('按钮')}
+        />
+      </Sticky>
+      {/* </div> */}
 
       <div className="container">
-        <Tabs onClickTab={v => onTabClick(v)}>
+        <Tabs
+          sticky offsetTop={46}
+          onClickTab={v => onTabClick(v)}>
           {channelList.map(item => (
             <Tabs.TabPane key={item.key} title={`${item.name}`} name={item.key}>
               {channelTopics.map(topic => (

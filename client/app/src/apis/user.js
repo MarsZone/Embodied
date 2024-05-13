@@ -40,6 +40,7 @@ export function followAPI(targetUid) {
     url: '/api/users/follow',
     method: 'GET',
     params: { targetUid: targetUid },
+    // withCredentials: true
   })
 }
 

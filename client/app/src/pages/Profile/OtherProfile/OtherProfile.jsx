@@ -31,10 +31,7 @@ const OtherProfile = () => {
 
     //查看是否好友
     const getFriendsRes = await getMyFriendsAPI()
-    const haveFriend = getFriendsRes.data.some(item => {
 
-
-    })
   }
 
   //加关注(取消关注)

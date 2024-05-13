@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { Button, Image, NavBar, Typography, Divider, ActionBar, Popup, Input } from "react-vant";
 import { Star, LikeO, BookmarkO, ShareO } from '@react-vant/icons'
 import './TopicDetail.scss'
+import dayjs from "dayjs";
 
 const TopicDetail = () => {
   const { topicId } = useParams()
@@ -90,11 +91,22 @@ const TopicDetail = () => {
   //   return <div>Loading...</div>
   // }
 
+
+  //dayjs
+  console.log('当前时间：', dayjs())
+
+  console.log('发布时间：', dayjs(topicDetail.publishTime).format('YYYY-MM-DD HH:mm'))
+
+  const timeDisplay = (dt) => {
+    const currentTime = dayjs()
+  }
+
+
   return (
     <div>
       <NavBar
-        title="话题"
-        leftText="返回"
+        title="话题详情"
+        leftText=""
       // onClickLeft={() => }
       />
 
@@ -102,18 +114,24 @@ const TopicDetail = () => {
         avatarUrl === null || topicComments === null ? (
         <div>loading...</div>
       ) : (
-        <div>
-          {/* <Typography>
-            <Typography.Title level={3}>标题: {topicDetail.title}</Typography.Title>
-            <Typography.Text>内容：{topicDetail.content}</Typography.Text>
-          </Typography> */}
-          <h3>标题: {topicDetail.title}</h3>
+        <div className="topic-container">
+          <div className="top-info">
+            <div className="author-avatar">
+              <Image round src={avatarUrl} />
+            </div>
+            <div className="top-info-right">
+              <div className="author-name"> {userProfile.userName}</div>
+              <div className="post-time"> {topicDetail.publishTime}</div>
+            </div>
+          </div>
+
+          <div className="topic-title">
+            <h3>标题: {topicDetail.title}</h3>
+          </div>
+
           <p>内容：{topicDetail.content}</p>
 
           <Divider>分隔</Divider>
-          <Image round width='80px' height='80px' src={avatarUrl} />
-          <div>用户名: {userProfile.userName}</div>
-          <div>发布时间: {topicDetail.publishTime}</div>
 
           <p>评论</p>
           {topicComments.map(item => (

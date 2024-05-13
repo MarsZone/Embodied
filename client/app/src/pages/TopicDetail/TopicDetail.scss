@@ -1,4 +1,40 @@
+// .topic-title {
+//   display: flex;
+// }
+
+
 .comment-button {
   background-color: rgba(229, 229, 229, 0.836);
   color: rgb(113, 113, 113);
+}
+
+.topic-container {
+  padding: 1vh 1vw 1vh 1vw;
+}
+
+.top-info {
+  display: flex;
+  gap: 1vw;
+
+  .top-info-right {
+    display: flex;
+    flex-direction: column;
+
+    .author-name {
+      color: #212529;
+      font-size: 5vw;
+      padding-top: 1vw;
+    }
+
+    .post-time {
+      color: #ADB5BD;
+      font-size: 3.5vw;
+      padding-top: 1vw;
+    }
+  }
+
+  .author-avatar {
+    width: 12vw;
+    height: 12vw;
+  }
 }
