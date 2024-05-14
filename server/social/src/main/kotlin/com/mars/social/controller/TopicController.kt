@@ -371,4 +371,22 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok(topicFiles))
     }
 
+    data class Actions(var isLike: Boolean, val isShare: Boolean, var isBookMark: Boolean)
+    @SaCheckLogin
+    @GetMapping("getTopicActions")
+    fun getTopicActions(@RequestParam tid:Long):ResponseEntity<R>{
+        val uid = StpUtil.getLoginId()
+        val uidL = uid.toString().toLong()
+        var actions = Actions(false,false,false);
+        val bookMark = database.sequenceOf(BookMarks).filter { it.tid eq tid }.filter{ it.uid eq uidL }.firstOrNull()
+        if(bookMark!=null){
+            actions.isBookMark =true
+        }
+        val topicLike = database.sequenceOf(TopicLikes).filter{ it.tid eq tid }.filter { it.uid eq uidL }.firstOrNull()
+        if(topicLike!=null){
+            actions.isLike = true
+        }
+        return ResponseEntity.ok().body(R.ok(actions))
+    }
+
 }
