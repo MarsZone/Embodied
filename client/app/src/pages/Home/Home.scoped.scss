@@ -5,17 +5,20 @@
 }
 
 
-.topic-box {
-  margin: 2vw 3vw 0 3vw;
+.topic-outer-box {
+  margin: 2vw 0;
   background-color: #fff;
   border-radius: 0.8rem;
+
+  .topic-inner-box {
+    padding: 0.8em;
+  }
 }
 
 .topic-header {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.1rem 0.3rem 0 0.3rem;
   height: 3rem;
 
   .topic-channel {
@@ -27,11 +30,23 @@
   }
 
   .topic-title {
-    font-size: 1.9rem;
+    font-size: 1.6rem;
+    font-weight: 550;
   }
 }
 
-
 .topic-content {
-  padding: 0.1rem 0.3rem 0 0.3rem;
+  height: 2rem;
+  font-size: 1rem;
+
+  //设置超出2行文本省略
+  display: -webkit-box; /* 设置为弹性盒子布局 */
+  -webkit-box-orient: vertical; /* 设置弹性盒子的方向为垂直方向 */
+  -webkit-line-clamp: 2; /* 设置显示的行数为两行 */
+  overflow: hidden; /* 隐藏溢出的文本 */
+}
+
+.topic-cover {
+  height: 60vw;
+  width: 60vw;
 }
