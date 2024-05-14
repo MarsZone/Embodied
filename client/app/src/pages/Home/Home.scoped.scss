@@ -1,28 +1,37 @@
 .container {
-  padding: 0;
-  margin: 0;
   background-color: #F6F7F9;
+  //background: linear-gradient(135deg, rgba(34, 95, 159, 0.7) 20%, rgb(170, 54, 46, 0.5) 65%, rgba(249, 144, 69, 0.6) 98%);
+  background-attachment: fixed;
 }
 
 
-.topic-card {
-  padding: 2vw 4vw;
+.topic-box {
+  margin: 2vw 3vw 0 3vw;
+  background-color: #fff;
+  border-radius: 0.8rem;
 }
 
 .topic-header {
   display: flex;
   align-items: center;
-  gap: 1vw;
+  gap: 0.4rem;
+  padding: 0.1rem 0.3rem 0 0.3rem;
+  height: 3rem;
 
   .topic-channel {
     border-radius: 10px;
-    padding: 3px 12px;
-    font-size: 12px;
+    padding: 0.2rem 0.9rem;
+    font-size: 0.9rem;
     color: #28558f;
     background-color: #E5EDF9;
   }
 
   .topic-title {
-    color: #212529;
+    font-size: 1.9rem;
   }
+}
+
+
+.topic-content {
+  padding: 0.1rem 0.3rem 0 0.3rem;
 }

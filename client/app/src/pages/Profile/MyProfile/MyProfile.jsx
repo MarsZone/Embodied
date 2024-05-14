@@ -43,14 +43,6 @@ const MyProfile = () => {
 
   return (
     <div className="layout">
-      {/* <NavBar
-        className='nav-bar'
-        title='我的'
-        leftText={<Edit fontSize={20} />}
-        onClickLeft={() => navigate('/userDetail')}
-        rightText='退出'
-        onClickRight={() => setLogoutDialogVisible(true)}
-      /> */}
 
       <Dialog
         visible={logoutDialogVisible}
@@ -70,7 +62,6 @@ const MyProfile = () => {
           <div className='profile-img'>
             <Image round fit='cover' src={userImgUrl} />
           </div>
-
 
           <div className='profile-social-right'>
             <table>

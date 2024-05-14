@@ -87,10 +87,20 @@ const TopicDetail = () => {
     }
   }
 
+  //收藏
+  const onClickBookmark = () => {
+    console.log('点击收藏')
+  }
+
+  //分享
+  const onClickShare = () => {
+    console.log('点击分享')
+  }
+
+
   // if (!topicDetail) {
   //   return <div>Loading...</div>
   // }
-
 
   //dayjs
   console.log('当前时间：', dayjs())
@@ -156,20 +166,17 @@ const TopicDetail = () => {
 
 
           <ActionBar>
-            {/* <ActionBar.Button
+            <ActionBar.Button
               className="comment-button"
-              // plain
-              // type='default'
-              size='normal'
               text='留下你的评论吧...'
-              onClick={() => console.log('button click')}
-            /> */}
-            <Button
+              onClick={() => setCommentEditVisible(true)}
+            />
+            {/* <Button
               className="comment-button"
               size='normal'
               text='留下你的评论吧...'
               onClick={() => setCommentEditVisible(true)}
-            />
+            /> */}
             <Popup
               visible={commentEditVisible}
               style={{ height: '30%' }}
@@ -192,8 +199,14 @@ const TopicDetail = () => {
               text='点赞'
               onClick={onClickLike}
             />
-            <ActionBar.Icon icon={<BookmarkO color='red' />} text='收藏' />
-            <ActionBar.Icon icon={<ShareO color='red' />} text='分享' />
+            <ActionBar.Icon
+              icon={<BookmarkO color='red' />}
+              text='收藏'
+              onClick={onClickBookmark} />
+            <ActionBar.Icon
+              icon={<ShareO color='red' />}
+              text='分享'
+              onClick={onClickShare} />
           </ActionBar>
 
         </div>

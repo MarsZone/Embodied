@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
-import { Image, NavBar, Toast, Tabs, Card, Space, Button, Sticky } from 'react-vant'
+import { Image, NavBar, Toast, Tabs, Card, Space, Button, Sticky, Typography } from 'react-vant'
 import { Arrow, Like } from '@react-vant/icons'
 import { useState } from 'react'
 import './Home.scoped.scss'
@@ -97,7 +97,6 @@ const Home = () => {
   return (
     <div className="layout">
 
-      {/* <div className='navbar-home'> */}
       <Sticky>
         <NavBar
           title="首页"
@@ -105,7 +104,6 @@ const Home = () => {
           onClickRight={() => Toast('按钮')}
         />
       </Sticky>
-      {/* </div> */}
 
       <div className="container">
         <Tabs
@@ -113,57 +111,84 @@ const Home = () => {
           onClickTab={v => onTabClick(v)}>
           {channelList.map(item => (
             <Tabs.TabPane key={item.key} title={`${item.name}`} name={item.key}>
+
               {channelTopics.map(topic => (
-                <div className='topic-card'>
-                  <Card
-                    key={topic.id}>
-                    <Link to={`/topicDetail/${topic.id}`}>
-                      <Card.Header extra={<Arrow />} >
-                        <div className='topic-header'>
-                          <div className='topic-channel'>{getChannelNameByKey(topic.channelKey)}</div>
-                          <div className='topic-title'>{topic.title}</div>
-                        </div>
-                      </Card.Header>
-                    </Link>
+                <div className='topic-box'>
+                  <div className='topic-header'>
+                    <div className='topic-channel'>{getChannelNameByKey(topic.channelKey)}</div>
+                    <div className='topic-title'>{topic.title}</div>
+                    <Arrow></Arrow>
+                  </div>
 
-                    <Card.Cover>
-                      {/* <Image src={ previewFileApi(topic.coverImg).data } /> */}
-                      {/* <Image src={getUrlByPid(5)} />
-                      <Image src={url} /> */}
-                    </Card.Cover>
-
-                    {/* <Image src={getUrlByPid(5)} /> */}
-
-                    <Card.Body>
+                  <div className='topic-content'>
+                    <Typography.Text
+                      ellipsis={2}>
                       内容：{topic.content}
-                    </Card.Body>
-                    <Card.Footer>
-                      <Space>
-                        {/* <div>用户名: {getUsername(topic.authorUid)[0]}</div> */}
+                    </Typography.Text>
+                  </div>
 
-                        <Button round size='small'>
-                          更多
-                        </Button>
-                        <Button
-                          icon={<Like />}
-                          round
-                          color='linear-gradient(to right, #ff6034, #ee0a24)'
-                          size='small'
-                        >
-                          Like
-                        </Button>
-                      </Space>
-                    </Card.Footer>
-                  </Card>
+                  <div className='topic-cover'>
+                    图片
+                  </div>
+
+                  <div className='topic-info'>
+                    更新时间：{topic.updateTime}
+                    评论数：{topic.comments}
+                    点赞数：{topic.likes}
+
+                    发布者：{topic.authorUid}
+                  </div>
+
                 </div>
+
+                // <Card
+                //   key={topic.id}>
+                //   <Link to={`/topicDetail/${topic.id}`}>
+                //     <Card.Header extra={<Arrow />} >
+                //       <div className='topic-header'>
+                //         <div className='topic-channel'>{getChannelNameByKey(topic.channelKey)}</div>
+                //         <div className='topic-title'>{topic.title}</div>
+                //       </div>
+                //     </Card.Header>
+                //   </Link>
+
+                //   <Card.Cover>
+                //     {/* <Image src={ previewFileApi(topic.coverImg).data } /> */}
+                //     {/* <Image src={getUrlByPid(5)} />
+                //     <Image src={url} /> */}
+                //   </Card.Cover>
+
+                //   {/* <Image src={getUrlByPid(5)} /> */}
+
+                //   <Card.Body>
+                //     内容：{topic.content}
+                //   </Card.Body>
+                //   <Card.Footer>
+                //     <Space>
+                //       {/* <div>用户名: {getUsername(topic.authorUid)[0]}</div> */}
+
+                //       <Button round size='small'>
+                //         更多
+                //       </Button>
+                //       <Button
+                //         icon={<Like />}
+                //         round
+                //         color='linear-gradient(to right, #ff6034, #ee0a24)'
+                //         size='small'
+                //       >
+                //         Like
+                //       </Button>
+                //     </Space>
+                //   </Card.Footer>
+                // </Card>
+
+
               ))
               }
             </Tabs.TabPane>
           ))}
         </Tabs>
 
-
-        {/* <Outlet /> */}
       </div>
       <div className="footer">
         <TabNavigator />

@@ -1,7 +1,19 @@
 .top-layout {
-  background: linear-gradient(to left, #525252, #3d72b4);
+  //background: linear-gradient(to left, #525252, #3d72b4);
+
+  //1  蓝 #364b85  橙 #b45c39  红 #97102c
+  //background: linear-gradient(135deg, rgba(54, 75, 133, 1) 20%, rgba(180, 92, 57, 0.9) 60%, rgba(151, 16, 44, 1) 96%);
+
+  //2  蓝 #225f9f  橙 #f99045
+  //background: linear-gradient(135deg, rgba(34, 95, 159, 1) 10%, rgba(249, 144, 69, 1) 90%);
+
+  //3  蓝 #225f9f  红 #cb3125  橙 #f99045
+  //background: linear-gradient(135deg, rgba(34, 95, 159, 1) 15%, rgb(170, 54, 46, 0.95) 60%, rgba(249, 144, 69, 1) 95%);
+  //修改版：
+  background: linear-gradient(135deg, rgba(34, 95, 159, 1) 20%, rgb(170, 54, 46, 0.95) 65%, rgba(249, 144, 69, 1) 98%);
+
   padding: 4vh 7vw 4vh 7vw;
-  width: 100vw;
+  // width: 100vw;
 
   .profile-social {
     height: 15vh;
@@ -15,9 +27,6 @@
     }
 
     .profile-social-right {
-      // display: flex;
-      // flex-direction: row;
-
       table {
         width: 55vw;
         height: 10vh;
@@ -97,5 +106,5 @@
 .bottom-layout {
   //position: relative;
   // height: 60vh; //占据下面所有空间
-  background-color: #f6f7f9;
+  // background-color: #f6f7f9;
 }
