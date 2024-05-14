@@ -1,5 +1,5 @@
 import { previewFileApi } from "@/apis/file";
-import { getCommentsApi, getIndividualTopicApi, likeApi, postCommentApi } from "@/apis/topic";
+import { getCommentsApi, getIndividualTopicApi, getTopicActionApi, likeApi, postCommentApi } from "@/apis/topic";
 import { getProfileAPI } from "@/apis/user";
 import useUserDetail from "@/hooks/useUserDetail";
 import React, { useEffect, useState } from "react";
@@ -34,7 +34,9 @@ const TopicDetail = () => {
   const [topicComments, setTopicComments] = useState([])
   const [comment, setComment] = useState()
   const [commentEditVisible, setCommentEditVisible] = useState(false) //评论弹出层状态
-  const [likeFlag, setLikeFlag] = useState()
+  const [likeFlag, setLikeFlag] = useState(false)
+  const [bookmarkFlag, setBookmarkFlag] = useState(false)
+  const [shareFlag, setShareFlag] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -59,6 +61,13 @@ const TopicDetail = () => {
     const topicCommentsRes = await getCommentsApi(topicId)
     setTopicComments(topicCommentsRes.data)
 
+    //获取话题初始状态
+    const getTopicActionRes = await getTopicActionApi(topicId)
+    setLikeFlag(getTopicActionRes.data.isLike)
+    setBookmarkFlag(getTopicActionRes.data.isBookMark)
+    setShareFlag(getTopicActionRes.data.isShare)
+    console.log('话题初始状态：', getTopicActionRes.data)
+
     //根据用户id获取用户数据
     // const userDetail = useUserDetail(topicDetail.authorUid)
     // setUserProfile(userDetail)
@@ -79,11 +88,14 @@ const TopicDetail = () => {
     setCommentEditVisible(false)
   }
 
+
   //点赞
   const onClickLike = async () => {
     const likeRes = await likeApi(topicId)
     if (likeRes.data === 'like') {
-
+      setLikeFlag(true)
+    } else if (likeRes.data === 'unlike') {
+      setLikeFlag(false)
     }
   }
 
@@ -104,9 +116,7 @@ const TopicDetail = () => {
 
   //dayjs
   console.log('当前时间：', dayjs())
-
   console.log('发布时间：', dayjs(topicDetail.publishTime).format('YYYY-MM-DD HH:mm'))
-
   const timeDisplay = (dt) => {
     const currentTime = dayjs()
   }
@@ -121,7 +131,8 @@ const TopicDetail = () => {
       />
 
       {topicDetail === null || userProfile === null ||
-        avatarUrl === null || topicComments === null ? (
+        avatarUrl === null || topicComments === null ||
+        likeFlag === null ? (
         <div>loading...</div>
       ) : (
         <div className="topic-container">
@@ -134,6 +145,7 @@ const TopicDetail = () => {
               <div className="post-time"> {topicDetail.publishTime}</div>
             </div>
           </div>
+
 
           <div className="topic-box">
             <div className="topic-title">
@@ -194,11 +206,22 @@ const TopicDetail = () => {
               />
             </Popup>
 
-            <ActionBar.Icon
+            {likeFlag ?
+              <ActionBar.Icon
+                icon={<LikeO color='red' />}
+                text='点赞'
+                onClick={onClickLike}
+              /> : <ActionBar.Icon
+                icon={<LikeO color='black' />}
+                text='点赞'
+                onClick={onClickLike}
+              />
+            }
+            {/* <ActionBar.Icon
               icon={<LikeO color='red' />}
               text='点赞'
               onClick={onClickLike}
-            />
+            /> */}
             <ActionBar.Icon
               icon={<BookmarkO color='red' />}
               text='收藏'

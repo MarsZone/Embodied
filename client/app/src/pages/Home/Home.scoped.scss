@@ -36,7 +36,7 @@
 }
 
 .topic-content {
-  height: 2rem;
+  height: 4rem;
   font-size: 1rem;
 
   //设置超出2行文本省略
@@ -44,9 +44,10 @@
   -webkit-box-orient: vertical; /* 设置弹性盒子的方向为垂直方向 */
   -webkit-line-clamp: 2; /* 设置显示的行数为两行 */
   overflow: hidden; /* 隐藏溢出的文本 */
+  
 }
 
 .topic-cover {
-  height: 60vw;
-  width: 60vw;
+  height: 50%;
+  width: 50%;
 }
