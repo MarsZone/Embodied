@@ -78,6 +78,12 @@ const TopicDetail = () => {
     console.log('用户头像：', userAvatarRes.data)
   }
 
+  //刷新评论
+  const commentRefresh = async () => {
+    const topicCommentsRes = await getCommentsApi(topicId)
+    setTopicComments(topicCommentsRes.data)
+  }
+
 
   //发表评论
   const onSubmitComment = async () => {
@@ -88,8 +94,7 @@ const TopicDetail = () => {
     setCommentEditVisible(false)
 
     //刷新评论
-    const topicCommentsRes = await getCommentsApi(topicId)
-    setTopicComments(topicCommentsRes.data)
+    commentRefresh()
   }
 
 
@@ -190,19 +195,12 @@ const TopicDetail = () => {
             ))}
           </div>
 
-
           <ActionBar>
             <ActionBar.Button
               className="comment-button"
               text='留下你的评论吧...'
               onClick={() => setCommentEditVisible(true)}
             />
-            {/* <Button
-              className="comment-button"
-              size='normal'
-              text='留下你的评论吧...'
-              onClick={() => setCommentEditVisible(true)}
-            /> */}
             <Popup
               visible={commentEditVisible}
               style={{ height: '30%' }}
@@ -223,11 +221,11 @@ const TopicDetail = () => {
             {likeFlag ?
               <ActionBar.Icon
                 icon={<Like color='red' />}
-                text='点赞'
+                text={topicDetail.likes + 1}
                 onClick={onClickLike}
               /> : <ActionBar.Icon
                 icon={<LikeO color='red' />}
-                text='点赞'
+                text={topicDetail.likes}
                 onClick={onClickLike}
               />
             }
@@ -235,17 +233,17 @@ const TopicDetail = () => {
             {bookmarkFlag ?
               <ActionBar.Icon
                 icon={<Bookmark color='red' />}
-                text='收藏'
+                text={topicDetail.bookmarks + 1}
                 onClick={onClickBookmark} />
               : <ActionBar.Icon
                 icon={<BookmarkO color='red' />}
-                text='收藏'
+                text={topicDetail.bookmarks}
                 onClick={onClickBookmark} />
             }
 
             <ActionBar.Icon
               icon={<ShareO color='red' />}
-              text='分享'
+              text={topicDetail.shares}
               onClick={onClickShare} />
           </ActionBar>
 

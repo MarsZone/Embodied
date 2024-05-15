@@ -13,10 +13,9 @@
   background: linear-gradient(135deg, rgba(34, 95, 159, 1) 20%, rgb(170, 54, 46, 0.95) 65%, rgba(249, 144, 69, 1) 98%);
 
   padding: 4vh 7vw 4vh 7vw;
-  // width: 100vw;
 
   .profile-social {
-    height: 15vh;
+    height: 14vh;
     width: 80vw;
     display: flex;
     gap: 2vw;
@@ -27,57 +26,56 @@
     }
 
     .profile-social-right {
+      display: flex;
+      flex-direction: column;
+
       table {
         width: 55vw;
-        height: 10vh;
+        height: 8vh;
+        padding-top: 0.1rem;
       }
 
       table td {
-        padding: 10px;
+        padding: 0.5rem;
         text-align: center;
-        line-height: .3;
+        line-height: 0.5rem;
       }
 
       .top-row {
-        font-size: 14pt;
+        font-size: 1.4rem;
         color: #ededed;
         font-weight: 600;
       }
 
       .bottom-row {
-        font-size: 11pt;
+        font-size: 1.1rem;
         color: #c8c8c8;
       }
 
       .profile-button {
+        padding-top: 0.5rem;
 
         .profile-edit-button {
           background-color: rgba(146, 172, 223, 0.354);
           border: solid #efebeb 1px;
           color: rgb(186, 202, 235);
-          font-size: 10pt;
-          width: 37vw;
-          height: 4vh;
+          font-size: 1rem;
+          height: 2.2rem;
 
-          left: 3vw;
-
-          // border-radius: 3px;
-          // padding: 3px;
-          // text-align: center;
-          // justify-content: center;
-          // display: flex;
+          width: 10rem;
+          left: 1.5rem;
         }
 
         .profile-logout-button {
           background-color: rgba(146, 172, 223, 0.354);
-          border: solid #ddd 1px;
+          border: solid #efebeb 1px;
           color: rgb(186, 202, 235);
-          font-size: 10pt;
-          width: 12vw;
-          height: 4vh;
-          padding: 0;
+          font-size: 1rem;
+          height: 2.2rem;
 
-          left: 4vw;
+          width: 4rem;
+          left: 2rem;
+          padding: 0;
         }
       }
     }
@@ -88,23 +86,21 @@
     flex-direction: column;
 
     width: 80vw;
-    height: 20vh;
+    height: 18vh;
   }
 
   .profile-username {
-    font-size: 24px;
+    font-size: 1.8rem;
     color: #F9F7F3;
   }
 
   .profile-intro {
-    font-size: 11pt;
+    font-size: 1.1rem;
     color: #c8c8c8;
-    margin-top: 1vh;
+    margin-top: 0.1rem;
   }
 }
 
 .bottom-layout {
-  //position: relative;
-  // height: 60vh; //占据下面所有空间
   // background-color: #f6f7f9;
 }
