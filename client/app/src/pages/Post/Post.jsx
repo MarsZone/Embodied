@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker, Uploader } from 'react-vant'
+import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker, Uploader, Tag } from 'react-vant'
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scoped.scss'
-import { createTopicApi} from '@/apis/post'
+import { createTopicApi } from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
 import useChannelList from '@/hooks/useChannelList'
@@ -24,6 +24,8 @@ const Post = () => {
 
   const [imgId, setImgId] = useState()
   const [imgUrl, setImgUrl] = useState()
+
+  const { c } = useChannelList()
 
 
   const uploadCoverImg = async (file) => {
@@ -75,6 +77,9 @@ const Post = () => {
   const { channelList, loading } = useChannelList()
   console.log(channelList)
 
+  //测试标签
+  const [show, setShow] = React.useState(true);
+
   return (
     <div className="layout">
       <NavBar
@@ -92,7 +97,10 @@ const Post = () => {
           form={form}
           onFinish={onFinish}
           footer={
-            <div style={{ margin: '16px 16px 0' }}>
+            <div className='post-button' style={{ margin: '16px 16px 0' }}>
+              <Button round nativeType='submit' type='primary' block>
+                存草稿
+              </Button>
               <Button round nativeType='submit' type='primary' block>
                 发布
               </Button>
@@ -137,6 +145,21 @@ const Post = () => {
             name='content'
             label='内容'>
             <Input.TextArea rows={3} autoSize maxLength={140} showWordLimit />
+          </Form.Item>
+
+          <Form.Item
+            name='tag'
+            label='标签'>
+            <Tag
+              show={show}
+              plain
+              closeable
+              size="medium"
+              type="primary"
+              onClose={() => setShow(false)}
+            >
+              标签
+            </Tag>
           </Form.Item>
 
           <Form.Item

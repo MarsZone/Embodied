@@ -2,10 +2,20 @@
 import { request } from "@/utils";
 
 
-//2.发布话题
+//1.发布话题
 export function createTopicApi(formData) {
   return request({
-    url: '/api/topics/publishTopic', //状态已发布？
+    url: '/api/topics/publishTopic',
+    method: 'POST',
+    data: formData,
+    withCredentials: true
+  })
+}
+
+//2.存草稿
+export function saveTopicDraftApi(formData) {
+  return request({
+    url: '/api/topics/save',
     method: 'POST',
     data: formData,
     withCredentials: true

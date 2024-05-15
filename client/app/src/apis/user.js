@@ -97,3 +97,12 @@ export function getMyFriendsAPI() {
     method: 'GET',
   })
 }
+
+//--5.查看是否好友
+export function checkFriendAPI(targetUid) {
+  return request({
+    url: '/api/users/checkIsFriendByUid',
+    method: 'GET',
+    params: { targetUser: targetUid },
+  })
+}

@@ -72,3 +72,12 @@ export function removeBookmarkApi(topicId) {
     params: { tid: topicId }
   })
 }
+
+//9.获取话题初始状态
+export function getTopicActionApi(topicId) {
+  return request({
+    url: '/api/topics/getTopicActions',
+    method: 'GET',
+    params: { tid: topicId }
+  })
+}

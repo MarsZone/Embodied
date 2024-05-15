@@ -1,38 +1,102 @@
-.container {
-  padding: 0;
-  margin: 0;
-}
-
 .top-layout {
-  display: flex;
-  position: relative;
-  width: 100vw;
-  background-color: #e5f6f8;
+  //background: linear-gradient(to left, #525252, #3d72b4);
 
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
+  //1  蓝 #364b85  橙 #b45c39  红 #97102c
+  //background: linear-gradient(135deg, rgba(54, 75, 133, 1) 20%, rgba(180, 92, 57, 0.9) 60%, rgba(151, 16, 44, 1) 96%);
 
-  .profile-img {
-    width: 80px;
-    height: 80px;
+  //2  蓝 #225f9f  橙 #f99045
+  //background: linear-gradient(135deg, rgba(34, 95, 159, 1) 10%, rgba(249, 144, 69, 1) 90%);
+
+  //3  蓝 #225f9f  红 #cb3125  橙 #f99045
+  background: linear-gradient(135deg, rgba(34, 95, 159, 1) 20%, rgb(170, 54, 46, 0.95) 65%, rgba(249, 144, 69, 1) 98%);
+
+  padding: 4vh 7vw 4vh 7vw;
+
+  .profile-social {
+    height: 14vh;
+    width: 80vw;
+    display: flex;
+    gap: 2vw;
+
+    .profile-img {
+      width: 24vw;
+      height: 24vw;
+    }
+
+    .profile-social-right {
+      display: flex;
+      flex-direction: column;
+
+      table {
+        width: 55vw;
+        height: 8vh;
+        padding-top: 0.1rem;
+      }
+
+      table td {
+        padding: 0.5rem;
+        text-align: center;
+        line-height: 0.5rem;
+      }
+
+      .top-row {
+        font-size: 1.4rem;
+        color: #ededed;
+        font-weight: 600;
+      }
+
+      .bottom-row {
+        font-size: 1.1rem;
+        color: #c8c8c8;
+      }
+
+      .profile-social-button {
+        display: flex;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+
+        .follow-button,
+        .friend-button {
+          background-color: rgba(146, 172, 223, 0.354);
+          border: solid #efebeb 1px;
+          color: rgb(186, 202, 235);
+          font-size: 1rem;
+          height: 2.2rem;
+
+          width: 5rem;
+          padding: 0;
+          left: 1.5rem;
+        }
+
+        .message-icon {
+          color: rgb(186, 202, 235);
+          font-size: 2.2rem;
+          padding-left: 2rem;
+        }
+      }
+    }
+  }
+
+  .profile-user {
+    display: flex;
+    flex-direction: column;
+
+    width: 80vw;
+    height: 18vh;
   }
 
   .profile-username {
-    text-align: center;
-    font-size: 25px;
-    margin-top: 8px;
+    font-size: 1.8rem;
+    color: #F9F7F3;
   }
 
-  .profile-social {
-    position: relative;
-    padding: 10px 10px;
+  .profile-intro {
+    font-size: 1.1rem;
+    color: #c8c8c8;
+    margin-top: 0.1rem;
   }
-
 }
 
-.bottom-layout {
-  //position: relative;
-  // height: 60vh; //占据下面所有空间
-  background-color: #f8e5f6;
+.profile-social-button {
+  // background-color: #f6f7f9;
 }
