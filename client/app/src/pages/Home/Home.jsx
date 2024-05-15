@@ -4,7 +4,7 @@ import {
   Image, NavBar, Toast, Tabs, Card, Space,
   Button, Sticky, Typography
 } from 'react-vant'
-import { Arrow, Like } from '@react-vant/icons'
+import { Arrow, CommentO, LikeO, BookmarkO, ShareO, Bookmark, Like, Share } from '@react-vant/icons'
 import { useState } from 'react'
 import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
@@ -134,12 +134,15 @@ const Home = () => {
                         fit='cover' />
                     </div>
 
-                    <div className='topic-info'>
-                      更新时间：{topic.updateTime}
-                      评论数：{topic.comments}
-                      点赞数：{topic.likes}
-
-                      发布者：{topic.authorUid}
+                    <div className='topic-bottom'>
+                      <div>
+                        发布者{topic.authorUid}·{topic.updateTime}
+                      </div>
+                      <div className='topic-bottom-right'>
+                        <div> <LikeO />{topic.likes}</div>
+                        <div> <BookmarkO />{topic.bookmarks}</div>
+                        <div> <CommentO />{topic.comments}</div>
+                      </div>
                     </div>
                   </div>
                 </div>

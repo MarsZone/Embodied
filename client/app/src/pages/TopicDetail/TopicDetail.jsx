@@ -231,11 +231,7 @@ const TopicDetail = () => {
                 onClick={onClickLike}
               />
             }
-            {/* <ActionBar.Icon
-              icon={<LikeO color='red' />}
-              text='点赞'
-              onClick={onClickLike}
-            /> */}
+
             {bookmarkFlag ?
               <ActionBar.Icon
                 icon={<Bookmark color='red' />}

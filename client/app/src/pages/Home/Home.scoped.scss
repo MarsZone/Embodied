@@ -44,7 +44,7 @@
   }
 
   .topic-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 550;
   }
 }
@@ -54,18 +54,30 @@
   font-size: 1rem;
 
   //设置超出2行文本省略
-  display: -webkit-box;
-  /* 设置为弹性盒子布局 */
-  -webkit-box-orient: vertical;
-  /* 设置弹性盒子的方向为垂直方向 */
-  -webkit-line-clamp: 2;
-  /* 设置显示的行数为两行 */
-  overflow: hidden;
-  /* 隐藏溢出的文本 */
-
+  // display: -webkit-box;
+  // /* 设置为弹性盒子布局 */
+  // -webkit-box-orient: vertical;
+  // /* 设置弹性盒子的方向为垂直方向 */
+  // -webkit-line-clamp: 2;
+  // /* 设置显示的行数为两行 */
+  // overflow: hidden;
+  // /* 隐藏溢出的文本 */
 }
 
 .topic-cover {
   height: 50%;
   width: 50%;
+}
+
+.topic-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 1vw;
+
+  .topic-bottom-right {
+    display: flex;
+    gap: 0.5rem;
+  }
+
 }
