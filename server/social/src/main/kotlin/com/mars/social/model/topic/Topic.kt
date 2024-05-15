@@ -22,6 +22,11 @@ interface Topic : Entity<Topic> {
 	var visits: Long				//访问
 	var channelKey: String				//频道
 	var coverImg: Int 				//封面图片ID
+	//-----
+	var tags:ArrayList<String> 			//标签
+	var tagsName:ArrayList<String>			//标签描述
+	var authorNickName:String
+	var authorAvatar:String
 }
 
 object Topics : Table<Topic>("topic") {

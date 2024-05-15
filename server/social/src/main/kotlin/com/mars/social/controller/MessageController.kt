@@ -32,7 +32,7 @@ class MessageController  {
     fun send(@RequestBody dto:MessageDto):ResponseEntity<R> {
         val message:Message = Entity.create<Message>()
         message.msgType="u";
-        message.senderUid = StpUtil.getLoginId().toString().toLong()
+        message.senderId = StpUtil.getLoginId().toString()
         message.receiverUid = dto.to
         message.content = dto.content
         message.sendTime= LocalDateTime.now()
@@ -49,7 +49,7 @@ class MessageController  {
     fun sendSysMsg(suid:Long,to:Long, content:String):Long{
         val message:Message = Entity.create<Message>()
         message.msgType="s";
-        message.senderUid = suid
+        message.senderId = suid.toString()
         message.receiverUid = to
         message.content = content
         message.sendTime= LocalDateTime.now()
@@ -68,19 +68,21 @@ class MessageController  {
     }
 
     //Current user, get top x different people message and check status.
-    data class HistoryResult(val senderUid: String, val status: String, val count: Int, val string: String)
+    data class HistoryResult(val senderId: String, val senderNickName: String, val senderAvatar:String,
+                             val status: String, val count: Int, val msgType:String, var lastMsg:String)
     @SaCheckLogin
     @GetMapping("history")
     fun history(@RequestParam size: Int):ResponseEntity<R>{
         val uid =StpUtil.getLoginId().toString().toLong()
         val historyList = database.useConnection { conn ->
             val sql = """
-                SELECT t.sender_uid, t.status, t.count, COALESCE(ud.nick_name, 'unknown') AS nick_name
+                SELECT t.sender_id, t.status, t.msg_type, t.count, COALESCE(ud.nick_name, 'unknown') AS senderNickName, 
+                        COALESCE(ud.avatar, '') AS senderAvatar
                 FROM (
-                    SELECT m.sender_uid, m.status, COUNT(*) AS count
+                    SELECT m.sender_id, m.status,m.msg_type, COUNT(*) AS count
                     FROM embodied.messages m
                     WHERE m.receiver_uid = ?
-                    GROUP BY m.sender_uid, m.status
+                    GROUP BY m.sender_uid, m.status, m.msg_type
                     ORDER BY Max(m.id) DESC
                     LIMIT 0, ?
                 ) AS t
@@ -91,15 +93,24 @@ class MessageController  {
                 statement.setInt(2, size)
                 statement.executeQuery().asIterable().map {
                     HistoryResult(
-                        it.getString("sender_uid"),
+                        it.getString("sender_id"),
+                        it.getString("senderNickName"),
+                        it.getString("senderAvatar"),
                         it.getString("status"),
                         it.getInt("count"),
-                        it.getString("nick_name")
+                        it.getString("msg_type"),
+                        ""
                     )
                 }
             }
         }
-        historyList.forEach{println(it)}
+        for(history in historyList){
+            var msg = database.from(Messages).select().where{ Messages.senderId eq history.senderId.toString()}.orderBy(Messages.id.desc())
+                    .limit(1).map { row -> Messages.createEntity(row) }.firstOrNull()
+            if (msg != null) {
+                history.lastMsg = msg.content.toString()
+            }
+        }
         return ResponseEntity.ok().body(R.ok(historyList))
     }
 
@@ -108,7 +119,7 @@ class MessageController  {
     @PostMapping("getMsgPageData")
     fun getMsgPageData(@RequestBody pageRequest: PageRequest,@RequestParam suid: Long):ResponseEntity<R>{
         val ruid = StpUtil.getLoginId().toString().toLong()
-        val totalRecords = database.sequenceOf(Messages).filter { it.senderUid eq suid }
+        val totalRecords = database.sequenceOf(Messages).filter { it.senderId eq suid.toString() }
             .filter { it.status neq "deleted" }
             .filter { it.receiverUid eq ruid }
             .totalRecordsInAllPages
@@ -116,7 +127,7 @@ class MessageController  {
         val limit = PageCalculator.calculateLimit(pageRequest, totalRecords)
 
         val query = database.from(Messages).select()
-            .where{ (Messages.senderUid eq suid) and
+            .where{ (Messages.senderId eq suid.toString()) and
                     (Messages.status neq "deleted") and
                     (Messages.receiverUid eq ruid) }
             .limit(offset, limit)
@@ -128,7 +139,6 @@ class MessageController  {
         return ResponseEntity.ok().body(R.ok(page))
     }
 
-    //写的一般，暂时这样
     @SaCheckLogin
     @GetMapping("checkSenderMsg")
     fun checkSenderMsg(@RequestParam suid:Long):ResponseEntity<R>{
@@ -137,12 +147,18 @@ class MessageController  {
             item{
                 set(it.status,"checked")
                 where{
-                    (it.senderUid eq suid) and (it.receiverUid eq ruid) and (it.status eq "unCheck")
+                    (it.senderId eq suid.toString()) and (it.receiverUid eq ruid) and (it.status eq "unCheck")
                 }
             }
         }
 
         return ResponseEntity.ok().body(R.ok("msg all checked"))
     }
+
+//    @SaCheckLogin
+//    @GetMapping("getUtuMsgHistoryList")
+//    fun getUtuMsgHistoryList(){
+//
+//    }
 
 }

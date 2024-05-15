@@ -217,6 +217,8 @@ class UserController {
         return ResponseEntity.ok().body(R.ok(friendships))
     }
 
+    //Todo 被申请的列表
+
     @SaCheckLogin
     @GetMapping("/approveApply")
     fun approveApply(@RequestParam applyId:Long):ResponseEntity<R>{

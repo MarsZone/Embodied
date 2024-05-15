@@ -8,10 +8,13 @@ import com.mars.social.model.mix.*
 import com.mars.social.model.topic.TopicComment
 import com.mars.social.model.topic.TopicComments
 import com.mars.social.model.topic.*
+import com.mars.social.model.user.UserDetail
+import com.mars.social.model.user.UserDetails
 import com.mars.social.model.user.UserFollow
 import com.mars.social.model.user.UserFollowDB
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
+import org.apache.tomcat.util.buf.StringUtils
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 import org.ktorm.entity.*
@@ -29,6 +32,27 @@ class TopicController {
 
     @GetMapping("/list")
     fun list(@RequestParam uid:Long,@RequestParam channelKey:String = "information_plaza"): ResponseEntity<R> {
+        val filteredTopics = getFilteredTopics(uid, channelKey)
+
+        val userDetails = extractAuthorUidList(filteredTopics){ it.authorUid }
+        val uidToUserDetailMap = userDetails.associateBy { it.uid }
+
+        for (topic in filteredTopics) {
+            uidToUserDetailMap[topic.authorUid]?.let { userDetail ->
+                topic.authorNickName = userDetail.nickName
+                topic.authorAvatar = userDetail.avatar
+            }
+        }
+        return ResponseEntity.ok().body(R.ok(filteredTopics))
+    }
+    private inline fun <reified T> extractAuthorUidList(filteredItems: List<T>, authorUidExtractor: (T) -> Long?): List<UserDetail> {
+        val authIdSet = HashSet<Long>()
+        for (item in filteredItems) {
+            authorUidExtractor(item)?.let { authIdSet.add(it) }
+        }
+        return database.from(UserDetails).select().where { UserDetails.uid inList ArrayList(authIdSet)  }.map { row -> UserDetails.createEntity(row) }
+    }
+    private fun getFilteredTopics(uid: Long, channelKey: String): List<Topic> {
         val actualChannelKey = channelKey.ifBlank { "information_plaza" }
         val filteredTopics = database.sequenceOf(Topics)
             .filter { it.authorUid eq uid }
@@ -41,8 +65,10 @@ class TopicController {
             }
             .toList()
             .reversed()
-        return ResponseEntity.ok().body(R.ok(filteredTopics))
+
+        return filteredTopics
     }
+
 
     /**
      * 获取指定频道的话题
@@ -102,6 +128,18 @@ class TopicController {
                 topicViewHis.createTime = LocalDateTime.now()
                 topicViewHisDB.add(topicViewHis)
             }
+            val tags = database.from(TopicTagsRelation).select().where { TopicTagsRelation.topicId eq topic.id }.map { row -> TopicTagsRelation.createEntity(row) }
+            var tagList = ArrayList<String>()
+            var tagNameList = ArrayList<String>()
+            for(tag in tags){
+                tagList.add(""+tag.tagId)
+                var tagName = database.from(Tags).select().where { Tags.id eq tag.tagId }.map { row -> Tags.createEntity(row) }.firstOrNull()
+                if (tagName != null) {
+                    tagNameList.add(tagName.tagName)
+                }
+            }
+            topic.tags = tagList
+            topic.tagsName = tagNameList
             return ResponseEntity.ok().body(R.ok(topic))
         }
         return ResponseEntity.ok().body(R.fail("Not found topic"))
