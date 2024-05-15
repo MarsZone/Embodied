@@ -1,16 +1,17 @@
 import { previewFileApi } from "@/apis/file";
-import { getCommentsApi, getIndividualTopicApi, getTopicActionApi, likeApi, postCommentApi } from "@/apis/topic";
+import { addBookmarkApi, getCommentsApi, getIndividualTopicApi, getTopicActionApi, likeApi, postCommentApi, removeBookmarkApi } from "@/apis/topic";
 import { getProfileAPI } from "@/apis/user";
 import useUserDetail from "@/hooks/useUserDetail";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Button, Image, NavBar, Sticky, Divider, ActionBar, Popup, Input } from "react-vant";
-import { Star, LikeO, BookmarkO, ShareO } from '@react-vant/icons'
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Image, NavBar, Sticky, Divider, ActionBar, Popup, Input, Toast } from "react-vant";
+import { Star, LikeO, BookmarkO, ShareO, Bookmark, Like, Share } from '@react-vant/icons'
 import './TopicDetail.scss'
 import dayjs from "dayjs";
 
 const TopicDetail = () => {
   const { topicId } = useParams()
+  const navigate = useNavigate()
   const [topicDetail, setTopicDetail] = useState({})
   const [userProfile, setUserProfile] = useState({
     userName: '',
@@ -73,19 +74,22 @@ const TopicDetail = () => {
     // setUserProfile(userDetail)
 
     console.log('话题id：', topicId)
-    console.log('话题详情：', topicRes.data.title)
     console.log('用户详情：', userProfileRes.data)
     console.log('用户头像：', userAvatarRes.data)
-    console.log('话题评论：', topicCommentsRes.data)
   }
 
+
   //发表评论
-  const onSubmitComment = () => {
+  const onSubmitComment = async () => {
     const submitComment = { tid: topicId, content: comment }
     console.log('发表评论：', submitComment)
-    postCommentApi(submitComment)
+    await postCommentApi(submitComment)
     setComment('')
     setCommentEditVisible(false)
+
+    //刷新评论
+    const topicCommentsRes = await getCommentsApi(topicId)
+    setTopicComments(topicCommentsRes.data)
   }
 
 
@@ -94,19 +98,29 @@ const TopicDetail = () => {
     const likeRes = await likeApi(topicId)
     if (likeRes.data === 'like') {
       setLikeFlag(true)
+      Toast.info('已赞')
     } else if (likeRes.data === 'unlike') {
       setLikeFlag(false)
+      Toast.info('取消赞')
     }
   }
 
   //收藏
-  const onClickBookmark = () => {
-    console.log('点击收藏')
+  const onClickBookmark = async () => {
+    if (bookmarkFlag === false) {
+      const addBookmarkRes = await addBookmarkApi(topicId)
+      addBookmarkRes.code === 20000 ? setBookmarkFlag(true) : bookmarkFlag(false)
+      Toast.info('已收藏')
+    } else if (bookmarkFlag === true) {
+      const removeBookmarkRes = await removeBookmarkApi(topicId)
+      removeBookmarkRes.code === 20000 ? setBookmarkFlag(false) : bookmarkFlag(false)
+      Toast.info('取消收藏')
+    }
   }
 
   //分享
   const onClickShare = () => {
-    console.log('点击分享')
+    Toast.info('开发中...')
   }
 
 
@@ -115,11 +129,11 @@ const TopicDetail = () => {
   // }
 
   //dayjs
-  console.log('当前时间：', dayjs())
-  console.log('发布时间：', dayjs(topicDetail.publishTime).format('YYYY-MM-DD HH:mm'))
-  const timeDisplay = (dt) => {
-    const currentTime = dayjs()
-  }
+  // console.log('当前时间：', dayjs())
+  // console.log('发布时间：', dayjs(topicDetail.publishTime).format('YYYY-MM-DD HH:mm'))
+  // const timeDisplay = (dt) => {
+  //   const currentTime = dayjs()
+  // }
 
 
   return (
@@ -127,7 +141,7 @@ const TopicDetail = () => {
       <NavBar
         title="话题详情"
         leftText=""
-      // onClickLeft={() => }
+        onClickLeft={() => navigate(-1)}
       />
 
       {topicDetail === null || userProfile === null ||
@@ -208,11 +222,11 @@ const TopicDetail = () => {
 
             {likeFlag ?
               <ActionBar.Icon
-                icon={<LikeO color='red' />}
+                icon={<Like color='red' />}
                 text='点赞'
                 onClick={onClickLike}
               /> : <ActionBar.Icon
-                icon={<LikeO color='black' />}
+                icon={<LikeO color='red' />}
                 text='点赞'
                 onClick={onClickLike}
               />
@@ -222,10 +236,17 @@ const TopicDetail = () => {
               text='点赞'
               onClick={onClickLike}
             /> */}
-            <ActionBar.Icon
-              icon={<BookmarkO color='red' />}
-              text='收藏'
-              onClick={onClickBookmark} />
+            {bookmarkFlag ?
+              <ActionBar.Icon
+                icon={<Bookmark color='red' />}
+                text='收藏'
+                onClick={onClickBookmark} />
+              : <ActionBar.Icon
+                icon={<BookmarkO color='red' />}
+                text='收藏'
+                onClick={onClickBookmark} />
+            }
+
             <ActionBar.Icon
               icon={<ShareO color='red' />}
               text='分享'

@@ -112,7 +112,7 @@ const Home = () => {
               {channelTopics.map(topic => (
                 <div className='topic-outer-box'>
                   <div className='topic-inner-box'>
-                    <Link to={`/topicDetail/${topic.id}`}>
+                    <Link to={`/topicDetail/${topic.id}`} className='topic-link'>
                       <div className='topic-header'>
                         <div className='topic-channel'>{getChannelNameByKey(topic.channelKey)}</div>
                         <div className='topic-title'>{topic.title}</div>
@@ -121,11 +121,11 @@ const Home = () => {
                     </Link>
 
                     {/* <div className='topic-content'> */}
-                      <Typography.Text
-                        className='topic-content'
-                        ellipsis={2}>
-                        内容：{topic.content}
-                      </Typography.Text>
+                    <Typography.Text
+                      className='topic-content'
+                      ellipsis={2}>
+                      内容：{topic.content}
+                    </Typography.Text>
                     {/* </div> */}
 
                     <div className='topic-cover'>
