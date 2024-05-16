@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NavBar, Toast } from 'react-vant'
+import { NavBar, Toast, Cell, Image } from 'react-vant'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { getMsgHistoryApi } from '@/apis/message'
 import './Message.scoped.scss'
@@ -21,17 +21,38 @@ const Message = () => {
   }
 
   return (
-    <div className="layout">
+    <div className="message-layout">
       <NavBar
         title="消息"
         rightText="按钮"
         onClickRight={() => Toast('按钮')}
       />
-      <div className="container">
+      <div>
         {msgHisList.map(msg => (
           <div className='msg-box'>
-            <div>发送用户id：{msg.senderUid}</div>
-            <div>状态：{msg.status}</div>
+            {/* <Cell
+              center
+              key={msg.lastMsg}
+              // title={`Avatar ${idx}`}
+              label='Deserunt dolor ea eaque eos'
+              icon={<Image width={44} height={44} src='/demo_1.jpg' round />}
+              isLink
+            /> */}
+
+            <div className='msg-left'>
+              {msg.senderId}
+            </div>
+            <div className='msg-right'>
+              <div className='msg-lastMsg'>
+                <div> {msg.senderNickName}</div>
+                <div> {msg.lastMsg}</div>
+              </div>
+              <div className='msg-lastTime'>
+                <div> 5-16 </div>
+                <div> {msg.unReadCount}</div>
+              </div>
+            </div>
+
           </div>
         ))}
       </div>

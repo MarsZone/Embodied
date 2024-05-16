@@ -1,3 +1,20 @@
-.msg-box {
-  height: 8vh;
+.message-layout {
+  // background-image: url('@/assets/message_nnnoise.svg');
 }
+
+.msg-box {
+  display: flex;
+
+  padding: 0.5rem;
+  height: 8vh;
+  width: 39rem;
+
+}
+
+.msg-right {
+  display: flex;
+  justify-content: space-between;
+  
+  // flex-direction: column;
+}
+
