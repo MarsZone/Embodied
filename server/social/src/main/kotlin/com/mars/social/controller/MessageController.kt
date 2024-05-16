@@ -116,7 +116,8 @@ class MessageController  {
                 history.status = lastMsg.status.toString()
             }
             if(history.msgType == "u"){
-                var userDetail = database.from(UserDetails).select().where{ UserDetails.uid eq history.senderId.toString().toLong() }.limit(1).map{row -> UserDetails.createEntity(row)}.firstOrNull()
+                var userDetail = database.from(UserDetails).select().where{ UserDetails.uid eq history.senderId.toString().toLong() }
+                    .limit(1).map{row -> UserDetails.createEntity(row)}.firstOrNull()
                 if(userDetail!=null){
                     history.senderNickName = userDetail.nickName
                     history.senderAvatar = userDetail.avatar
@@ -179,10 +180,25 @@ class MessageController  {
         return ResponseEntity.ok().body(R.ok("msg all checked"))
     }
 
-//    @SaCheckLogin
-//    @GetMapping("getUtuMsgHistoryList")
-//    fun getUtuMsgHistoryList(){
-//
-//    }
+    @SaCheckLogin
+    @GetMapping("getUtuMsgHistoryList")
+    fun getUtuMsgHistoryList(@RequestParam targetUid:Long,@RequestParam msgId:Long,@RequestParam querySize:Int):ResponseEntity<R>{
+        val suid = StpUtil.getLoginId().toString().toLong()
+        var messageList:List<Message>;
+        if(msgId == (-1).toLong()){
+            messageList = database.from(Messages).select()
+                .where{ ((Messages.receiverUid eq suid) and (Messages.senderId eq targetUid.toString()))  or
+                        ((Messages.receiverUid eq targetUid) and (Messages.senderId eq suid.toString()))
+                }.orderBy( Messages.id.desc()).limit(querySize).map { row -> Messages.createEntity(row) }.toList();
+            return ResponseEntity.ok().body(R.ok(messageList))
+        }else{
+            messageList = database.from(Messages).select()
+                .where{ (((Messages.receiverUid eq suid) and (Messages.senderId eq targetUid.toString()))  or
+                        ((Messages.receiverUid eq targetUid) and (Messages.senderId eq suid.toString())))  and
+                        (Messages.id lessEq  msgId)
+                }.orderBy( Messages.id.desc()).limit(querySize).map { row -> Messages.createEntity(row) }.toList();
+            return ResponseEntity.ok().body(R.ok(messageList))
+        }
+    }
 
 }
