@@ -4,17 +4,28 @@
 
 .msg-box {
   display: flex;
-
   padding: 0.5rem;
-  height: 8vh;
-  width: 39rem;
+}
 
+.msg-avatar {
+  width: 10vw;
+  height: 10vw;
 }
 
 .msg-right {
   display: flex;
-  justify-content: space-between;
-  
-  // flex-direction: column;
-}
+  flex-direction: column;
+  width: 80vw;
 
+  .msg-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .msg-lastMsg {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

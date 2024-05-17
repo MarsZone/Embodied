@@ -35,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/discover',
-    element: <AuthRoute> <Discover /> </AuthRoute>,
+    element: <Discover />,
     children: [
       {
         index: true,
@@ -49,15 +49,15 @@ const router = createBrowserRouter([
   },
   {
     path: '/post',
-    element: <Post />
+    element: <AuthRoute><Post /></AuthRoute>
   },
   {
     path: '/message',
-    element: <Message />
+    element: <AuthRoute><Message /></AuthRoute>
   },
   {
     path: '/profile/:userId',
-    element: <Profile />,
+    element: <AuthRoute><Profile /></AuthRoute>,
     children: [
       {
         path: 'myPost',
