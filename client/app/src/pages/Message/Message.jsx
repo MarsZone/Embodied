@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NavBar, Toast, Cell, Image } from 'react-vant'
+import { NavBar, Toast, Badge, Image } from 'react-vant'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { getMsgHistoryApi } from '@/apis/message'
 import './Message.scoped.scss'
@@ -38,32 +38,35 @@ const Message = () => {
         rightText="按钮"
         onClickRight={() => Toast('按钮')}
       />
-      {msgHisList === null || avatarUrl ? (
+      {msgHisList === null || avatarUrl === null ? (
         <div> loading... </div>
       ) : (
         <div>
           {msgHisList.map(msg => (
             <div className='msg-box'>
-              {/* <Cell
-              center
-              key={msg.lastMsg}
-              // title={`Avatar ${idx}`}
-              label='Deserunt dolor ea eaque eos'
-              icon={<Image width={44} height={44} src='/demo_1.jpg' round />}
-              isLink
-            /> */}
               <div className='msg-left'>
-                {msg.senderId}
-                <img src={avatarUrl} className='msg-avatar' />
+                <Image
+                  cover round
+                  className='msg-avatar'
+                  src={avatarUrl} />
               </div>
+
               <div className='msg-right'>
                 <div className='msg-content'>
-                  <div> {msg.senderNickName}</div>
-                  <div> 5-16 </div>
+                  <div className='msg-sender'>
+                    {msg.senderNickName}
+                  </div>
+                  <div className='msg-last-time'>
+                    {msg.lastMsgDateTime}
+                  </div>
                 </div>
                 <div className='msg-lastMsg'>
-                  <div> {msg.lastMsg}</div>
-                  <div> {msg.unReadCount}</div>
+                  <div className='msg-last-content'>
+                    {msg.lastMsg}
+                  </div>
+                  <div>
+                    <Badge content={msg.unReadCount} max="99" color='grey'/>
+                  </div>
                 </div>
               </div>
 
