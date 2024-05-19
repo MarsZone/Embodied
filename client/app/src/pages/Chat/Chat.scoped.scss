@@ -1,0 +1,16 @@
+.chat-indv {
+  display: flex;
+  padding: 0.5rem 0.7rem;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgb(235, 237, 240)
+}
+
+.chat-info{
+  display: flex;
+  flex-direction: row;
+}
+
+.chat-target-avatar {
+  width: 15vw;
+  height: 15vw;
+}
