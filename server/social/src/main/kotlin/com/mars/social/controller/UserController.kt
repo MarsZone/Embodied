@@ -92,7 +92,7 @@ class UserController {
 
     @RequestMapping("/isLogin")
     fun isLogin(): ResponseEntity<R> {
-        val data = messageUtil.get("login.state") + StpUtil.isLogin()
+        val data = StpUtil.isLogin()
         return ResponseEntity.ok().body(R.ok(data))
     }
 
