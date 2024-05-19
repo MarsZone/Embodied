@@ -28,4 +28,22 @@ export function checkSenderMsgApi(suid) {
   })
 }
 
+//4.查询和指定用户的消息历史记录
+export function getUtuMsgHistoryApi(params = {}) {
+  //默认参数
+  const defaultParams = {
+    msgId: -1,
+    querySize: 5,
+    targetUid: '', //传参聊天对象
+  }
+  //合并传入的参数和默认参数
+  const concatParams = {...defaultParams, ...params}
+
+  return request({
+    url: '/api/msg/getUtuMsgHistoryList',
+    method: 'GET',
+    params: concatParams
+  })
+}
+
 

@@ -4,9 +4,11 @@ import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { getMsgHistoryApi } from '@/apis/message'
 import './Message.scoped.scss'
 import { previewFileApi } from '@/apis/file'
+import { useNavigate } from 'react-router-dom'
 
 const Message = () => {
 
+  const navigate = useNavigate()
   const [msgHisList, setMsgHisList] = useState([])
   const [avatarUrl, setAvatarUrl] = useState()
 
@@ -31,6 +33,11 @@ const Message = () => {
     console.log('头像url：', res.data)
   }
 
+  //点击跳转对应sender的聊天页面
+  const onClickSender = (targetId) => {
+    navigate('/chat', { state: {targetId} } )
+  }
+
   return (
     <div className="message-layout">
       <NavBar
@@ -43,7 +50,7 @@ const Message = () => {
       ) : (
         <div>
           {msgHisList.map(msg => (
-            <div className='msg-box'>
+            <div className='msg-box' onClick={() => onClickSender(msg.senderId)}>
               <div className='msg-left'>
                 <Image
                   cover round
