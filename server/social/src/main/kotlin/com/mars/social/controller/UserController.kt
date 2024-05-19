@@ -92,8 +92,26 @@ class UserController {
 
     @RequestMapping("/isLogin")
     fun isLogin(): ResponseEntity<R> {
+        printCurToken()
         val data = StpUtil.isLogin()
         return ResponseEntity.ok().body(R.ok(data))
+    }
+    fun printCurToken(){
+        // 获取当前会话的 token 值
+        val curToken = StpUtil.getTokenValue();
+        // 获取当前`StpLogic`的 token 名称
+        val curTokenName = StpUtil.getTokenName();
+        // 获取指定 token 对应的账号id，如果未登录，则返回 null
+        val id = StpUtil.getLoginIdByToken(curToken);
+        // 获取当前会话剩余有效期（单位：s，返回-1代表永久有效）
+        val last = StpUtil.getTokenTimeout();
+        // 获取当前会话的 token 信息参数
+        var tokenInfo = StpUtil.getTokenInfo();
+        print(curToken)
+        print(curTokenName)
+        print(id)
+        print(last)
+        print(tokenInfo)
     }
 
 //    @RequestMapping("resetPassword")
