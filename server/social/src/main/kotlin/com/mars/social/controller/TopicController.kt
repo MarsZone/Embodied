@@ -30,6 +30,9 @@ class TopicController {
     @Autowired
     protected lateinit var database: Database
 
+    @Autowired
+    private lateinit var userController:UserController
+
     @GetMapping("/list")
     fun list(@RequestParam uid:Long,@RequestParam channelKey:String = "information_plaza"): ResponseEntity<R> {
         val filteredTopics = getFilteredTopics(uid, channelKey)
@@ -196,6 +199,7 @@ class TopicController {
     @SaCheckLogin
     @PostMapping("/publishTopic")
     fun publishTopic(@RequestBody topic: Topic): ResponseEntity<R>{
+        userController.printCurToken()
         val uid = StpUtil.getLoginId()
         topic.authorUid = uid.toString().toLong()
         val topics = database.sequenceOf(Topics)
