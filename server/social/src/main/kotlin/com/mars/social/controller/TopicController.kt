@@ -35,20 +35,25 @@ class TopicController {
         val filteredTopics = getFilteredTopics(uid, channelKey)
 
         val userDetails = extractAuthorUidList(filteredTopics){ it.authorUid }
-        val uidToUserDetailMap = userDetails.associateBy { it.uid }
+        if(userDetails!=null){
+            val uidToUserDetailMap = userDetails.associateBy { it.uid }
 
-        for (topic in filteredTopics) {
-            uidToUserDetailMap[topic.authorUid]?.let { userDetail ->
-                topic.authorNickName = userDetail.nickName
-                topic.authorAvatar = userDetail.avatar
+            for (topic in filteredTopics) {
+                uidToUserDetailMap[topic.authorUid]?.let { userDetail ->
+                    topic.authorNickName = userDetail.nickName
+                    topic.authorAvatar = userDetail.avatar
+                }
             }
         }
         return ResponseEntity.ok().body(R.ok(filteredTopics))
     }
-    private inline fun <reified T> extractAuthorUidList(filteredItems: List<T>, authorUidExtractor: (T) -> Long?): List<UserDetail> {
+    private inline fun <reified T> extractAuthorUidList(filteredItems: List<T>, authorUidExtractor: (T) -> Long?): List<UserDetail>? {
         val authIdSet = HashSet<Long>()
         for (item in filteredItems) {
             authorUidExtractor(item)?.let { authIdSet.add(it) }
+        }
+        if(authIdSet.isEmpty()){
+            return null
         }
         return database.from(UserDetails).select().where { UserDetails.uid inList ArrayList(authIdSet)  }.map { row -> UserDetails.createEntity(row) }
     }
