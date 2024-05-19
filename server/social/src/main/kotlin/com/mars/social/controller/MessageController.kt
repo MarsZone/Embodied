@@ -47,10 +47,10 @@ class MessageController  {
         return ResponseEntity.ok().body(R.ok("message send"))
     }
 
-    fun sendSysMsg(suid:Long,to:Long, content:String):Long{
+    fun sendSysMsg(to:Long, content:String):Long{
         val message:Message = Entity.create<Message>()
         message.msgType="s";
-        message.senderId = suid.toString()
+        message.senderId = "s_1"
         message.receiverUid = to
         message.content = content
         message.sendTime= LocalDateTime.now()
@@ -70,7 +70,7 @@ class MessageController  {
 
     //Current user, get top x different people message and check status.
     data class HistoryResult(var senderId: String, var senderNickName: String, var senderAvatar:String,
-                             var status: String, var unReadCount: Int, var msgType:String, var lastMsg:String)
+                             var status: String, var unReadCount: Int, var msgType:String, var lastMsg:String ,var lastMsgDateTime: LocalDateTime)
     @SaCheckLogin
     @GetMapping("history")
     fun history(@RequestParam size: Int):ResponseEntity<R>{
@@ -97,7 +97,8 @@ class MessageController  {
                         "",
                         0,
                         "",
-                        ""
+                        "",
+                        LocalDateTime.now()
                     )
                 }
             }
@@ -114,6 +115,7 @@ class MessageController  {
                 history.lastMsg = lastMsg.content.toString()
                 history.msgType = lastMsg.msgType.toString()
                 history.status = lastMsg.status.toString()
+                history.lastMsgDateTime = lastMsg.sendTime
             }
             if(history.msgType == "u"){
                 var userDetail = database.from(UserDetails).select().where{ UserDetails.uid eq history.senderId.toString().toLong() }

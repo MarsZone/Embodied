@@ -164,10 +164,26 @@ class UserController {
         if(check!=null){
             return ResponseEntity.ok(R.fail("request existed"))
         }else{
-            applyRequest.msgId = messageController.sendSysMsg(suid,targetUser,"you have a new friends request")
+            applyRequest.msgId = messageController.sendSysMsg(targetUser,"you have a new friends request")
             friendships.add(applyRequest)
         }
         return ResponseEntity.ok(R.ok("request applied"))
+    }
+
+    @SaCheckLogin
+    @GetMapping("/rejectApplyWithReason")
+    fun rejectApplyWithReason(@RequestParam applyId: Long,@RequestParam rejectReason:String):ResponseEntity<R>{
+        var requestRow = database.from(Friendships).select().where{ (Friendships.id eq applyId) and (Friendships.status eq "applying") }.map { row -> Friendships.createEntity(row) }.firstOrNull()
+        if(requestRow != null){
+            requestRow.status = "rejected"
+            requestRow.rejectReason  = rejectReason
+            requestRow.msgId = messageController.sendSysMsg(requestRow.uidSource,
+                "your apply was rejected because:$rejectReason"
+            )
+            var friendships = database.sequenceOf(Friendships)
+            friendships.update(requestRow)
+        }
+        return ResponseEntity.ok(R.ok("request rejected"))
     }
 
     @SaCheckLogin

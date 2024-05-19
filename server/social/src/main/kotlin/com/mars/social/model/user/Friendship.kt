@@ -9,7 +9,7 @@ interface Friendship : Entity<Friendship> {
 	var uidSource: Long				//源用户
 	var uidTo: Long					//目标用户
 	var status: String?				//applying,friends,rejected,blocked
-	var rejectReson: String?		//拒绝原因
+	var rejectReason: String?		//拒绝原因
 	var createTime: LocalDateTime
 	var updateTime: LocalDateTime
 	var msgId: Long
@@ -20,7 +20,7 @@ object Friendships : Table<Friendship>("friendships") {
 	val uidSource = long("uid_source").bindTo { it.uidSource }
 	val uidTo = long("uid_to").bindTo { it.uidTo }
 	val status = varchar("status").bindTo { it.status }
-	val rejectReson = varchar("reject_reson").bindTo { it.rejectReson }
+	val rejectReason = varchar("reject_reason").bindTo { it.rejectReason }
 	val createTime = datetime("create_time").bindTo { it.createTime }
 	val updateTime = datetime("update_time").bindTo { it.updateTime }
 	val msgId = long("msg_id").bindTo { it.msgId }
