@@ -34,8 +34,8 @@ const Message = () => {
   }
 
   //点击跳转对应sender的聊天页面
-  const onClickSender = (targetId) => {
-    navigate('/chat', { state: {targetId} } )
+  const onClickSender = (targetId, senderNickName) => {
+    navigate('/chat', { state: { targetId, senderNickName } })
   }
 
   return (
@@ -50,7 +50,7 @@ const Message = () => {
       ) : (
         <div>
           {msgHisList.map(msg => (
-            <div className='msg-box' onClick={() => onClickSender(msg.senderId)}>
+            <div className='msg-box' onClick={() => onClickSender(msg.senderId, msg.senderNickName)}>
               <div className='msg-left'>
                 <Image
                   cover round
@@ -72,7 +72,7 @@ const Message = () => {
                     {msg.lastMsg}
                   </div>
                   <div>
-                    <Badge content={msg.unReadCount} max="99" color='grey'/>
+                    <Badge content={msg.unReadCount} max="99" color='grey' />
                   </div>
                 </div>
               </div>

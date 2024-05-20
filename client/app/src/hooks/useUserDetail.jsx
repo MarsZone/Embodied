@@ -39,8 +39,8 @@ const useUserDetail = (uid) => {
     const userAvatarRes = await previewFileApi(avatarId)
     setAvatarUrl(userAvatarRes.data)
 
-    console.log('用户详情：', userProfileRes.data)
-    console.log('用户头像：', userAvatarRes.data)
+    // console.log('用户详情：', userProfileRes.data)
+    // console.log('用户头像：', userAvatarRes.data)
   }
 
   return { userProfile, avatarUrl }
