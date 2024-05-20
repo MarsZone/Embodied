@@ -1,7 +1,8 @@
-import { getUtuMsgHistoryApi } from "@/apis/message"
+import { getUtuMsgHistoryApi, sendMsgApi } from "@/apis/message"
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
-import { NavBar, Image } from "react-vant"
+import { NavBar, Image, ActionBar, Popup, Input, Button } from "react-vant"
+import { Arrow } from '@react-vant/icons';
 import './Chat.scoped.scss'
 import { previewFileApi } from "@/apis/file"
 import useUserDetail from "@/hooks/useUserDetail"
@@ -16,6 +17,7 @@ const Chat = () => {
   const [messageList, setMessageList] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [avatarUrlTarget, setAvatarUrlTarget] = useState()
+  const [sendMsgVisible, setSendMsgVisible] = useState(false)
 
   //获取本人信息
   // const fetchMyProfile = () => {
@@ -45,7 +47,9 @@ const Chat = () => {
   const fetchMsg = async () => {
     const res = await getUtuMsgHistoryApi({ targetUid: targetId })
     console.log('与targetId为：', targetId, '，的消息记录：', res.data)
-    setMessageList(res.data)
+
+    const reversedList = res.data.reverse();
+    setMessageList(reversedList)
   }
 
   //聊天对象头像
@@ -53,6 +57,17 @@ const Chat = () => {
     const res = await previewFileApi(5)
     setAvatarUrlTarget(res.data)
     //console.log('我的头像：', res.data)
+  }
+
+  //发送消息
+  const onSubmitMsg = async () => {
+    const res = await sendMsgApi({ to: targetId, content: newMessage });
+    console.log('发送消息：', newMessage)
+    console.log('发送消息返回：', res)
+    setNewMessage('')
+    setSendMsgVisible(false)
+    //刷新消息
+    fetchMsg()
   }
 
 
@@ -113,7 +128,35 @@ const Chat = () => {
         )}
 
         <div className="chat-send-box">
+          <ActionBar>
+            <ActionBar.Button
+              className="comment-button"
+              text={newMessage}
+              onClick={() => setSendMsgVisible(true)}
+            />
+            <Popup
+              visible={sendMsgVisible}
+              style={{ height: '30%' }}
+              position='bottom'
+              onClose={() => setSendMsgVisible(false)}
+            >
+              <Input
+                suffix={
+                  <Button size="small" type="primary" onClick={onSubmitMsg}>
+                    发送
+                  </Button>}
+                placeholder="留下你的评论吧..."
+                value={newMessage}
+                onChange={text => setNewMessage(text)}
+              />
+            </Popup>
 
+            <ActionBar.Icon
+              icon={<Arrow  />}
+              text='发送'
+              onClick={onSubmitMsg}
+            />
+          </ActionBar>
         </div>
 
       </div>
