@@ -4,6 +4,7 @@ import { getProfileAPI } from '@/apis/user'
 import { useState, useEffect } from 'react'
 
 const useUserDetail = (uid) => {
+  const [avatarUrl, setAvatarUrl] = useState('')
   const [userProfile, setUserProfile] = useState({
     userName: '',
     email: '',
@@ -22,25 +23,29 @@ const useUserDetail = (uid) => {
       createTime: ''
     }
   })
-  const [avatarUrl, setAvatarUrl] = useState('')
 
   useEffect(() => {
-    loadData()
+    fetchUserProfile()
+    fetchUserAvatar()
   }, [])
 
-  const loadData = async () => {
+  useEffect(() => {
+    fetchUserAvatar()
+  }, [userProfile])
+
+  const fetchUserProfile = async () => {
     //获取用户信息
-    // const uid = parseInt(topicDetail.authorUid)
     const userProfileRes = await getProfileAPI(uid)
     setUserProfile(userProfileRes.data)
+    console.log('用户详情：', userProfileRes.data)
+  }
 
+  const fetchUserAvatar = async () => {
     //获取用户头像url (设定一个默认头像，暂定为5)
-    var avatarId = parseInt(userProfileRes.data.userDetail.avatar) === null ? 5 : parseInt(userProfileRes.data.userDetail.avatar)
+    let avatarId = userProfile.userDetail.avatar === null ? 5 : parseInt(userProfile.userDetail.avatar)
     const userAvatarRes = await previewFileApi(avatarId)
     setAvatarUrl(userAvatarRes.data)
-
-    // console.log('用户详情：', userProfileRes.data)
-    // console.log('用户头像：', userAvatarRes.data)
+    console.log('用户头像：', userAvatarRes.data)
   }
 
   return { userProfile, avatarUrl }

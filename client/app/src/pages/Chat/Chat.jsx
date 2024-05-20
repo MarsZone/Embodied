@@ -24,10 +24,10 @@ const Chat = () => {
   // }
 
   const { userProfile, avatarUrl } = useUserDetail(getUserId())
-  console.log('我的信息：', userProfile)
-  console.log('我的头像：', avatarUrl)
+  //console.log('我的信息：', userProfile)
+  //console.log('我的头像：', avatarUrl)
   const [myNickName, setMyNickName] = useState()
-  const [myAvatarUrl]
+  const [myAvatarUrl, setMyAvatarUrl] = useState()
 
   //初始化数据
   useEffect(() => {
@@ -38,7 +38,8 @@ const Chat = () => {
   //更新我的昵称
   useEffect(() => {
     setMyNickName(userProfile.userDetail.nickName)
-  }, [userProfile])
+    setMyAvatarUrl(avatarUrl)
+  }, [userProfile, avatarUrl])
 
   //加载与targetId的消息记录
   const fetchMsg = async () => {
@@ -47,11 +48,11 @@ const Chat = () => {
     setMessageList(res.data)
   }
 
-  //聊天对象/自己头像
+  //聊天对象头像
   const fetchAvatarUrl = async () => {
     const res = await previewFileApi(5)
     setAvatarUrlTarget(res.data)
-    console.log('我的头像：', res.data)
+    //console.log('我的头像：', res.data)
   }
 
 
@@ -70,7 +71,7 @@ const Chat = () => {
         ) : (
           <div>
             {messageList.map(msg => (
-              <div className='chat-indv'>
+              <div className='chat-indv' key={msg.id}>
                 {msg.senderId === targetId ? (
                   <div className="chat-box target-chat-box">
                     <div className="chat-box-left">
@@ -110,6 +111,10 @@ const Chat = () => {
             ))}
           </div>
         )}
+
+        <div className="chat-send-box">
+
+        </div>
 
       </div>
     </div>
