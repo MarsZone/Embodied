@@ -11,71 +11,45 @@ import useChannelList from '@/hooks/useChannelList'
 
 const Post = () => {
 
-  const demoData = [
-    {
-      url: 'https://img.yzcdn.cn/vant/sand.jpg',
-      filename: '图片名称',
-    },
-    {
-      url: 'https://img.yzcdn.cn/vant/tree.jpg',
-      filename: '图片名称',
-    },
-  ]
-
-  const [imgId, setImgId] = useState()
-  const [imgUrl, setImgUrl] = useState()
-
-  const { c } = useChannelList()
-
-
-  const uploadCoverImg = async (file) => {
-
-    const files = new FormData();
-    files.append('files', file);
-
-    const res = await uploadFileApi(files)
-      .then(data => {
-        setImgId(data.data[0].id)
-        console.log('上传图片id：', imgId)
-      })
-
-    const getImgUrlRes = await previewFileApi(imgId)
-    setImgUrl(getImgUrlRes.data)
-    console.log('上传图片url：', imgUrl)
-
-    return { imgUrl }
-  }
-
-  const formatData = (urls) => {
-    return urls.map(url => ({
-      url
-    }));
-  };
-
-
+  //获取频道列表
+  const { channelList, loading } = useChannelList()
+  console.log('频道列表：', channelList)
 
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  const [coverImgId, setCoverImgId] = useState()
+  const [coverImgUrl, setCoverImgUrl] = useState()
+
+  const uploadCoverImg = async (files) => {
+
+    const uploadRes = await uploadFileApi(files)
+    console.log('上传文件：', files)
+    console.log('上传文件返回：', uploadRes.data[0].id)
+    //上传图片的id
+    setCoverImgId(uploadRes.data[0].id) //只有一张图片，索引为0
+
+    const previewRes = await previewFileApi(uploadRes.data[0].id)
+    //上传图片的url
+    setCoverImgUrl(previewRes.data)
+
+    return { coverImgUrl }
+  }
 
   const onFinish = async formValues => {
-    const { title, content, channelKey, imgId } = formValues //解构表单数据
+    const { title, content, channelKey, coverImgId } = formValues //解构表单数据
     console.log('提交表单数据：', formValues)
     const reqData = {
       title, //标题
       content, //内容
       channelKey, //频道
       autherUid: getUserId, //作者UID
-      coverImg: imgId, //封面图片id
+      coverImg: coverImgId, //封面图片id
       contentType: 'common', //内容类型（默认common）
     }
     //调用接口提交
     const res = await createTopicApi(reqData)
     console.log('提交反馈：', res)
   }
-
-  //获取频道列表
-  const { channelList, loading } = useChannelList()
-  console.log(channelList)
 
   //测试标签
   const [show, setShow] = React.useState(true);
