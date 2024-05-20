@@ -165,7 +165,6 @@ const TopicDetail = () => {
             </div>
           </div>
 
-
           <div className="topic-box">
             <div className="topic-title">
               {topicDetail.title}

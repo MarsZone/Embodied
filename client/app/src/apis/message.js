@@ -6,7 +6,7 @@ export function sendMsgApi(data) {
   return request({
     url: '/api/msg/send',
     method: 'POST',
-    data: { data }
+    data: data
   })
 }
 
