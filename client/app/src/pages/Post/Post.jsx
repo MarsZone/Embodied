@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, NavBar, Toast, Flex, Button, Input, Form, Picker, Uploader, Tag } from 'react-vant'
+import { Image, NavBar, Toast, Popover, Button, Input, Form, Picker, Uploader, Tag, Field } from 'react-vant'
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scoped.scss'
@@ -54,6 +54,10 @@ const Post = () => {
   //测试标签
   const [show, setShow] = React.useState(true);
 
+  //测试频道选择
+  const [selectChannel, setSelectChannel] = React.useState(channelList[0]);
+  const select = option => Toast.info(option.name)
+
   return (
     <div className="layout">
       <NavBar
@@ -107,12 +111,28 @@ const Post = () => {
                 value: item.key
               }))}
               onChange={(val, selectRow, index) => {
-                console.log('选中项: ', val, selectRow, index)
+                console.log('选中项: ', selectRow)
+                Toast.info(`选中值${val}，索引: ${index}`)
+                setSelectChannel(selectRow)
               }}
             >
-              {val => val || '请选择频道'}
+              {/* {val => val || '请选择频道'} */}
+              {/* {(val, _, actions) => {
+                return (
+                  <Field
+                    readOnly
+                    clickable
+                    label='选择城市'
+                    value={val || ''}
+                    name='channelKey'
+                    // placeholder='请选择城市'
+                    onClick={() => actions.open()}
+                  />
+                )
+              }} */}
             </Picker>
-          </Form.Item>
+
+          {/* </Form.Item> */}
 
           <Form.Item
             rules={[{ required: true, message: '' }]}
