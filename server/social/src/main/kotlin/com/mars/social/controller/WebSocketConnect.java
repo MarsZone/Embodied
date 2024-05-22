@@ -23,6 +23,7 @@ public class WebSocketConnect extends TextWebSocketHandler {
      */
     private static ConcurrentHashMap<String, WebSocketSession> webSocketSessionMaps = new ConcurrentHashMap<>();
 
+
     // 监听：连接开启
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -73,6 +74,16 @@ public class WebSocketConnect extends TextWebSocketHandler {
         WebSocketSession session = webSocketSessionMaps.get(USER_ID + userId);
         if(session != null) {
             sendMessage(session, message);
+        }
+    }
+
+    public void broadcastMessage(String message) {
+        for (WebSocketSession session : webSocketSessionMaps.values()) {
+            try {
+                session.sendMessage(new TextMessage(message));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
