@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Image, NavBar, Toast, Popover, Button, Input, Form, Picker, Uploader, Tag, Field } from 'react-vant'
+import { Plus } from '@react-vant/icons';
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scoped.scss'
@@ -56,7 +57,12 @@ const Post = () => {
 
   //测试频道选择
   const [selectChannel, setSelectChannel] = React.useState(channelList[0]);
-  const select = option => Toast.info(option.name)
+  const [selectChannelName, setSelectChannelName] = React.useState('广场');
+  // setSelectChannel
+  // const select = option => Toast.info(option.name)
+
+  //标签
+  const [tags, setTags] = useState(["风景", "西伯利亚", "月球"])
 
   return (
     <div className="layout">
@@ -105,34 +111,24 @@ const Post = () => {
           >
             <Picker
               popup
+              value={selectChannel}
               columns={channelList.map(item => ({
-                key: item.id,
+                key: item.key,
                 text: item.name,
-                value: item.key
+                value: item.name,
               }))}
               onChange={(val, selectRow, index) => {
                 console.log('选中项: ', selectRow)
                 Toast.info(`选中值${val}，索引: ${index}`)
-                setSelectChannel(selectRow)
+                // setSelectChannel(selectRow.key)
               }}
+              onConfirm={setSelectChannel}
             >
-              {/* {val => val || '请选择频道'} */}
-              {/* {(val, _, actions) => {
-                return (
-                  <Field
-                    readOnly
-                    clickable
-                    label='选择城市'
-                    value={val || ''}
-                    name='channelKey'
-                    // placeholder='请选择城市'
-                    onClick={() => actions.open()}
-                  />
-                )
-              }} */}
+              {val => val || '广场'}
+              {/* {val => val || '广场'} */}
             </Picker>
 
-          {/* </Form.Item> */}
+          </Form.Item>
 
           <Form.Item
             rules={[{ required: true, message: '' }]}
@@ -144,17 +140,34 @@ const Post = () => {
           <Form.Item
             name='tag'
             label='标签'>
-            <Tag
-              show={show}
-              plain
-              closeable
-              size="medium"
-              type="primary"
-              onClose={() => setShow(false)}
-            >
-              标签
-            </Tag>
+
+            <div className='post-tag-box'>
+              {tags.map(item => (
+                <Tag
+                  show={show}
+                  plain
+                  closeable
+                  size="medium"
+                  type="primary"
+                  onClose={() => setShow(false)}
+                >
+                  {item}
+                </Tag>
+              ))}
+
+              <Tag
+                show={show}
+                plain
+                size="medium"
+                type="primary"
+                onClose={() => setShow(false)}
+              >
+                <Plus />add tag
+              </Tag>
+
+            </div>
           </Form.Item>
+
 
           <Form.Item
             label='上传图片'
