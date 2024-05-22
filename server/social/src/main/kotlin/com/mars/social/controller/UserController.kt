@@ -229,6 +229,14 @@ class UserController {
         val friendships = database.sequenceOf(Friendships).filter{ it.status eq "friends" }.filter { (it.uidSource eq suid) or (it.uidTo eq suid) }.toList().reversed()
         return ResponseEntity.ok(R.ok(friendships))
     }
+
+    @GetMapping("searchUserByNickName")
+    fun searchUserByNickName(@RequestParam nickName:String):ResponseEntity<R>{
+        val queryStr = "%$nickName%"
+        val users = database.sequenceOf(UserDetails).filter { it.nickName like queryStr }.toList()
+        return ResponseEntity.ok(R.ok(users))
+    }
+
     @SaCheckLogin
     @GetMapping("checkIsFriendByUid")
     fun checkIsFriend(@RequestParam targetUser:Long):ResponseEntity<R>{
