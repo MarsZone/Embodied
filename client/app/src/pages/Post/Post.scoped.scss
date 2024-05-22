@@ -3,9 +3,20 @@
   gap: 2vw;
 }
 
+.form-tag-item{
+  display: flex;
+  flex-direction: column;
+}
+
 .post-tag-box {
   display: flex;
+  flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
+}
 
+.post-tag-input{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

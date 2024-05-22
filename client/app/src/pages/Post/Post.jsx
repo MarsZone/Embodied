@@ -53,7 +53,7 @@ const Post = () => {
   }
 
   //测试标签
-  const [show, setShow] = React.useState(true);
+  const [showAddTag, setShowAddTag] = React.useState(true);
 
   //测试频道选择
   const [selectChannel, setSelectChannel] = React.useState(channelList[0]);
@@ -63,6 +63,15 @@ const Post = () => {
 
   //标签
   const [tags, setTags] = useState(["风景", "西伯利亚", "月球"])
+  const [newTag, setNewTag] = useState('')
+  const onCloseTab = (tag) => {
+    const filteredTags = tags.filter(item => item !== tag)
+    console.log(filteredTags)
+    setTags(filteredTags)
+  }
+  const onClickAddTag = () => {
+    setTags([...tags, newTag])
+  }
 
   return (
     <div className="layout">
@@ -139,32 +148,49 @@ const Post = () => {
 
           <Form.Item
             name='tag'
-            label='标签'>
+            label='标签'
+          >
+            <div className='form-tag-item'>
+              <div className='post-tag-box'>
+                {tags.map(item => (
+                  <Tag
+                    plain
+                    closeable
+                    size="medium"
+                    type="primary"
+                    onClose={() => onCloseTab(item)}
+                  >
+                    {item}
+                  </Tag>
+                ))}
 
-            <div className='post-tag-box'>
-              {tags.map(item => (
                 <Tag
-                  show={show}
+                  show={showAddTag}
                   plain
-                  closeable
                   size="medium"
                   type="primary"
-                  onClose={() => setShow(false)}
+                  onClick={() => setShowAddTag(false)}
                 >
-                  {item}
+                  <Plus />add tag
                 </Tag>
-              ))}
+              </div>
 
-              <Tag
-                show={show}
-                plain
-                size="medium"
-                type="primary"
-                onClose={() => setShow(false)}
-              >
-                <Plus />add tag
-              </Tag>
-
+              <div className='post-tag-input'>
+                {showAddTag === true ? (
+                  <div></div>
+                ) : (
+                  <Input
+                    suffix={
+                      <div>
+                        <Button size="small" type="primary" onClick={onClickAddTag}>add tag</Button>
+                        <Button size="small" type="primary" onClick={() => setShowAddTag(true)}>cancel</Button>
+                      </div>
+                    }
+                    placeholder="请输入tag名称~~"
+                    value={newTag}
+                    onChange={setNewTag}
+                  />)}
+              </div>
             </div>
           </Form.Item>
 
