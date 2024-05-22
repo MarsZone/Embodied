@@ -8,6 +8,7 @@ import {
 } from '@/utils'
 import { loginAPI, getProfileAPI } from '@/apis/user'
 
+
 const userStore = createSlice({
   name: "user", //模块名
   //数据状态
@@ -50,6 +51,23 @@ const fetchLogin = (loginForm) => {
       console.log('发送的数据：', loginForm)
       console.log('Cookies：', document.cookie)
       console.log('token：', res.data.tokenValue)
+      
+      const token = res.data.tokenValue; // 设置token参数
+      // const sendMessage = WebSocketComponent('ws://localhost:8080/ws-connect?satoken='+res.data.tokenValue);// 调用SendMessageToUser组件并传入token参数
+
+      const newSocket = new WebSocket('ws://localhost:8080/ws-connect?satoken='+res.data.tokenValue);
+      newSocket.onopen = () => {
+        console.log('WebSocket connected');
+        newSocket.send("aaabbb")
+      };  
+      newSocket.onmessage = (event) => {
+        console.log('Message received:', event.data);
+        // 在这里处理接收到的消息
+      };  
+      newSocket.onclose = () => {
+        console.log('WebSocket disconnected');
+      };
+
 
       if (res.code === 20000) {
         //2.提交同步action进行token的存入
