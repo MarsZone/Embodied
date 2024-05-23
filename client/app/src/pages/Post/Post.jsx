@@ -37,23 +37,23 @@ const Post = () => {
   }
 
   const onFinish = async formValues => {
-    const { title, content, channelKey, coverImgId } = formValues //解构表单数据
+    const { title, content, selectChannel, coverImgId } = formValues //解构表单数据
     console.log('提交表单数据：', formValues)
     const reqData = {
       title, //标题
       content, //内容
-      channelKey, //频道
+      channelKey: selectChannel, //频道
       autherUid: getUserId, //作者UID
       coverImg: coverImgId, //封面图片id
       contentType: 'common', //内容类型（默认common）
     }
     //调用接口提交
     const res = await createTopicApi(reqData)
-    console.log('提交反馈：', res)
+    console.log('提交表单的返回：', res)
   }
 
   //测试标签
-  const [show, setShow] = React.useState(true);
+  const [showAddTag, setShowAddTag] = React.useState(true);
 
   //测试频道选择
   const [selectChannel, setSelectChannel] = React.useState(channelList[0]);
@@ -63,6 +63,15 @@ const Post = () => {
 
   //标签
   const [tags, setTags] = useState(["风景", "西伯利亚", "月球"])
+  const [newTag, setNewTag] = useState('')
+  const onCloseTab = (tag) => {
+    const filteredTags = tags.filter(item => item !== tag)
+    console.log(filteredTags)
+    setTags(filteredTags)
+  }
+  const onClickAddTag = () => {
+    setTags([...tags, newTag])
+  }
 
   return (
     <div className="layout">
@@ -119,13 +128,13 @@ const Post = () => {
               }))}
               onChange={(val, selectRow, index) => {
                 console.log('选中项: ', selectRow)
-                Toast.info(`选中值${val}，索引: ${index}`)
-                // setSelectChannel(selectRow.key)
+                Toast.info(`选中值${val}，索引: ${index}，key: ${selectRow.key}`)
               }}
-              onConfirm={setSelectChannel}
+              onConfirm={(val, selectRow, index) => {
+                setSelectChannel(selectRow.key)
+              }}
             >
               {val => val || '广场'}
-              {/* {val => val || '广场'} */}
             </Picker>
 
           </Form.Item>
@@ -139,32 +148,50 @@ const Post = () => {
 
           <Form.Item
             name='tag'
-            label='标签'>
+            label='标签'
+          >
+            <div className='form-tag-item'>
+              <div className='post-tag-box'>
+                {tags.map(item => (
+                  <Tag
+                    plain
+                    closeable
+                    size="medium"
+                    type="primary"
+                    onClose={() => onCloseTab(item)}
+                  >
+                    {item}
+                  </Tag>
+                ))}
 
-            <div className='post-tag-box'>
-              {tags.map(item => (
+
                 <Tag
-                  show={show}
+                  show={showAddTag}
                   plain
-                  closeable
                   size="medium"
                   type="primary"
-                  onClose={() => setShow(false)}
+                  onClick={() => setShowAddTag(false)}
                 >
-                  {item}
+                  <Plus />add tag
                 </Tag>
-              ))}
+              </div>
 
-              <Tag
-                show={show}
-                plain
-                size="medium"
-                type="primary"
-                onClose={() => setShow(false)}
-              >
-                <Plus />add tag
-              </Tag>
-
+              <div className='post-tag-input'>
+                {showAddTag === true ? (
+                  <div></div>
+                ) : (
+                  <Input
+                    suffix={
+                      <div>
+                        <Button size="small" type="primary" onClick={onClickAddTag}>add tag</Button>
+                        <Button size="small" type="primary" onClick={() => setShowAddTag(true)}>cancel</Button>
+                      </div>
+                    }
+                    placeholder="请输入tag名称~~"
+                    value={newTag}
+                    onChange={setNewTag}
+                  />)}
+              </div>
             </div>
           </Form.Item>
 
