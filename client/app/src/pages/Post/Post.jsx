@@ -37,19 +37,19 @@ const Post = () => {
   }
 
   const onFinish = async formValues => {
-    const { title, content, channelKey, coverImgId } = formValues //解构表单数据
+    const { title, content, selectChannel, coverImgId } = formValues //解构表单数据
     console.log('提交表单数据：', formValues)
     const reqData = {
       title, //标题
       content, //内容
-      channelKey, //频道
+      channelKey: selectChannel, //频道
       autherUid: getUserId, //作者UID
       coverImg: coverImgId, //封面图片id
       contentType: 'common', //内容类型（默认common）
     }
     //调用接口提交
     const res = await createTopicApi(reqData)
-    console.log('提交反馈：', res)
+    console.log('提交表单的返回：', res)
   }
 
   //测试标签
@@ -128,13 +128,13 @@ const Post = () => {
               }))}
               onChange={(val, selectRow, index) => {
                 console.log('选中项: ', selectRow)
-                Toast.info(`选中值${val}，索引: ${index}`)
-                // setSelectChannel(selectRow.key)
+                Toast.info(`选中值${val}，索引: ${index}，key: ${selectRow.key}`)
               }}
-              onConfirm={setSelectChannel}
+              onConfirm={(val, selectRow, index) => {
+                setSelectChannel(selectRow.key)
+              }}
             >
               {val => val || '广场'}
-              {/* {val => val || '广场'} */}
             </Picker>
 
           </Form.Item>
@@ -163,6 +163,7 @@ const Post = () => {
                     {item}
                   </Tag>
                 ))}
+
 
                 <Tag
                   show={showAddTag}
