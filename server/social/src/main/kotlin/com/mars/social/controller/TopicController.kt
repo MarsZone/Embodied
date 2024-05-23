@@ -196,10 +196,12 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok("draft saved"))
     }
 
+    data class TopicParamsRequest(val topic: Topic, val tags: Array<String>)
     @SaCheckLogin
     @PostMapping("/publishTopic")
-    fun publishTopic(@RequestBody topic: Topic): ResponseEntity<R>{
+    fun publishTopic(@RequestBody topicParams: TopicParamsRequest): ResponseEntity<R>{
         userController.printCurToken()
+        var topic:Topic =  topicParams.topic
         val uid = StpUtil.getLoginId()
         topic.authorUid = uid.toString().toLong()
         val topics = database.sequenceOf(Topics)
@@ -214,6 +216,9 @@ class TopicController {
             topic.id = check.id
             topics.update(topic)
         }
+        var tagRequest : TagRequest = TagRequest(topic.id,topicParams.tags);
+        toTag(tagRequest);
+
         return ResponseEntity.ok().body(R.ok("topic published"))
     }
 
@@ -285,7 +290,7 @@ class TopicController {
         }
     }
 
-    data class TagRequest(val tid: Long, val tags: Array<String>)
+    data class TagRequest(val tid: Long, var tags: Array<String>)
     @PostMapping("toTag")
     fun toTag(@RequestBody tagParams: TagRequest):ResponseEntity<R>{
         val tid = tagParams.tid
