@@ -1,6 +1,8 @@
 package com.mars.social.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.stereotype.Component;
@@ -55,6 +57,26 @@ public class WebSocketConnect extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         System.out.println("sid为：" + session.getId() + "，发来：" + message);
+        String payload = message.getPayload();
+        Map<String, String> dataStruct = new HashMap<>();
+        String[] pairs = payload.split("\\|");
+
+        for (String pair : pairs) {
+            String[] keyValue = pair.split(":");
+            String key = keyValue[0];
+            String value = keyValue[1].replaceAll("[\'']", "");
+//            value = value.replaceAll("[\'']", "");
+            dataStruct.put(key, value);
+        }
+        String command = dataStruct.get("cmd");
+        String target = dataStruct.get("target");
+        String msg = dataStruct.get("msg");
+        if(command.equals("10100")){
+            this.broadcastMessage(msg);
+        }
+        if(command.equals("10200")){
+            sendMessage(Long.parseLong(target),msg);
+        }
     }
 
     // -----------
