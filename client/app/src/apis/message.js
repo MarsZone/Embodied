@@ -33,7 +33,7 @@ export function getUtuMsgHistoryApi(params = {}) {
   //默认参数
   const defaultParams = {
     msgId: -1,
-    querySize: 5,
+    querySize: 100,
     targetUid: '', //传参聊天对象
   }
   //合并传入的参数和默认参数
