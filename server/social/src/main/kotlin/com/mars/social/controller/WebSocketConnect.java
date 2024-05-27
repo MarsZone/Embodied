@@ -1,21 +1,23 @@
 package com.mars.social.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mars.social.model.mix.SocketMessage;
 import jakarta.websocket.server.ServerEndpoint;
+import org.ktorm.database.Database;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component
+@RestController
 @ServerEndpoint("/ws-connect/{satoken}")
 public class WebSocketConnect extends TextWebSocketHandler {
     /**
@@ -28,6 +30,8 @@ public class WebSocketConnect extends TextWebSocketHandler {
      */
     private static ConcurrentHashMap<String, WebSocketSession> webSocketSessionMaps = new ConcurrentHashMap<>();
 
+    @Autowired
+    MessageController messageController;
 
     // 监听：连接开启
     @Override
@@ -65,13 +69,16 @@ public class WebSocketConnect extends TextWebSocketHandler {
         socketMessage = objectMapper.readValue(rawText.getPayload(),SocketMessage.class);
 
         String command = socketMessage.getCommand();
-        String target = socketMessage.getTargetUser();
+        String userId = session.getAttributes().get("userId").toString();
+        Long TargetUser = Long.valueOf(socketMessage.getTargetUser());
         String msg = socketMessage.getMessage();
         if(command.equals("10100")){
             this.broadcastMessage(msg);
         }
         if(command.equals("10200")){
-            sendMessage(Long.parseLong(target),msg);
+            MessageController.MessageSDto messageSDto = new MessageController.MessageSDto(userId,TargetUser, msg);
+//            messageController.serverSend(messageSDto);
+            sendMessage(TargetUser,msg);
         }
     }
 

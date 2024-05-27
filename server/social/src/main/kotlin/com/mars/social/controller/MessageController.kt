@@ -10,12 +10,16 @@ import com.mars.social.model.topic.Topics
 import com.mars.social.model.user.UserDetails
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
+import org.jasypt.encryption.pbe.StandardPBEByteEncryptor
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor
 import org.ktorm.database.Database
 import org.ktorm.database.asIterable
 import org.ktorm.dsl.*
 import org.ktorm.entity.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
+import org.springframework.jdbc.datasource.SingleConnectionDataSource
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
@@ -45,6 +49,23 @@ class MessageController  {
         messages.add(message)
 
         return ResponseEntity.ok().body(R.ok("message send"))
+    }
+    data class MessageSDto(val from:String ,val to: Long, val content:String)
+
+    fun serverSend(dto:MessageSDto):String{
+        val message:Message = Entity.create<Message>()
+        message.msgType="u";
+        message.senderId = dto.from
+        message.receiverUid = dto.to
+        message.content = dto.content
+        message.sendTime= LocalDateTime.now()
+        message.status = "unCheck"
+        message.mark = ""
+        message.sysMsgType=""
+
+        val messages = database.sequenceOf(Messages)
+        messages.add(message)
+        return "send"
     }
 
     fun sendSysMsg(to:Long, content:String):Long{
