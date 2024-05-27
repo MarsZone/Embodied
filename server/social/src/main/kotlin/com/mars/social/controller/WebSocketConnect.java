@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mars.social.model.mix.SocketMessage;
 import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.stereotype.Component;
 
@@ -55,22 +58,15 @@ public class WebSocketConnect extends TextWebSocketHandler {
 
     // 收到消息
     @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
-        System.out.println("sid为：" + session.getId() + "，发来：" + message);
-        String payload = message.getPayload();
-        Map<String, String> dataStruct = new HashMap<>();
-        String[] pairs = payload.split("\\|");
+    public void handleTextMessage(WebSocketSession session, TextMessage rawText) throws IOException {
+        System.out.println("sid为：" + session.getId() + "，发来：" + rawText);
+        SocketMessage socketMessage = new SocketMessage();
+        ObjectMapper objectMapper = new ObjectMapper();
+        socketMessage = objectMapper.readValue(rawText.getPayload(),SocketMessage.class);
 
-        for (String pair : pairs) {
-            String[] keyValue = pair.split(":");
-            String key = keyValue[0];
-            String value = keyValue[1].replaceAll("[\'']", "");
-//            value = value.replaceAll("[\'']", "");
-            dataStruct.put(key, value);
-        }
-        String command = dataStruct.get("cmd");
-        String target = dataStruct.get("target");
-        String msg = dataStruct.get("msg");
+        String command = socketMessage.getCommand();
+        String target = socketMessage.getTargetUser();
+        String msg = socketMessage.getMessage();
         if(command.equals("10100")){
             this.broadcastMessage(msg);
         }
