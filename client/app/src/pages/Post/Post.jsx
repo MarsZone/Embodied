@@ -15,6 +15,13 @@ const Post = () => {
   //获取频道列表
   const { channelList, loading } = useChannelList()
   console.log('频道列表：', channelList)
+  const [selectChannel, setSelectChannel] = useState()
+  const [selectChannelName, setSelectChannelName] = React.useState();
+
+  // useEffect(() => {
+  //   setSelectChannel(channelList[0].key)
+  //   setSelectChannelName(channelList[0].name)
+  // }, [])
 
   const navigate = useNavigate()
   const [form] = Form.useForm()
@@ -38,31 +45,35 @@ const Post = () => {
 
   const onFinish = async formValues => {
     const { title, content, selectChannel, coverImgId } = formValues //解构表单数据
-    console.log('提交表单数据：', formValues)
-    const reqData = {
-      title, //标题
-      content, //内容
-      channelKey: selectChannel, //频道
-      autherUid: getUserId, //作者UID
-      coverImg: coverImgId, //封面图片id
-      contentType: 'common', //内容类型（默认common）
+    const submitData = {
+      topic: {
+        title, //标题
+        content, //内容
+        channelKey: selectChannel, //频道
+        autherUid: getUserId, //作者UID
+        coverImg: coverImgId, //封面图片id
+        contentType: 'common', //内容类型（默认common）
+      },
+      tags
     }
     //调用接口提交
-    const res = await createTopicApi(reqData)
+    console.log('提交表单数据：', submitData)
+    const res = await createTopicApi(submitData)
     console.log('提交表单的返回：', res)
   }
 
   //测试标签
   const [showAddTag, setShowAddTag] = React.useState(true);
+  const selectChannel2 = (action) => {
+    Toast.info(action.text)
+    setSelectChannel(action.className)
+    setSelectChannelName(action.text)
+  }
 
-  //测试频道选择
-  const [selectChannel, setSelectChannel] = React.useState(channelList[0]);
-  const [selectChannelName, setSelectChannelName] = React.useState('广场');
-  // setSelectChannel
-  // const select = option => Toast.info(option.name)
+
 
   //标签
-  const [tags, setTags] = useState(["风景", "西伯利亚", "月球"])
+  const [tags, setTags] = useState([])
   const [newTag, setNewTag] = useState('')
   const onCloseTab = (tag) => {
     const filteredTags = tags.filter(item => item !== tag)
@@ -111,7 +122,7 @@ const Post = () => {
 
           <Form.Item
             rules={[{ required: true, message: '' }]}
-            name='channelKey'
+            // name='channelKey'
             label='频道选择'
             trigger='onConfirm'
             onClick={(_, action) => {
@@ -208,9 +219,17 @@ const Post = () => {
 
           </Form.Item>
 
-
-
         </Form>
+
+        {/* <Popover
+          actions={channelList.map(item => ({
+            text: item.name,
+            className: item.key,
+          }))}
+          theme="dark"
+          onSelect={selectChannel2}
+          reference={<Button type="primary">{selectChannelName}</Button>}
+        /> */}
       </div>
 
       <div className="footer">
