@@ -4,13 +4,16 @@ import { Plus } from '@react-vant/icons';
 import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scoped.scss'
-import { createTopicApi } from '@/apis/post'
+import { createTopicApi, saveTopicDraftApi } from '@/apis/post'
 import { getUserId as _getUserId, getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
 import useChannelList from '@/hooks/useChannelList'
 
 
 const Post = () => {
+
+  const [title, setTitle] = useState()
+  const [content, setContent] = useState()
 
   //获取频道列表
   const { channelList, loading } = useChannelList()
@@ -52,7 +55,7 @@ const Post = () => {
   }
 
   //发布话题
-  const onFinish = async formValues => {
+  const handlePublish = async formValues => {
     const { title, content } = formValues //解构表单数据
     const submitData = {
       topic: {
@@ -69,6 +72,26 @@ const Post = () => {
     console.log('提交表单数据：', submitData)
     const res = await createTopicApi(submitData)
     console.log('提交表单的返回：', res)
+  }
+
+  //存草稿
+  const handleSave = async (formValues) => {
+    const { title, content } = formValues //解构表单数据
+    const submitData = {
+      topic: {
+        title, //标题
+        content, //内容
+        channelKey: selectChannel, //频道
+        autherUid: getUserId, //作者UID
+        coverImg: coverImgId, //封面图片id
+        contentType: 'common', //内容类型（默认common）
+      },
+      tags
+    }
+    //调用接口
+    console.log('存草稿的表单数据：', submitData)
+    const res = await saveTopicDraftApi(submitData)
+    console.log('存草稿的返回：', res)
   }
 
 
@@ -100,27 +123,32 @@ const Post = () => {
       <div className="container">
         <Form
           className='post-form'
-          form={form}
-          onFinish={onFinish}
-          footer={
-            <div className='post-button' style={{ margin: '16px 16px 0' }}>
-              <Button round nativeType='submit' type='primary' block>
-                存草稿
-              </Button>
-              <Button round nativeType='submit' type='primary' block>
-                发布
-              </Button>
-            </div>
-          }
+        // form={form}
+        // onFinish={onFinish}
+        // footer={
+        //   <div className='post-button' style={{ margin: '16px 16px 0' }}>
+        //     <Button round nativeType='submit' type='primary' block>
+        //       存草稿
+        //     </Button>
+        //     <Button round nativeType='submit' type='primary' block>
+        //       发布
+        //     </Button>
+        //   </div>
+        // }
         >
 
-          <Form.Item
+          {/* <Form.Item
             rules={[{ required: true, message: '' }]}
             name='title'
             label='主题'
-          >
-            <Input placeholder='请输入发布主题' />
-          </Form.Item>
+          > */}
+          <div className='form-item'>
+            <div className='form-item__name'>主题</div>
+            <div className='form-item__value'>
+              <Input value={setTitle} placeholder='请输入发布主题' />
+            </div>
+          </div>
+          {/* </Form.Item> */}
 
           <div className='form-item'>
             <div className='form-item__name'>频道选择</div>
@@ -207,7 +235,18 @@ const Post = () => {
               accept='*' />
           </Form.Item>
 
+          <div className='post-button' style={{ margin: '16px 16px 0' }}>
+            <Button onClick={handleSave} round nativeType='submit' type='primary' block>
+              存草稿
+            </Button>
+            <Button onClick={handlePublish} round nativeType='submit' type='primary' block>
+              发布
+            </Button>
+          </div>
+
         </Form>
+
+
       </div>
 
       <div className="footer">

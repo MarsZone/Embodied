@@ -12,9 +12,13 @@
   &__name {
     font-size: 1.2rem;
   }
+
+  &__value {
+    left: 10vw
+  }
 }
 
-.form-tag-item{
+.form-tag-item {
   display: flex;
   flex-direction: column;
 }
@@ -26,7 +30,7 @@
   flex-wrap: wrap;
 }
 
-.post-tag-input{
+.post-tag-input {
   display: flex;
   flex-direction: row;
   align-items: center;
