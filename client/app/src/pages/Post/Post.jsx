@@ -14,37 +14,46 @@ const Post = () => {
 
   //获取频道列表
   const { channelList, loading } = useChannelList()
-  console.log('频道列表：', channelList)
-  const [selectChannel, setSelectChannel] = useState()
-  const [selectChannelName, setSelectChannelName] = React.useState();
-
-  // useEffect(() => {
-  //   setSelectChannel(channelList[0].key)
-  //   setSelectChannelName(channelList[0].name)
-  // }, [])
+  // console.log('频道列表：', channelList)
+  const [selectChannel, setSelectChannel] = useState('information_plaza')
+  const [selectChannelName, setSelectChannelName] = React.useState('广场');
+  //频道切换
+  const handleselectChannel = (action) => {
+    Toast.info(action.text)
+    setSelectChannel(action.className)
+    setSelectChannelName(action.text)
+  }
 
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const [coverImgId, setCoverImgId] = useState()
-  const [coverImgUrl, setCoverImgUrl] = useState()
 
-  const uploadCoverImg = async (files) => {
+  const handleUploadCover = async (file) => {
+    //上传文件
+    const uploadRes = await uploadFileApi(file)
+    console.log('上传文件返回：', uploadRes.data[0])
+    const imgId = uploadRes.data[0].id //只有一张图片，索引为0
+    setCoverImgId(imgId)
 
-    const uploadRes = await uploadFileApi(files)
-    console.log('上传文件：', files)
-    console.log('上传文件返回：', uploadRes.data[0].id)
-    //上传图片的id
-    setCoverImgId(uploadRes.data[0].id) //只有一张图片，索引为0
+    //获取url
+    const previewRes = await previewFileApi(imgId)
+    console.log('上传文件url：', previewRes.data)
+    const imgUrl = previewRes.data
 
-    const previewRes = await previewFileApi(uploadRes.data[0].id)
-    //上传图片的url
-    setCoverImgUrl(previewRes.data)
-
-    return { coverImgUrl }
+    return {
+      key: uploadRes.data[0].createTime,
+      url: imgUrl, //上传后文件的url
+      file: file, //源文件对象
+    }
   }
 
+  const handleCoverChange = (files) => {
+    console.log('当前已上传的文件列表：', files);
+  }
+
+  //发布话题
   const onFinish = async formValues => {
-    const { title, content, selectChannel, coverImgId } = formValues //解构表单数据
+    const { title, content } = formValues //解构表单数据
     const submitData = {
       topic: {
         title, //标题
@@ -62,17 +71,9 @@ const Post = () => {
     console.log('提交表单的返回：', res)
   }
 
-  //测试标签
-  const [showAddTag, setShowAddTag] = React.useState(true);
-  const selectChannel2 = (action) => {
-    Toast.info(action.text)
-    setSelectChannel(action.className)
-    setSelectChannelName(action.text)
-  }
-
-
 
   //标签
+  const [showAddTag, setShowAddTag] = React.useState(true);
   const [tags, setTags] = useState([])
   const [newTag, setNewTag] = useState('')
   const onCloseTab = (tag) => {
@@ -82,6 +83,7 @@ const Post = () => {
   }
   const onClickAddTag = () => {
     setTags([...tags, newTag])
+    setNewTag('')
   }
 
   return (
@@ -120,35 +122,23 @@ const Post = () => {
             <Input placeholder='请输入发布主题' />
           </Form.Item>
 
-          <Form.Item
-            rules={[{ required: true, message: '' }]}
-            // name='channelKey'
-            label='频道选择'
-            trigger='onConfirm'
-            onClick={(_, action) => {
-              action.current?.open()
-            }}
-          >
-            <Picker
-              popup
-              value={selectChannel}
-              columns={channelList.map(item => ({
-                key: item.key,
+          <div className='form-item'>
+            <div className='form-item__name'>频道选择</div>
+            <Popover
+              actions={channelList.map(item => ({
                 text: item.name,
-                value: item.name,
+                className: item.key,
               }))}
-              onChange={(val, selectRow, index) => {
-                console.log('选中项: ', selectRow)
-                Toast.info(`选中值${val}，索引: ${index}，key: ${selectRow.key}`)
-              }}
-              onConfirm={(val, selectRow, index) => {
-                setSelectChannel(selectRow.key)
-              }}
-            >
-              {val => val || '广场'}
-            </Picker>
+              theme="light"
+              onSelect={handleselectChannel}
+              placement='bottom-start'
+              reference={
+                <Button plain hairline type='primary'>{selectChannelName}</Button>
+              }
+            />
+          </div>
 
-          </Form.Item>
+          {/* </Form.Item> */}
 
           <Form.Item
             rules={[{ required: true, message: '' }]}
@@ -174,7 +164,6 @@ const Post = () => {
                     {item}
                   </Tag>
                 ))}
-
 
                 <Tag
                   show={showAddTag}
@@ -212,24 +201,13 @@ const Post = () => {
             name='coverImg'
           >
             <Uploader
-              upload={uploadCoverImg}
+              upload={handleUploadCover}
               maxCount={1}
-              // onChange={onChangeImg}
+              onChange={handleCoverChange}
               accept='*' />
-
           </Form.Item>
 
         </Form>
-
-        {/* <Popover
-          actions={channelList.map(item => ({
-            text: item.name,
-            className: item.key,
-          }))}
-          theme="dark"
-          onSelect={selectChannel2}
-          reference={<Button type="primary">{selectChannelName}</Button>}
-        /> */}
       </div>
 
       <div className="footer">
