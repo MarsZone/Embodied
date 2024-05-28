@@ -63,6 +63,8 @@ const Chat = () => {
   //发送消息
   const handleWebSocketMessage = (event) => {
     if (typeof event.data === 'string') {
+      console.log('收到的event：', event)
+
       //处理string格式的消息
       setMessageList((prevMessages) => {
         console.log('更新前的messageList：', prevMessages)
@@ -84,8 +86,14 @@ const Chat = () => {
     //通过 WebSocket 发送消息
     if (ws && ws.readyState === WebSocket.OPEN) {
       //构建符合后端期望格式的消息
-      const message = `cmd:10200|target:${targetId}|msg:${newMessage}`;
-      ws.send(message)
+      // const message = `cmd:10200|target:${targetId}|msg:${newMessage}`;
+      // ws.send(message)
+      let message = {}
+      message.command = '10200'
+      message.targetUser = targetId
+      message.message = newMessage
+      let str = JSON.stringify(message)
+      ws.send(str)
     }
 
     setNewMessage('')
