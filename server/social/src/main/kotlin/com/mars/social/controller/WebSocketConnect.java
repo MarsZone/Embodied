@@ -6,18 +6,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mars.social.model.mix.SocketMessage;
 import jakarta.websocket.server.ServerEndpoint;
-import org.ktorm.database.Database;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component
-@RestController
 @ServerEndpoint("/ws-connect/{satoken}")
 public class WebSocketConnect extends TextWebSocketHandler {
     /**
@@ -30,8 +28,12 @@ public class WebSocketConnect extends TextWebSocketHandler {
      */
     private static ConcurrentHashMap<String, WebSocketSession> webSocketSessionMaps = new ConcurrentHashMap<>();
 
+    private ApplicationContext context;
+
     @Autowired
-    MessageController messageController;
+    public void setContext(ApplicationContext context) {
+        this.context = context;
+    }
 
     // 监听：连接开启
     @Override
@@ -76,8 +78,9 @@ public class WebSocketConnect extends TextWebSocketHandler {
             this.broadcastMessage(msg);
         }
         if(command.equals("10200")){
+            MessageController messageController = context.getBean(MessageController.class);
             MessageController.MessageSDto messageSDto = new MessageController.MessageSDto(userId,TargetUser, msg);
-//            messageController.serverSend(messageSDto);
+            messageController.serverSend(messageSDto);
             sendMessage(TargetUser,msg);
         }
     }
