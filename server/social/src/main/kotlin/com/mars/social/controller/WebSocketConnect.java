@@ -1,13 +1,19 @@
 package com.mars.social.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mars.social.model.mix.Message;
+import com.mars.social.model.mix.MessageBean;
 import com.mars.social.model.mix.SocketMessage;
+import com.mars.social.utils.R;
 import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import org.springframework.web.socket.CloseStatus;
@@ -68,6 +74,7 @@ public class WebSocketConnect extends TextWebSocketHandler {
         System.out.println("sid为：" + session.getId() + "，发来：" + rawText);
         SocketMessage socketMessage = new SocketMessage();
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         socketMessage = objectMapper.readValue(rawText.getPayload(),SocketMessage.class);
 
         String command = socketMessage.getCommand();
@@ -80,8 +87,12 @@ public class WebSocketConnect extends TextWebSocketHandler {
         if(command.equals("10200")){
             MessageController messageController = context.getBean(MessageController.class);
             MessageController.MessageSDto messageSDto = new MessageController.MessageSDto(userId,TargetUser, msg);
-            messageController.serverSend(messageSDto);
-            sendMessage(TargetUser,msg);
+            String message = messageController.serverSend(messageSDto);
+            MessageBean bean = objectMapper.readValue(message,MessageBean.class);
+            R r = R.Companion.ok(bean);
+            String jsonStr = objectMapper.writeValueAsString(r);
+            sendMessage(2,jsonStr);
+            sendMessage(TargetUser,jsonStr);
         }
     }
 

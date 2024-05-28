@@ -1,5 +1,6 @@
 package com.mars.social.model.mix
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*
 import java.time.*
@@ -10,12 +11,12 @@ interface Message : Entity<Message> {
 	var senderId: String?				//发送人ID，系统的是0
 	var receiverUid: Long			//收件人ID
 	var content: String?			//
-	var sendTime: LocalDateTime		//发送日期
+	var sendTime: LocalDateTime?		//发送日期
 	var status: String?				//unCheck checked deleted
 	var mark: String?				//important top
 	var sysMsgType: String?			//先默认都是notice
-	var receiveTime: LocalDateTime	//阅读时间
-	var deleteTime: LocalDateTime	//删除时间
+	var receiveTime: LocalDateTime?	//阅读时间
+	var deleteTime: LocalDateTime?	//删除时间
 }
 
 object Messages : Table<Message>("messages") {

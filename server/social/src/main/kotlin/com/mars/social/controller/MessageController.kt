@@ -2,24 +2,25 @@ package com.mars.social.controller
 
 import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.StpUtil
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
 import com.mars.social.model.mix.Message
 import com.mars.social.model.mix.Messages
-import com.mars.social.model.topic.Topics
 import com.mars.social.model.user.UserDetails
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
-import org.jasypt.encryption.pbe.StandardPBEByteEncryptor
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor
 import org.ktorm.database.Database
 import org.ktorm.database.asIterable
 import org.ktorm.dsl.*
 import org.ktorm.entity.*
+import org.ktorm.jackson.KtormModule
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
-import org.springframework.jdbc.datasource.SingleConnectionDataSource
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
@@ -61,11 +62,24 @@ class MessageController  {
         message.sendTime= LocalDateTime.now()
         message.status = "unCheck"
         message.mark = ""
-        message.sysMsgType=""
+        message.sysMsgType= ""
+        message.receiveTime = LocalDateTime.now()
+        message.deleteTime = LocalDateTime.now()
 
         val messages = database.sequenceOf(Messages)
         messages.add(message)
-        return "send"
+
+        var messageList:MutableList<Message> = mutableListOf();
+        messageList.add(message)
+        val objectMapper = jacksonObjectMapper().registerKotlinModule().registerModule(JavaTimeModule()).registerModules(KtormModule())
+        var jsonMessage = ""
+        try {
+            jsonMessage = objectMapper.writeValueAsString(message)
+        } catch (e: JsonProcessingException) {
+            e.printStackTrace()
+            return "Error occurred while serializing message list."
+        }
+        return jsonMessage
     }
 
     fun sendSysMsg(to:Long, content:String):Long{
@@ -136,7 +150,10 @@ class MessageController  {
                 history.lastMsg = lastMsg.content.toString()
                 history.msgType = lastMsg.msgType.toString()
                 history.status = lastMsg.status.toString()
-                history.lastMsgDateTime = lastMsg.sendTime
+                val sendTime = lastMsg.sendTime
+                if(sendTime is LocalDateTime){
+                    history.lastMsgDateTime = sendTime
+                }
             }
             if(history.msgType == "u"){
                 var userDetail = database.from(UserDetails).select().where{ UserDetails.uid eq history.senderId.toString().toLong() }
