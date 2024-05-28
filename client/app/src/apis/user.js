@@ -106,3 +106,12 @@ export function checkFriendAPI(targetUid) {
     params: { targetUser: targetUid },
   })
 }
+
+//--6.用昵称模糊查询姓名
+export function searchUserByNickNameApi(nickName) {
+  return request({
+    url: '/api/users/searchUserByNickName',
+    method: 'GET',
+    params: { nickName: nickName },
+  })
+}
