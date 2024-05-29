@@ -12,6 +12,9 @@ const Message = () => {
   const [msgHisList, setMsgHisList] = useState([])
   const [avatarUrl, setAvatarUrl] = useState()
 
+  const toNewFriend = () => {
+    navigate('/newFriend')
+  }
 
   //初始化数据
   useEffect(() => {
@@ -42,8 +45,8 @@ const Message = () => {
     <div className="message-layout">
       <NavBar
         title="消息"
-        rightText="按钮"
-        onClickRight={() => Toast('按钮')}
+        rightText="添加好友"
+        onClickRight={toNewFriend}
       />
       {msgHisList === null || avatarUrl === null ? (
         <div> loading... </div>
