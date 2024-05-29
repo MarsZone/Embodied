@@ -1,5 +1,6 @@
 package com.mars.social.model.mix
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
 import org.ktorm.entity.Entity
 import org.ktorm.schema.*
