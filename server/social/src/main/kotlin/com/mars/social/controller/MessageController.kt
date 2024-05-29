@@ -71,12 +71,13 @@ class MessageController  {
 
         var messageList:MutableList<Message> = mutableListOf();
         messageList.add(message)
-        val objectMapper = jacksonObjectMapper().registerKotlinModule().registerModule(JavaTimeModule()).registerModules(KtormModule())
+        val objectMapper = jacksonObjectMapper().registerKotlinModule().registerModules(KtormModule()).registerModules(JavaTimeModule())
         var jsonMessage = ""
         try {
             jsonMessage = objectMapper.writeValueAsString(message)
         } catch (e: JsonProcessingException) {
             e.printStackTrace()
+            println(e.toString())
             return "Error occurred while serializing message list."
         }
         return jsonMessage
