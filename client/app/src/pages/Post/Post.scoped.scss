@@ -6,15 +6,16 @@
 .form-item {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  // align-items: center;
   padding: 2vw 3vw;
 
   &__name {
     font-size: 1.2rem;
+    width: 13vw;
   }
 
   &__value {
-    left: 10vw
+    left: 20vw
   }
 }
 

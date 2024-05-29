@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { Image, NavBar, Toast, Popover, Button, Input, Form, Picker, Uploader, Tag, Field } from 'react-vant'
+import React, { useState } from 'react'
+import { NavBar, Toast, Popover, Button, Input, Uploader, Tag} from 'react-vant'
 import { Plus } from '@react-vant/icons';
-import { useNavigate } from 'react-router-dom'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scoped.scss'
 import { createTopicApi, saveTopicDraftApi } from '@/apis/post'
-import { getUserId as _getUserId, getUserId } from '@/utils'
+import {  getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
 import useChannelList from '@/hooks/useChannelList'
 
 
 const Post = () => {
-
-  const [title, setTitle] = useState()
-  const [content, setContent] = useState()
-
-  //获取频道列表
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [coverImgId, setCoverImgId] = useState()
   const { channelList, loading } = useChannelList()
-  // console.log('频道列表：', channelList)
   const [selectChannel, setSelectChannel] = useState('information_plaza')
   const [selectChannelName, setSelectChannelName] = React.useState('广场');
+  const [showAddTag, setShowAddTag] = React.useState(true);
+  const [tags, setTags] = useState([])
+  const [newTag, setNewTag] = useState('')
+
   //频道切换
   const handleselectChannel = (action) => {
     Toast.info(action.text)
     setSelectChannel(action.className)
     setSelectChannelName(action.text)
   }
-
-  const navigate = useNavigate()
-  const [form] = Form.useForm()
-  const [coverImgId, setCoverImgId] = useState()
 
   const handleUploadCover = async (file) => {
     //上传文件
@@ -49,18 +45,16 @@ const Post = () => {
       file: file, //源文件对象
     }
   }
-
   const handleCoverChange = (files) => {
     console.log('当前已上传的文件列表：', files);
   }
 
   //发布话题
   const handlePublish = async formValues => {
-    const { title, content } = formValues //解构表单数据
     const submitData = {
       topic: {
-        title, //标题
-        content, //内容
+        title: title, //标题
+        content: content, //内容
         channelKey: selectChannel, //频道
         autherUid: getUserId, //作者UID
         coverImg: coverImgId, //封面图片id
@@ -94,11 +88,7 @@ const Post = () => {
     console.log('存草稿的返回：', res)
   }
 
-
-  //标签
-  const [showAddTag, setShowAddTag] = React.useState(true);
-  const [tags, setTags] = useState([])
-  const [newTag, setNewTag] = useState('')
+  //添加、关闭标签
   const onCloseTab = (tag) => {
     const filteredTags = tags.filter(item => item !== tag)
     console.log(filteredTags)
@@ -120,69 +110,53 @@ const Post = () => {
         onClickLeft={() => Toast('返回')}
       />
 
-      <div className="container">
-        <Form
-          className='post-form'
-        // form={form}
-        // onFinish={onFinish}
-        // footer={
-        //   <div className='post-button' style={{ margin: '16px 16px 0' }}>
-        //     <Button round nativeType='submit' type='primary' block>
-        //       存草稿
-        //     </Button>
-        //     <Button round nativeType='submit' type='primary' block>
-        //       发布
-        //     </Button>
-        //   </div>
-        // }
-        >
+      <div className="post-container">
 
-          {/* <Form.Item
-            rules={[{ required: true, message: '' }]}
-            name='title'
-            label='主题'
-          > */}
-          <div className='form-item'>
-            <div className='form-item__name'>主题</div>
-            <div className='form-item__value'>
-              <Input value={setTitle} placeholder='请输入发布主题' />
-            </div>
+        <div className='form-item'>
+          <div className='form-item__name'>主题</div>
+          <div className='form-item__value'>
+            <Input
+              value={title}
+              onChange={setTitle}
+              placeholder='请输入发布主题' />
           </div>
-          {/* </Form.Item> */}
+        </div>
 
-          <div className='form-item'>
-            <div className='form-item__name'>频道选择</div>
-            <Popover
-              actions={channelList.map(item => ({
-                text: item.name,
-                className: item.key,
-              }))}
-              theme="light"
-              onSelect={handleselectChannel}
-              placement='bottom-start'
-              reference={
-                <Button plain hairline type='primary'>{selectChannelName}</Button>
-              }
-            />
+        <div className='form-item'>
+          <div className='form-item__name'>频道</div>
+          <Popover
+            actions={channelList.map(item => ({
+              text: item.name,
+              className: item.key,
+            }))}
+            theme="light"
+            onSelect={handleselectChannel}
+            placement='bottom-start'
+            reference={
+              <Button plain hairline type='primary'>{selectChannelName}</Button>
+            }
+          />
+        </div>
+
+        <div className='form-item'>
+          <div className='form-item__name'>内容</div>
+          <div className='form-item__value'>
+            <Input.TextArea
+              value={content}
+              placeholder='请输入内容'
+              onChange={setContent}
+              rows={3} autoSize maxLength={140} showWordLimit />
           </div>
+        </div>
 
-          {/* </Form.Item> */}
-
-          <Form.Item
-            rules={[{ required: true, message: '' }]}
-            name='content'
-            label='内容'>
-            <Input.TextArea rows={3} autoSize maxLength={140} showWordLimit />
-          </Form.Item>
-
-          <Form.Item
-            name='tag'
-            label='标签'
-          >
+        <div className='form-item'>
+          <div className='form-item__name'>标签</div>
+          <div className='form-item__value'>
             <div className='form-tag-item'>
               <div className='post-tag-box'>
-                {tags.map(item => (
+                {tags.map((item, index) => (
                   <Tag
+                    key={index}
                     plain
                     closeable
                     size="medium"
@@ -221,32 +195,28 @@ const Post = () => {
                   />)}
               </div>
             </div>
-          </Form.Item>
+          </div>
+        </div>
 
-
-          <Form.Item
-            label='上传图片'
-            name='coverImg'
-          >
+        <div className='form-item'>
+          <div className='form-item__name'>封面</div>
+          <div className='form-item__value'>
             <Uploader
               upload={handleUploadCover}
               maxCount={1}
               onChange={handleCoverChange}
               accept='*' />
-          </Form.Item>
-
-          <div className='post-button' style={{ margin: '16px 16px 0' }}>
-            <Button onClick={handleSave} round nativeType='submit' type='primary' block>
-              存草稿
-            </Button>
-            <Button onClick={handlePublish} round nativeType='submit' type='primary' block>
-              发布
-            </Button>
           </div>
+        </div>
 
-        </Form>
-
-
+        <div className='post-button' style={{ margin: '16px 16px 0' }}>
+          <Button onClick={handleSave} round nativeType='submit' type='primary' block>
+            存草稿
+          </Button>
+          <Button onClick={handlePublish} round nativeType='submit' type='primary' block>
+            发布
+          </Button>
+        </div>
       </div>
 
       <div className="footer">
