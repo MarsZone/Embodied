@@ -63,7 +63,9 @@ const Chat = () => {
   //发送消息
   const handleWebSocketMessage = (event) => {
     if (typeof event.data === 'string') {
-      console.log('收到的event：', event)
+      console.log('收到的event.data：', event.data)
+      // let obj = JSON.parse(event.data).data
+      // console.log('收到的event.data转json：', obj)
 
       //处理string格式的消息
       setMessageList((prevMessages) => {
@@ -71,7 +73,7 @@ const Chat = () => {
         const updatedMessageList = [...prevMessages, event.data]
         console.log('更新后的messageList：', updatedMessageList)
         return updatedMessageList
-        // setMessageList((prevMessage) => [...prevMessage, event.data])
+        //setMessageList((prevMessage) => [...prevMessage, event.data])
       })
     }
   }
@@ -86,8 +88,6 @@ const Chat = () => {
     //通过 WebSocket 发送消息
     if (ws && ws.readyState === WebSocket.OPEN) {
       //构建符合后端期望格式的消息
-      // const message = `cmd:10200|target:${targetId}|msg:${newMessage}`;
-      // ws.send(message)
       let message = {}
       message.command = '10200'
       message.targetUser = targetId
