@@ -51,7 +51,7 @@ public class WebSocketConnect extends TextWebSocketHandler {
 
         // 给个提示
         String tips = "Web-Socket 连接成功，sid=" + session.getId() + "，userId=" + userId;
-        String response = " {\"code\":10000,\"message\":\"成功\",\"data\":"+tips+"}";
+        String response = " {\"code\":10000,\"message\":\"成功\",\"data\":\""+tips+"\"}";
         System.out.println(tips);
         sendMessage(session, response);
     }

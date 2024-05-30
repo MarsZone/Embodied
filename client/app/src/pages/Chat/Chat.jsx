@@ -63,18 +63,12 @@ const Chat = () => {
   //发送消息
   const handleWebSocketMessage = (event) => {
     if (typeof event.data === 'string') {
-      //let data = event.data
-      //console.log('收到的event.data：', data)
-
       let obj = JSON.parse(event.data)
-
+      console.log('obj：', obj)
       //第一次连接的情况
-      if (obj.code === "连接成功") {
+      if (obj.code === 10000) {
         return
       }
-
-      // const obj = JSON.parse(data)
-      // console.log('obj：', obj)
 
       //处理string格式的消息
       setMessageList((prevMessages) => {
@@ -89,10 +83,6 @@ const Chat = () => {
   const ws = useWebSocket(handleWebSocketMessage)
 
   const onSubmitMsg = async () => {
-    // const res = await sendMsgApi({ to: targetId, content: newMessage });
-    // console.log('发送消息：', newMessage)
-    // console.log('发送消息返回：', res)
-
     //通过 WebSocket 发送消息
     if (ws && ws.readyState === WebSocket.OPEN) {
       //构建符合后端期望格式的消息
@@ -103,11 +93,8 @@ const Chat = () => {
       let str = JSON.stringify(message)
       ws.send(str)
     }
-
     setNewMessage('')
     setSendMsgVisible(false)
-    //刷新消息
-    fetchMsg()
   }
 
   //定位到底部
@@ -232,7 +219,7 @@ const Chat = () => {
               onClick={onSubmitMsg}
             />
           </ActionBar>
-        </div> */} 
+        </div> */}
 
       </div>
     </div >
