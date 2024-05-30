@@ -1,9 +1,9 @@
 package com.mars.social.utils
 
 data class R(
-    val code: Int,
-    val message: String,
-    val data: Any?
+    var code: Int,
+    var message: String,
+    var data: Any?
 )
 {
     companion object {
