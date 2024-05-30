@@ -1,7 +1,7 @@
 import { getUtuMsgHistoryApi, sendMsgApi } from "@/apis/message"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router-dom"
-import { NavBar, Image, ActionBar, Popup, Input, Button, Sticky } from "react-vant"
+import { NavBar, Image, ActionBar, Popup, Input, Button, Sticky, Lazyload } from "react-vant"
 import { Arrow } from '@react-vant/icons';
 import './Chat.scoped.scss'
 import { previewFileApi } from "@/apis/file"
@@ -63,17 +63,25 @@ const Chat = () => {
   //发送消息
   const handleWebSocketMessage = (event) => {
     if (typeof event.data === 'string') {
-      console.log('收到的event.data：', event.data)
-      // let obj = JSON.parse(event.data).data
-      // console.log('收到的event.data转json：', obj)
+      //let data = event.data
+      //console.log('收到的event.data：', data)
+
+      let obj = JSON.parse(event.data)
+
+      //第一次连接的情况
+      if (obj.code === "连接成功") {
+        return
+      }
+
+      // const obj = JSON.parse(data)
+      // console.log('obj：', obj)
 
       //处理string格式的消息
       setMessageList((prevMessages) => {
         console.log('更新前的messageList：', prevMessages)
-        const updatedMessageList = [...prevMessages, event.data]
+        const updatedMessageList = [...prevMessages, obj.data]
         console.log('更新后的messageList：', updatedMessageList)
         return updatedMessageList
-        //setMessageList((prevMessage) => [...prevMessage, event.data])
       })
     }
   }
@@ -81,9 +89,9 @@ const Chat = () => {
   const ws = useWebSocket(handleWebSocketMessage)
 
   const onSubmitMsg = async () => {
-    const res = await sendMsgApi({ to: targetId, content: newMessage });
-    console.log('发送消息：', newMessage)
-    console.log('发送消息返回：', res)
+    // const res = await sendMsgApi({ to: targetId, content: newMessage });
+    // console.log('发送消息：', newMessage)
+    // console.log('发送消息返回：', res)
 
     //通过 WebSocket 发送消息
     if (ws && ws.readyState === WebSocket.OPEN) {
@@ -102,6 +110,14 @@ const Chat = () => {
     fetchMsg()
   }
 
+  //定位到底部
+  const bottomRef = useRef(null)
+  const scrollToButtom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  useEffect(() => {
+    scrollToButtom()
+  }, [messageList])
 
   return (
     <div>
@@ -113,12 +129,15 @@ const Chat = () => {
         />
       </Sticky>
 
+
       <div className="message-container">
+
         {messageList === null || avatarUrlTarget === null
           || userProfile === null ? (
           <div> loading... </div>
         ) : (
           <div>
+
             {messageList.map(msg => (
               <div className='chat-indv' key={msg.id}>
                 {msg.senderId === targetId ? (
@@ -158,8 +177,12 @@ const Chat = () => {
                 )}
               </div>
             ))}
+
           </div>
         )}
+
+        {/* 这个 div 将始终位于底部 */}
+        <div ref={bottomRef} />
 
         <Sticky position='bottom'>
           <div className="chat-send-box">
@@ -209,10 +232,10 @@ const Chat = () => {
               onClick={onSubmitMsg}
             />
           </ActionBar>
-        </div> */}
+        </div> */} 
 
       </div>
-    </div>
+    </div >
   )
 }
 

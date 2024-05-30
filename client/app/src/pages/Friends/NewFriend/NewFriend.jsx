@@ -25,7 +25,7 @@ const NewFriend = () => {
   }
 
   const onClickUser = (uid) => {
-    navigate(`profile/${uid}/myPost`)
+    navigate(`profile/${uid}`)
   }
 
   return (
@@ -43,15 +43,17 @@ const NewFriend = () => {
         ) : (
           <div>
             {userList.map((item, index) => (
-              <Cell
-                center
-                key={index}
-                title={item.nickName}
-                label='Deserunt dolor ea eaque eos'
-                icon={<Image width={44} height={44} src={item.avatarUrl} round />}
-                isLink
-                onClick={onClickUser(item.uid)}
-              />
+              <div>
+                <Cell
+                  center
+                  key={index}
+                  title={item.nickName}
+                  label='Deserunt dolor ea eaque eos'
+                  icon={<Image width={44} height={44} src={item.avatarUrl} round />}
+                  // isLink
+                  onClick={onClickUser(item.uid)}
+                />
+              </div>
             ))
             }
           </div>

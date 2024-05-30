@@ -109,8 +109,8 @@ const Home = () => {
           {channelList.map(item => (
             <Tabs.TabPane key={item.key} title={`${item.name}`} name={item.key}>
 
-              {channelTopics.map(topic => (
-                <div className='topic-outer-box'>
+              {channelTopics.map((topic, index) => (
+                <div className='topic-outer-box' key={index}>
                   <div className='topic-inner-box'>
                     <Link to={`/topicDetail/${topic.id}`} className='topic-link'>
                       <div className='topic-header'>
