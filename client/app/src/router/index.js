@@ -15,7 +15,7 @@ import Post from '@/pages/Post/Post' //新贴发布页
 import TopicDetail from '@/pages/TopicDetail/TopicDetail' //发布页详情
 import Message from '@/pages/Message/Message' //消息页
 import Chat from '@/pages/Chat/Chat' //聊天页
-import Friends from '@/pages/Friends/Friends' //好友页
+import NewFriend from '@/pages/Friends/NewFriend/NewFriend' //好友页
 
 import Login from '@/pages/Login/Login' //登录页
 import Register from '@/pages/Register/Register' //注册页
@@ -103,8 +103,8 @@ const router = createBrowserRouter([
     element: <Chat />
   },
   {
-    path: '/friends',
-    element: <Friends />
+    path: '/newFriend',
+    element: <NewFriend />
   },
 ])
 
