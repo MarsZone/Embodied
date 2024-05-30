@@ -52,8 +52,12 @@ const Message = () => {
         <div> loading... </div>
       ) : (
         <div>
-          {msgHisList.map(msg => (
-            <div className='msg-box' onClick={() => onClickSender(msg.senderId, msg.senderNickName)}>
+          {msgHisList.map((msg, index) => (
+            <div
+              key={index}
+              className='msg-box'
+              onClick={() => onClickSender(msg.senderId, msg.senderNickName)}
+            >
               <div className='msg-left'>
                 <Image
                   cover round
