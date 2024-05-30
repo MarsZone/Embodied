@@ -1,20 +1,26 @@
 import { searchUserByNickNameApi } from "@/apis/user"
 import { useState } from "react"
-import { Search, Toast, Cell, Image } from "react-vant"
+import { Search, Cell, Image } from "react-vant"
 import './NewFriend.scoped.scss'
 import { previewFileApi } from "@/apis/file"
 import { useNavigate } from "react-router-dom"
 
 const NewFriend = () => {
-
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState('')
   const [userList, setUserList] = useState([])
+  const [hint, setHint] = useState('')
+
   const handleSearch = async () => {
     const res = await searchUserByNickNameApi(searchValue)
     const list = res.data
     console.log('搜索返回userList：', res)
     setUserList(list)
+
+    if (userList.length === 0) {
+      setHint('未搜索到相关用户')
+    }
+
     //拼接avatarUrl
     const listWithAvatar = await Promise.all(list.map(async user => {
       const avatarRes = await previewFileApi(user.avatar)
@@ -25,7 +31,7 @@ const NewFriend = () => {
   }
 
   const onClickUser = (uid) => {
-    navigate(`profile/${uid}`)
+    navigate(`/profile/${uid}`)
   }
 
   return (
@@ -39,7 +45,7 @@ const NewFriend = () => {
       />
       <div>
         {userList.length === 0 ? (
-          <div>未搜索到相关用户</div>
+          <div className="hint">{hint}</div>
         ) : (
           <div>
             {userList.map((item, index) => (
@@ -50,8 +56,8 @@ const NewFriend = () => {
                   title={item.nickName}
                   label='Deserunt dolor ea eaque eos'
                   icon={<Image width={44} height={44} src={item.avatarUrl} round />}
-                  // isLink
-                  onClick={onClickUser(item.uid)}
+                  isLink
+                  onClick={() => onClickUser(item.uid)}
                 />
               </div>
             ))

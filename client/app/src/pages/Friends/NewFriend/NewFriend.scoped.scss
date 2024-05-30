@@ -1,7 +1,7 @@
-.friend-search-box {
-  direction: flex;
-
-  &__input {
-    width: 50vw;
-  }
+.hint {
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.2em;
+  color: rgb(159, 159, 159);
 }

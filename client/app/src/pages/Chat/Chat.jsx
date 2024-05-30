@@ -1,6 +1,6 @@
 import { getUtuMsgHistoryApi, sendMsgApi } from "@/apis/message"
 import { useEffect, useRef, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { NavBar, Image, ActionBar, Popup, Input, Button, Sticky, Lazyload } from "react-vant"
 import { Arrow } from '@react-vant/icons';
 import './Chat.scoped.scss'
@@ -10,7 +10,7 @@ import { getUserId } from "@/utils"
 import useWebSocket from "@/hooks/useWebSocket";
 
 const Chat = () => {
-
+  const navigate = useNavigate()
   //接收message页传递的senderId
   const location = useLocation()
   const { targetId, senderNickName: targetNickName } = location.state || {}
@@ -19,16 +19,7 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState('')
   const [avatarUrlTarget, setAvatarUrlTarget] = useState()
   const [sendMsgVisible, setSendMsgVisible] = useState(false)
-
-  //获取本人信息
-  // const fetchMyProfile = () => {
-  //   const userProfile = useUserDetail(getUserId())
-  //   console.log('我的信息：', userProfile)
-  // }
-
   const { userProfile, avatarUrl } = useUserDetail(getUserId())
-  //console.log('我的信息：', userProfile)
-  //console.log('我的头像：', avatarUrl)
   const [myNickName, setMyNickName] = useState()
   const [myAvatarUrl, setMyAvatarUrl] = useState()
 
@@ -48,7 +39,6 @@ const Chat = () => {
   const fetchMsg = async () => {
     const res = await getUtuMsgHistoryApi({ targetUid: targetId })
     console.log('与targetId为：', targetId, '，的初始化消息记录：', res.data)
-
     const reversedList = res.data.reverse();
     setMessageList(reversedList)
   }
@@ -111,20 +101,17 @@ const Chat = () => {
       <Sticky>
         <NavBar
           title="Chat Room"
-          leftText="返回"
-        // onClickLeft={() => }
+          leftText=""
+          onClickLeft={() => navigate('/message')}
         />
       </Sticky>
 
-
       <div className="message-container">
-
         {messageList === null || avatarUrlTarget === null
           || userProfile === null ? (
           <div> loading... </div>
         ) : (
           <div>
-
             {messageList.map(msg => (
               <div className='chat-indv' key={msg.id}>
                 {msg.senderId === targetId ? (
@@ -164,7 +151,6 @@ const Chat = () => {
                 )}
               </div>
             ))}
-
           </div>
         )}
 
