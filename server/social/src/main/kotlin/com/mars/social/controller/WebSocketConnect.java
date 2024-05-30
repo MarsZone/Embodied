@@ -50,10 +50,9 @@ public class WebSocketConnect extends TextWebSocketHandler {
         webSocketSessionMaps.put(USER_ID + userId, session);
 
         // 给个提示
-//        String tips = "Web-Socket 连接成功，sid=" + session.getId() + "，userId=" + userId;
-//        String response = " {\"code\":20000,\"message\":\"成功\",\"data\":{"+tips+"}}";
-        String response = "连接成功";
-//        System.out.println(tips);
+        String tips = "Web-Socket 连接成功，sid=" + session.getId() + "，userId=" + userId;
+        String response = " {\"code\":10000,\"message\":\"成功\",\"data\":{"+tips+"}}";
+        System.out.println(tips);
         sendMessage(session, response);
     }
 
@@ -83,7 +82,7 @@ public class WebSocketConnect extends TextWebSocketHandler {
         Long TargetUser = Long.valueOf(socketMessage.getTargetUser());
         String msg = socketMessage.getMessage();
         if(command.equals("10100")){
-            String response = " {\"code\":20000,\"message\":\"成功\",\"data\":{"+msg+"}}";
+            String response = " {\"code\":10100,\"message\":\"成功\",\"data\":{"+msg+"}}";
             this.broadcastMessage(response);
         }
         if(command.equals("10200")){
@@ -92,6 +91,7 @@ public class WebSocketConnect extends TextWebSocketHandler {
             String message = messageController.serverSend(messageSDto);
             MessageBean bean = objectMapper.readValue(message,MessageBean.class);
             R r = R.Companion.ok(bean);
+            r.setCode(10200);
             String jsonStr = objectMapper.writeValueAsString(r);
             sendMessage(2,jsonStr);
             sendMessage(TargetUser,jsonStr);
