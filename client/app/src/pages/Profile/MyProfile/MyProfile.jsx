@@ -30,9 +30,7 @@ const MyProfile = () => {
 
   const { userProfile, avatarUrl } = useUserDetail(_getUserId())
   console.log('用户详情：', userProfile, '头像url：', avatarUrl)
-
-  const username = userProfile.userName
-  const userImgUrl = 'https://img.yzcdn.cn/vant/cat.jpeg'
+  console.log('用户头像：', avatarUrl)
 
   const onTabChange = (path) => {
     console.log('切换路由：', path)
@@ -60,7 +58,7 @@ const MyProfile = () => {
 
         <div className='profile-social'>
           <div className='profile-img'>
-            <Image round fit='cover' src={userImgUrl} />
+            <Image round fit='cover' src={avatarUrl} />
           </div>
 
           <div className='profile-social-right'>
@@ -95,7 +93,7 @@ const MyProfile = () => {
         </div>
 
         <div className='profile-user'>
-          <div className='profile-username'>{username}</div>
+          <div className='profile-username'>{userProfile.userDetail.nickName}</div>
           <div className='profile-intro'>留下你的介绍吧......</div>
         </div>
       </div>

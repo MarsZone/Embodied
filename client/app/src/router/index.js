@@ -15,12 +15,14 @@ import Post from '@/pages/Post/Post' //新贴发布页
 import TopicDetail from '@/pages/TopicDetail/TopicDetail' //发布页详情
 import Message from '@/pages/Message/Message' //消息页
 import Chat from '@/pages/Chat/Chat' //聊天页
-import NewFriend from '@/pages/Friends/NewFriend/NewFriend' //好友页
+import NewFriend from '@/pages/Friends/NewFriend/NewFriend' //添加好友
+import MyFriends from '@/pages/Friends/MyFriends/MyFriends' //我的好友
 
 import Login from '@/pages/Login/Login' //登录页
 import Register from '@/pages/Register/Register' //注册页
 import Test from '@/pages/Test' //测试页
 import FileUpload from '@/components/fileUpload' //文件上传测试页
+
 
 
 
@@ -105,6 +107,10 @@ const router = createBrowserRouter([
   {
     path: '/newFriend',
     element: <NewFriend />
+  },
+  {
+    path: '/myFriends',
+    element: <MyFriends />
   },
 ])
 

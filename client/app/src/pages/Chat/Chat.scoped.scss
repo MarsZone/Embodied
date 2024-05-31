@@ -1,4 +1,4 @@
-.message-container{
+.message-container {
   // display: flex;
   // flex-direction: column;
 }
@@ -62,12 +62,17 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: fixed;
+  bottom: 0;
   // height: 50px;
   // width: 100vw;
 }
 
-.comment-input {
+.comment-input-box {
   width: 50vw;
+  height: 3rem;
+  border: solid 1px rgb(106, 106, 106);
+  border-radius: 2rem;
 }
 
 .comment-button {

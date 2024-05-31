@@ -5,16 +5,13 @@ import { getMsgHistoryApi } from '@/apis/message'
 import './Message.scoped.scss'
 import { previewFileApi } from '@/apis/file'
 import { useNavigate } from 'react-router-dom'
+import { FriendsO } from '@react-vant/icons';
 
 const Message = () => {
 
   const navigate = useNavigate()
   const [msgHisList, setMsgHisList] = useState([])
   const [avatarUrl, setAvatarUrl] = useState()
-
-  const toNewFriend = () => {
-    navigate('/newFriend')
-  }
 
   //初始化数据
   useEffect(() => {
@@ -45,8 +42,10 @@ const Message = () => {
     <div className="message-layout">
       <NavBar
         title="消息"
+        leftText={<FriendsO fontSize='1.8rem' />}
         rightText="添加好友"
-        onClickRight={toNewFriend}
+        onClickLeft={() => navigate('/myFriend')}
+        onClickRight={() => navigate('/newFriend')}
       />
       {msgHisList === null || avatarUrl === null ? (
         <div> loading... </div>

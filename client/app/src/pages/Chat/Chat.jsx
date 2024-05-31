@@ -157,23 +157,24 @@ const Chat = () => {
         {/* 这个 div 将始终位于底部 */}
         <div ref={bottomRef} />
 
-        <Sticky position='bottom'>
-          <div className="chat-send-box">
+        {/* <Sticky position='bottom'> */}
+        <div className="chat-send-box">
+          <div className="comment-input-box">
             <Input
-              className="comment-input"
               value={newMessage}
               onFocus={() => setSendMsgVisible(true)}
               placeholder='请输入消息...'
             >
             </Input>
-
-            <Button
-              className="comment-button"
-              text={'发送'}
-              onClick={onSubmitMsg}
-            />
           </div>
-        </Sticky>
+
+          <Button
+            className="comment-button"
+            text={'发送'}
+            onClick={onSubmitMsg}
+          />
+        </div>
+        {/* </Sticky> */}
 
         <Popup
           visible={sendMsgVisible}

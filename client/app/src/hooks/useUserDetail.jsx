@@ -37,7 +37,7 @@ const useUserDetail = (uid) => {
     //获取用户信息
     const userProfileRes = await getProfileAPI(uid)
     setUserProfile(userProfileRes.data)
-    console.log('用户详情：', userProfileRes.data)
+    // console.log('用户详情：', userProfileRes.data)
   }
 
   const fetchUserAvatar = async () => {
@@ -45,7 +45,7 @@ const useUserDetail = (uid) => {
     let avatarId = userProfile.userDetail.avatar === null ? 5 : parseInt(userProfile.userDetail.avatar)
     const userAvatarRes = await previewFileApi(avatarId)
     setAvatarUrl(userAvatarRes.data)
-    console.log('用户头像：', userAvatarRes.data)
+    // console.log('用户头像：', userAvatarRes.data)
   }
 
   return { userProfile, avatarUrl }
