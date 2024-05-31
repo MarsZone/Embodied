@@ -317,4 +317,14 @@ class UserController {
         return ResponseEntity.ok().body(R.ok("false"))
     }
 
+    @GetMapping("checkAllToken")
+    fun checkAllToken(){
+        // 获取所有已登录的会话id
+        val tokens = StpUtil.searchTokenValue("", 0, -1, false)
+        val sessions = StpUtil.searchSessionId("", 0, -1, false)
+        val searchTokenSessionId = StpUtil.searchTokenSessionId("", 0, -1, false)
+        println(tokens.toString())
+        println(sessions.toString())
+        println(searchTokenSessionId.toString())
+    }
 }
