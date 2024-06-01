@@ -23,8 +23,8 @@ request.interceptors.request.use((config) => {
   //2.按照后端的格式要求做token拼接
   const token = _getToken()
   if (token) {
-    config.headers.Authorization = `satoken ${token}`
-    document.cookie = `satoken=${token}`;
+    config.headers.Authorization = `satoken=${token}`
+    // document.cookie = `satoken=${token}`;
   }
   return config
 }, (error) => {
