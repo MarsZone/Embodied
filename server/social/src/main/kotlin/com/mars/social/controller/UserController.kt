@@ -349,7 +349,7 @@ class UserController {
         println(searchTokenSessionId.toString())
     }
 
-    //-------------tools
+    //-------------utils----------
     data class UserInfoDto(val uid:Long,val nickName: String?,val userName:String?)
     fun getUserInfo(uid:Long): UserInfoDto? {
         val info = database.from(Users).leftJoin(UserDetails,on=Users.id eq UserDetails.uid)
