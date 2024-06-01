@@ -14,6 +14,8 @@ interface UserFollow : Entity<UserFollow> {
     var followerUid:Long
     var followedUid:Long
     var createTime: LocalDateTime
+    var followUserNickName:String?
+    var followUserUserName:String?
 }
 
 object UserFollowDB : Table<UserFollow>("user_follow") {

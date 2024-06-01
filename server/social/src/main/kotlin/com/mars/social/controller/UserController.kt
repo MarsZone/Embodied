@@ -220,14 +220,21 @@ class UserController {
         }
     }
 
-
+    data class FriendsResponse(val friendShips:Friendship, val sourceUserDetail: UserDetail?, val toUserDetail: UserDetail?);
     //query user friends
     @SaCheckLogin
     @GetMapping("getMyFriends")
     fun getMyFriends():ResponseEntity<R>{
         val suid = StpUtil.getLoginId().toString().toLong()
         val friendships = database.sequenceOf(Friendships).filter{ it.status eq "friends" }.filter { (it.uidSource eq suid) or (it.uidTo eq suid) }.toList().reversed()
-        return ResponseEntity.ok(R.ok(friendships))
+        val resList:MutableList<FriendsResponse> = ArrayList()
+        for(item in friendships){
+            val sourceUserDetail = database.sequenceOf(UserDetails).filter { it.uid eq item.uidSource }.firstOrNull()
+            val toUserDetail = database.sequenceOf(UserDetails).filter { it.uid eq item.uidTo }.firstOrNull()
+            val res = FriendsResponse(item,sourceUserDetail,toUserDetail);
+            resList.add(res)
+        }
+        return ResponseEntity.ok(R.ok(resList))
     }
 
     @GetMapping("searchUserByNickName")
@@ -317,6 +324,20 @@ class UserController {
         return ResponseEntity.ok().body(R.ok("false"))
     }
 
+    @SaCheckLogin
+    @GetMapping("getMyFollowList")
+    fun getMyFollowList():ResponseEntity<R>{
+        val uid = StpUtil.getLoginId()
+        val followUid = uid.toString().toLong()
+        var followList = database.sequenceOf(UserFollowDB).filter { UserFollowDB.followerUid eq followUid }.toList().reversed()
+        for(item in followList){
+            val info = getUserInfo(item.followedUid)
+            item.followUserUserName = info?.userName
+            item.followUserNickName = info?.nickName
+        }
+        return ResponseEntity.ok().body(R.ok(followList))
+    }
+
     @GetMapping("checkAllToken")
     fun checkAllToken(){
         // 获取所有已登录的会话id
@@ -326,5 +347,20 @@ class UserController {
         println(tokens.toString())
         println(sessions.toString())
         println(searchTokenSessionId.toString())
+    }
+
+    //-------------tools
+    data class UserInfoDto(val uid:Long,val nickName: String?,val userName:String?)
+    fun getUserInfo(uid:Long): UserInfoDto? {
+        val info = database.from(Users).leftJoin(UserDetails,on=Users.id eq UserDetails.uid)
+            .select(Users.id,Users.userName,UserDetails.nickName).where { Users.id eq uid }
+            .map { row ->
+                UserInfoDto(
+                    uid = uid,
+                    nickName = row[Users.userName],
+                    userName = row[UserDetails.nickName]
+                )
+            }.firstOrNull()
+        return info
     }
 }
