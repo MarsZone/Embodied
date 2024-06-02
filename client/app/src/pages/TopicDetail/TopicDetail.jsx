@@ -1,11 +1,10 @@
 import { previewFileApi } from "@/apis/file";
 import { addBookmarkApi, getCommentsApi, getIndividualTopicApi, getTopicActionApi, likeApi, postCommentApi, removeBookmarkApi } from "@/apis/topic";
 import { getProfileAPI } from "@/apis/user";
-import useUserDetail from "@/hooks/useUserDetail";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Image, NavBar, Sticky, Divider, ActionBar, Popup, Input, Toast } from "react-vant";
-import { Star, LikeO, BookmarkO, ShareO, Bookmark, Like, Share } from '@react-vant/icons'
+import { Button, Image, NavBar, ActionBar, Popup, Input, Toast } from "react-vant";
+import { LikeO, BookmarkO, ShareO, Bookmark, Like} from '@react-vant/icons'
 import './TopicDetail.scss'
 import dayjs from "dayjs";
 

@@ -1,12 +1,10 @@
 .message-container {
-  // display: flex;
-  // flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-indv {
   padding: 0.5rem 0.7rem;
-  // height: (100vh - 96px) / 10;
-  // height: calc((100vh - 10rem - 50px)/10);
   gap: 0.5rem;
 }
 
@@ -63,18 +61,25 @@
   flex-direction: row;
   align-items: center;
   position: fixed;
+  position: sticky;
   bottom: 0;
-  // height: 50px;
-  // width: 100vw;
 }
 
-.comment-input-box {
-  width: 50vw;
-  height: 3rem;
-  border: solid 1px rgb(106, 106, 106);
+.send-box-left {
+  width: 85vw;
+  border: solid 1px #7b94ac;
   border-radius: 2rem;
+  height: 5.5vh;
+  padding: 0 2vw;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
 }
 
 .comment-button {
-  width: 20vw;
+  width: 15vw;
+  height: 5.5vh;
+  border-radius: 2rem;
+  margin: 0;
+  padding: 0;
 }

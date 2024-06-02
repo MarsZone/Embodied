@@ -8,7 +8,6 @@ import {  getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
 import useChannelList from '@/hooks/useChannelList'
 
-
 const Post = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
@@ -111,7 +110,6 @@ const Post = () => {
       />
 
       <div className="post-container">
-
         <div className='form-item'>
           <div className='form-item__name'>主题</div>
           <div className='form-item__value'>

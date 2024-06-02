@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NavBar, Toast, Badge, Image } from 'react-vant'
+import { NavBar, Badge, Image } from 'react-vant'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { getMsgHistoryApi } from '@/apis/message'
 import './Message.scoped.scss'
@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import { FriendsO } from '@react-vant/icons';
 
 const Message = () => {
-
   const navigate = useNavigate()
   const [msgHisList, setMsgHisList] = useState([])
   const [avatarUrl, setAvatarUrl] = useState()

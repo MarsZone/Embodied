@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import { request } from "@/utils";
-import React, { useState } from 'react';
-import { Card, Cell, Button, Input, Form, Notify } from 'react-vant';
+import { Button, Input, Form} from 'react-vant';
 import { UserO, Lock, EnvelopO, PhoneO } from '@react-vant/icons'
 import './Register.scoped.scss'
 import { registerAPI } from "@/apis/user";
@@ -11,7 +9,6 @@ const Register = () => {
 
   const [form] = Form.useForm()
   const navigate = useNavigate()
-
 
   const onFinish = async (registerForm) => {
     console.log('注册信息：', registerForm)

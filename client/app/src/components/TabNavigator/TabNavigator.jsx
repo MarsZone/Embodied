@@ -8,11 +8,8 @@ import { fetchUserInfo } from '@/store/modules/user'
 import { getUserId as _getUserId } from '@/utils'
 
 
-
 const TabNavigator = () => {
-
   const [loginUserId, setLoginUserId] = useState()
-  const { userId } = useParams()
 
   //当前登录用户
   useEffect(() => {

@@ -1,8 +1,7 @@
-import { getUtuMsgHistoryApi, sendMsgApi } from "@/apis/message"
+import { getUtuMsgHistoryApi } from "@/apis/message"
 import { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { NavBar, Image, ActionBar, Popup, Input, Button, Sticky, Lazyload } from "react-vant"
-import { Arrow } from '@react-vant/icons';
+import { NavBar, Image, Popup, Input, Button, Sticky} from "react-vant"
 import './Chat.scoped.scss'
 import { previewFileApi } from "@/apis/file"
 import useUserDetail from "@/hooks/useUserDetail"
@@ -111,7 +110,7 @@ const Chat = () => {
           || userProfile === null ? (
           <div> loading... </div>
         ) : (
-          <div>
+          <div className="message-list">
             {messageList.map(msg => (
               <div className='chat-indv' key={msg.id}>
                 {msg.senderId === targetId ? (
@@ -157,12 +156,13 @@ const Chat = () => {
         {/* 这个 div 将始终位于底部 */}
         <div ref={bottomRef} />
 
-        {/* <Sticky position='bottom'> */}
         <div className="chat-send-box">
-          <div className="comment-input-box">
+          <div className="send-box-left">
             <Input
+              className="send-box-left__input"
               value={newMessage}
-              onFocus={() => setSendMsgVisible(true)}
+              onChange={newMessage => setNewMessage(newMessage)}
+              // onFocus={() => setSendMsgVisible(true)}
               placeholder='请输入消息...'
             >
             </Input>
@@ -174,9 +174,8 @@ const Chat = () => {
             onClick={onSubmitMsg}
           />
         </div>
-        {/* </Sticky> */}
 
-        <Popup
+        {/* <Popup
           visible={sendMsgVisible}
           style={{ height: '30%' }}
           position='bottom'
@@ -191,22 +190,7 @@ const Chat = () => {
             value={newMessage}
             onChange={text => setNewMessage(text)}
           />
-        </Popup>
-
-        {/* <div className="chat-send-box">
-          <ActionBar>
-            <ActionBar.Button 
-              className="comment-button"
-              text={newMessage}
-              onClick={() => setSendMsgVisible(true)}
-            />
-            <ActionBar.Icon
-              icon={<Arrow />}
-              text='发送'
-              onClick={onSubmitMsg}
-            />
-          </ActionBar>
-        </div> */}
+        </Popup> */}
 
       </div>
     </div >

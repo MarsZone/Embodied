@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
-import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
-import { Image, NavBar, Toast, Button, Tabs, Cell, Dialog, Space, Typography, } from 'react-vant'
-import { Edit, Revoke } from '@react-vant/icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Image, Button, Tabs, Dialog } from 'react-vant'
+import { useDispatch } from 'react-redux'
+import { clearUserInfo} from '@/store/modules/user'
 import './MyProfile.scoped.scss'
 import useUserDetail from '@/hooks/useUserDetail'
 import { getUserId as _getUserId } from '@/utils'
@@ -119,7 +118,6 @@ const MyProfile = () => {
       <div className="footer">
         <TabNavigator />
       </div>
-
 
     </div>
   )

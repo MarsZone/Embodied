@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Card, Cell, Button, Input, Form, Notify } from 'react-vant';
+import React from 'react';
+import { Button, Input, Form, Notify } from 'react-vant';
 import './Login.scoped.scss'
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '@/store/modules/user';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
-
   const [form] = Form.useForm()
   const dispatch = useDispatch() //在组件中调dispatch方法，需要用钩子函数useDispatch
   const navigate = useNavigate()
@@ -23,7 +22,6 @@ const Login = () => {
     } else {
       Notify.show('登录失败')
     }
-
   }
 
   return (

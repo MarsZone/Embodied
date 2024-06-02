@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Outlet, useNavigate, useLocation, useParams } from 'react-router-dom'
-import { Image, NavBar, Toast, Flex, Tabs, Cell, Dialog, Space, Button } from 'react-vant'
-import { EnvelopO, ChatO } from '@react-vant/icons'
+import { useParams } from 'react-router-dom'
+import { Image, Toast, Button } from 'react-vant'
+import { ChatO } from '@react-vant/icons'
 import useUserDetail from '@/hooks/useUserDetail'
 import './OtherProfile.scoped.scss'
-import { checkFollowAPI, checkFriendAPI, followAPI, getMyFriendsAPI, unFollowAPI } from '@/apis/user'
+import { checkFollowAPI, checkFriendAPI, followAPI, unFollowAPI } from '@/apis/user'
 
 const OtherProfile = () => {
-
-  const navigate = useNavigate()
-
   const { userId } = useParams()
   const { userProfile, avatarUrl } = useUserDetail(16)
   console.log('用户详情：', userProfile, '头像url：', avatarUrl)

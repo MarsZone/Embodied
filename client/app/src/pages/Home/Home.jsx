@@ -1,41 +1,32 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect} from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import {
-  Image, NavBar, Toast, Tabs, Card, Space,
-  Button, Sticky, Typography
+  Image, NavBar, Toast, Tabs, Sticky, Typography
 } from 'react-vant'
-import { Arrow, CommentO, LikeO, BookmarkO, ShareO, Bookmark, Like, Share } from '@react-vant/icons'
+import { Arrow, CommentO, LikeO, BookmarkO} from '@react-vant/icons'
 import { useState } from 'react'
 import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
 import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
 import { Link } from 'react-router-dom'
-import useUserDetail from '@/hooks/useUserDetail'
 import { getProfileAPI } from '@/apis/user'
-
 
 
 const Home = () => {
   //获取频道列表
   const { channelList, loading } = useChannelList()
-  const [selectChannel, setSelectChannel] = useState()
   const [channelTopics, setChannelTopics] = useState([])
-  const [coverUrlList, setCoverUrlList] = useState([])
-
   const [coverUrl, setCoverUrl] = useState()
-
 
   //点击频道切换
   const onTabClick = async (channel) => {
     const channelKey = await channel.name
     console.log('选中频道：', channelKey)
-
     //根据切换的channelKey，切换展示的话题
     const channelTopicsRes = await getChannelTopicsApi(channelKey)
     setChannelTopics(channelTopicsRes.data)
   }
-
 
   //获取发布者用户
   const getUsername = async (uid) => {
@@ -120,13 +111,11 @@ const Home = () => {
                       </div>
                     </Link>
 
-                    {/* <div className='topic-content'> */}
                     <Typography.Text
                       className='topic-content'
                       ellipsis={2}>
                       内容：{topic.content}
                     </Typography.Text>
-                    {/* </div> */}
 
                     <div className='topic-cover'>
                       <Image

@@ -1,7 +1,6 @@
 // 话题相关的接口
 import { request } from "@/utils";
 
-
 //1.获取频道列表
 export function getChannelApi() {
   return request({
