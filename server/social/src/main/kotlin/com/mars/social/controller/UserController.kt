@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckRole
 import cn.dev33.satoken.secure.SaSecureUtil
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.UserInfoDto
+import com.mars.social.model.topic.Topics
 import com.mars.social.model.user.*
 import com.mars.social.utils.MessageUtil
 import com.mars.social.utils.R
@@ -137,6 +138,25 @@ class UserController {
         }else{
             ResponseEntity.ok().body(R.fail("query failed"))
         }
+    }
+
+    data class UserExtendsInfo(var friendsCount:Int, var followsCount:Int, var followersCount:Int, var collectsCount:Int)
+    @GetMapping("/userExtendsInfo")
+    fun userExtendsInfo(@RequestParam uid:Long):ResponseEntity<R> {
+        val userExtendsInfo = UserExtendsInfo(0,0,0,0)
+        val friendsCount = database.sequenceOf(Friendships).filter{ it.status eq "friends" }.filter { (it.uidSource eq uid) or (it.uidTo eq uid) }.totalRecordsInAllPages
+        userExtendsInfo.friendsCount = friendsCount
+        val followsCount = database.sequenceOf(UserFollowDB).filter { it.followerUid eq uid }.totalRecordsInAllPages
+        userExtendsInfo.followsCount = followsCount
+        val followersCount = database.sequenceOf(UserFollowDB).filter { it.followedUid eq uid }.totalRecordsInAllPages
+        userExtendsInfo.followersCount = followersCount
+        val userTopics = database.sequenceOf(Topics).filter { it.authorUid eq uid }.toList()
+        var collectsCount = 0
+        for(uTopic in userTopics){
+            collectsCount += collectsCount+uTopic.bookmarks;
+        }
+        userExtendsInfo.collectsCount = collectsCount;
+        return ResponseEntity.ok().body(R.ok(userExtendsInfo));
     }
 
     data class UserInfo(val uid:Long,val nickName:String)
