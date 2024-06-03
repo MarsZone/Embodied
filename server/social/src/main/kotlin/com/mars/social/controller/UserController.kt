@@ -370,15 +370,16 @@ class UserController {
     }
 
     //-------------utils----------
-    data class UserInfoDto(val uid:Long,val nickName: String?,val userName:String?)
+    data class UserInfoDto(val uid:Long,val nickName: String?,val userName:String?,val avatar:String?)
     fun getUserInfo(uid:Long): UserInfoDto? {
         val info = database.from(Users).leftJoin(UserDetails,on=Users.id eq UserDetails.uid)
-            .select(Users.id,Users.userName,UserDetails.nickName).where { Users.id eq uid }
+            .select(Users.id,Users.userName,UserDetails.nickName,UserDetails.avatar).where { Users.id eq uid }
             .map { row ->
                 UserInfoDto(
                     uid = uid,
                     nickName = row[Users.userName],
-                    userName = row[UserDetails.nickName]
+                    userName = row[UserDetails.nickName],
+                    avatar = row[UserDetails.avatar]
                 )
             }.firstOrNull()
         return info
