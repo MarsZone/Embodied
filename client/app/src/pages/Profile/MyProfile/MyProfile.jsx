@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Image, Button, Tabs, Dialog } from 'react-vant'
 import { useDispatch } from 'react-redux'
-import { clearUserInfo} from '@/store/modules/user'
+import { clearUserInfo } from '@/store/modules/user'
 import './MyProfile.scoped.scss'
 import useUserDetail from '@/hooks/useUserDetail'
 import { getUserId as _getUserId } from '@/utils'
+import { getUserExtendsAPI } from '@/apis/user'
 
 const MyProfile = () => {
   const tabs = [
@@ -26,10 +27,25 @@ const MyProfile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userId } = useParams()
+  const [followsCount, setFollowsCount] = useState('--')
+  const [followersCount, setFollowersCount] = useState('--')
+  const [collectsCount, setCollectsCount] = useState('--')
 
   const { userProfile, avatarUrl } = useUserDetail(_getUserId())
   console.log('用户详情：', userProfile, '头像url：', avatarUrl)
   console.log('用户头像：', avatarUrl)
+
+  //数据初始化
+  useEffect(() => {
+    getUserExtendsInfo()
+  }, [])
+
+  const getUserExtendsInfo = async () => {
+    const res = await getUserExtendsAPI(_getUserId())
+    console.log('关注数量等：', res.data)
+    setFollowersCount(res.data.followersCount);
+    setFollowsCount(res.data.followsCount);
+  }
 
   const onTabChange = (path) => {
     console.log('切换路由：', path)
@@ -63,8 +79,8 @@ const MyProfile = () => {
           <div className='profile-social-right'>
             <table>
               <tr className='top-row'>
-                <td>2,146</td>
-                <td>51M</td>
+                <td>{followsCount}</td>
+                <td>{followersCount}</td>
                 <td>11</td>
               </tr>
               <tr className='bottom-row'>

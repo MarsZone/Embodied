@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { NavBar, Toast, Popover, Button, Input, Uploader, Tag} from 'react-vant'
+import { NavBar, Toast, Popover, Button, Input, Uploader, Tag } from 'react-vant'
 import { Plus } from '@react-vant/icons';
 import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import './Post.scoped.scss'
 import { createTopicApi, saveTopicDraftApi } from '@/apis/post'
-import {  getUserId } from '@/utils'
+import { getUserId } from '@/utils'
 import { previewFileApi, uploadFileApi } from '@/apis/file'
 import useChannelList from '@/hooks/useChannelList'
 
@@ -99,7 +99,7 @@ const Post = () => {
   }
 
   return (
-    <div className="layout">
+    <div className="post-layout">
       <NavBar
         className='nav-bar'
         fixed='true'

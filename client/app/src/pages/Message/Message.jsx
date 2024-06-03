@@ -43,7 +43,7 @@ const Message = () => {
         title="消息"
         leftText={<FriendsO fontSize='1.8rem' />}
         rightText="添加好友"
-        onClickLeft={() => navigate('/myFriend')}
+        onClickLeft={() => navigate('/myFriends')}
         onClickRight={() => navigate('/newFriend')}
       />
       {msgHisList === null || avatarUrl === null ? (

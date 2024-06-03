@@ -22,13 +22,21 @@ export function registerAPI(formData) {
   })
 }
 
-//3.获取用户信息
+//3.获取用户详细信息
 export function getProfileAPI(uid) {
   return request({
     url: '/api/users/userDetail',
     method: 'GET',
     params: { uid: uid },
-    //withCredentials: true
+  })
+}
+
+//4.查看用户统计信息
+export function getUserExtendsAPI(uid) {
+  return request({
+    url: '/api/users/userExtendsInfo',
+    method: 'GET',
+    params: { uid: uid },
   })
 }
 
