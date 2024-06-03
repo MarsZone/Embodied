@@ -110,7 +110,7 @@ const Post = () => {
       />
 
       <div className="post-container">
-        <div className='form-item'>
+        <div className='form-item item-title'>
           <div className='form-item__name'>主题</div>
           <div className='form-item__value'>
             <Input
@@ -120,7 +120,22 @@ const Post = () => {
           </div>
         </div>
 
-        <div className='form-item'>
+        <div className='form-item item-content'>
+          <div className='form-item__name'>内容</div>
+          <div className='form-item__value'>
+            <Input.TextArea
+              value={content}
+              placeholder='请输入内容'
+              onChange={setContent}
+              rows={5}
+              // autoSize
+              autoSize={{ minHeight: 160, maxHeight: 160 }}
+              maxLength={500}
+              showWordLimit />
+          </div>
+        </div>
+
+        <div className='form-item item-channel'>
           <div className='form-item__name'>频道</div>
           <Popover
             actions={channelList.map(item => ({
@@ -131,23 +146,14 @@ const Post = () => {
             onSelect={handleselectChannel}
             placement='bottom-start'
             reference={
-              <Button plain hairline type='primary'>{selectChannelName}</Button>
+              <Button className='channel-button'>
+                {selectChannelName}
+              </Button>
             }
           />
         </div>
 
-        <div className='form-item'>
-          <div className='form-item__name'>内容</div>
-          <div className='form-item__value'>
-            <Input.TextArea
-              value={content}
-              placeholder='请输入内容'
-              onChange={setContent}
-              rows={3} autoSize maxLength={140} showWordLimit />
-          </div>
-        </div>
-
-        <div className='form-item'>
+        <div className='form-item item-tag'>
           <div className='form-item__name'>标签</div>
           <div className='form-item__value'>
             <div className='form-tag-item'>
@@ -157,7 +163,7 @@ const Post = () => {
                     key={index}
                     plain
                     closeable
-                    size="medium"
+                    size="large"
                     type="primary"
                     onClose={() => onCloseTab(item)}
                   >
@@ -181,22 +187,30 @@ const Post = () => {
                   <div></div>
                 ) : (
                   <Input
-                    suffix={
-                      <div>
-                        <Button size="small" type="primary" onClick={onClickAddTag}>add tag</Button>
-                        <Button size="small" type="primary" onClick={() => setShowAddTag(true)}>cancel</Button>
-                      </div>
-                    }
                     placeholder="请输入tag名称~~"
                     value={newTag}
                     onChange={setNewTag}
+                    suffix={
+                      <div>
+                        <Button
+                          className='tag-button tag-button__add'
+                          onClick={onClickAddTag}>
+                          add tag
+                        </Button>
+                        <Button
+                          className='tag-button tag-button__cancel'
+                          onClick={() => setShowAddTag(true)}>
+                          cancel
+                        </Button>
+                      </div>
+                    }
                   />)}
               </div>
             </div>
           </div>
         </div>
 
-        <div className='form-item'>
+        <div className='form-item item-cover'>
           <div className='form-item__name'>封面</div>
           <div className='form-item__value'>
             <Uploader
@@ -207,14 +221,26 @@ const Post = () => {
           </div>
         </div>
 
-        <div className='post-button' style={{ margin: '16px 16px 0' }}>
-          <Button onClick={handleSave} round nativeType='submit' type='primary' block>
-            存草稿
-          </Button>
-          <Button onClick={handlePublish} round nativeType='submit' type='primary' block>
-            发布
-          </Button>
+        <div className='form-item item-button'>
+          <div className='form-item__value'>
+            <div className='post-botton-box'>
+              <Button
+                className='post-button post-button__draft'
+                onClick={handleSave}
+              >
+                存草稿
+              </Button>
+              <Button
+                className='post-button post-button__publish'
+                onClick={handlePublish}
+              >
+                发布
+              </Button>
+            </div>
+          </div>
         </div>
+
+
       </div>
 
       <div className="footer">

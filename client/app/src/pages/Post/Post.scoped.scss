@@ -1,20 +1,21 @@
 .post-layout {
-  background-color: #F6F7F9;
+  //background-color: #F6F7F9;
+  // background-color: #8BC6EC;
+  // background-image: linear-gradient(0deg, #8BC6EC 0%, #9599E2 100%);
+
+  background: #667db6;
+  background: linear-gradient(to left, #667db67e, #0082c888, #0082c889, #667db684);
+  height: 100vh;
 }
 
-.post-button {
-  display: flex;
-  gap: 2vw;
-}
 
 .form-item {
   display: flex;
+  align-items: center;
   flex-direction: row;
-  // align-items: center;
-  background-color: #fff;
-  padding: 2vw 3vw;
-  // margin-bottom: 0.5vh;
-  // border-radius: 1rem;
+  background-color: #ffffffe8;
+  padding: 3vw 3vw;
+  margin: 0 1vw;
 
   &__name {
     font-size: 1.2rem;
@@ -22,7 +23,54 @@
   }
 
   &__value {
-    left: 20vw
+    left: 20vw;
+    width: 100%;
+  }
+}
+
+//item1:title
+.item-title {
+  margin-top: 0.5rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  border-bottom: solid #F6F7F9 1px;
+}
+
+//item2:content
+.item-content {
+  margin-bottom: 0.3rem;
+}
+
+//item3:channel
+.item-channel {
+  border-bottom: solid #F6F7F9 1px;
+}
+
+.channel-button {
+  padding: 1vw 13vw;
+  height: 2.5rem;
+  border-radius: var(--rv-popover-border-radius);
+}
+
+//item4:tag
+.item-tag {
+  margin-bottom: 0.3rem;
+}
+
+.tag-button {
+  padding: 1vw 2vw;
+  height: 2.3rem;
+  border-radius: var(--rv-popover-border-radius);
+
+  &__add {
+    border-color: #3f45ff;
+    color: #3f45ff;
+  }
+
+  &__cancel {
+    left: 1vw;
+    border-color: #f44336;
+    color: #f44336;
   }
 }
 
@@ -42,4 +90,39 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+//item5: 封面
+.item-cover{
+  border-bottom: solid #F6F7F9 1px;
+}
+
+//item6: 按钮
+.item-button {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 3vw 0;
+}
+
+.post-botton-box {
+  padding: 2vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-button {
+  border-radius: var(--rv-popover-border-radius);
+
+  &__publish {
+    width: 72vw;
+    background-color: #3f45ff;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  &__draft {
+    width: 20vw;
+    background-color: #DEDCFF;
+    // color: #fff;
+  }
 }
