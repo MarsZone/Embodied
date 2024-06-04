@@ -2,8 +2,7 @@ package com.mars.social.controller
 
 import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.StpUtil
-import com.mars.social.model.topic.Topic
-import com.mars.social.model.topic.Topics
+import com.mars.social.model.topic.*
 import com.mars.social.model.user.UserFollowDB
 import com.mars.social.utils.R
 import org.ktorm.database.Database
@@ -29,7 +28,12 @@ class DiscoverController {
     lateinit var userController:UserController
 
     data class TopicPost(var userInfo: UserController.UserInfoDto?, var topic:Topic)
-//    data class FollowedTargetActivities(var topicPostList:List<TopicPost>)
+    //comment action
+    data class CommentAction(var userInfo: UserController.UserInfoDto?,var comment:TopicComment)
+    //like action
+    data class likeAction(var userInfo: UserController.UserInfoDto?,var like:TopicLike)
+
+    data class FollowedTargetActivities(var topicPostList:List<TopicPost>,var commentActionList:List<CommentAction>,var likeActionList:List<likeAction>)
 //    data class DiscoverDto(var randomTopics:List<Topic>)
 
     @GetMapping("/explore")
@@ -47,6 +51,7 @@ class DiscoverController {
     @SaCheckLogin
     @GetMapping("/loadFollowedTargetActivities")
     fun loadFollowedTargetActivities( offset:Long = 0, numbers:Int=3): ResponseEntity<R> {
+        val uid = StpUtil.getLoginId().toString().toLong()
         var offsetIndex:Long = 0
         if(offset.toInt() !=0){
             offsetIndex = offset
@@ -56,16 +61,38 @@ class DiscoverController {
                 offsetIndex = topId.id
             }
         }
-        val uid = StpUtil.getLoginId().toString().toLong()
         val topics =database.from(Topics).innerJoin(UserFollowDB,on=Topics.authorUid eq UserFollowDB.followedUid)
             .select().where { (UserFollowDB.followerUid eq uid) and (Topics.id lessEq offsetIndex) }.orderBy(Topics.publishTime.desc()).limit(numbers)
             .map { row -> Topics.createEntity(row) }.toList()
-        var topicPostList = ArrayList<TopicPost>()
+        val topicPostList = ArrayList<TopicPost>()
         for(topic in topics){
-            var userInfo = topic.authorUid?.let { userController.getUserInfo(it) }
-            var topicPost = TopicPost(userInfo,topic)
+            val userInfo = topic.authorUid?.let { userController.getUserInfo(it) }
+            val topicPost = TopicPost(userInfo,topic)
             topicPostList.add(topicPost)
         }
-        return ResponseEntity.ok().body(R.ok(topicPostList))
+
+        val commentActionList = ArrayList<CommentAction>()
+        val topicComments = database.from(TopicComments).innerJoin(UserFollowDB,on=TopicComments.uid eq UserFollowDB.followedUid)
+            .select().where{(UserFollowDB.followerUid eq uid)}.orderBy( TopicComments.createTime.desc() ).limit(numbers)
+            .map{ row-> TopicComments.createEntity(row)}.toList()
+        for(topicComment in topicComments){
+            val userInfo = userController.getUserInfo(topicComment.uid)
+            val commentAction = CommentAction(userInfo,topicComment)
+            commentActionList.add(commentAction)
+        }
+
+        val likeActionList = ArrayList<likeAction>()
+        val topicLikes = database.from(TopicLikes).innerJoin(UserFollowDB,on=TopicLikes.uid eq UserFollowDB.followedUid)
+            .select().where{ (UserFollowDB.followerUid eq uid) }.orderBy( TopicLikes.createTime.desc() ).limit(numbers)
+            .map { row -> TopicLikes.createEntity(row) }.toList()
+        for(topicLike in topicLikes){
+            val userInfo = userController.getUserInfo(topicLike.uid)
+            val likeAction = likeAction(userInfo,topicLike)
+            likeActionList.add(likeAction)
+        }
+
+        var followedTargetActivities:FollowedTargetActivities = FollowedTargetActivities(topicPostList,commentActionList,likeActionList);
+
+        return ResponseEntity.ok().body(R.ok(followedTargetActivities))
     }
 }
