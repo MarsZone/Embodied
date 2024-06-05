@@ -101,7 +101,7 @@ const Home = () => {
         <Tabs
           sticky
           offsetTop={46}
-          color='#243B55'
+          color='#1d6b99'
           onClickTab={v => onTabClick(v)}
         >
 

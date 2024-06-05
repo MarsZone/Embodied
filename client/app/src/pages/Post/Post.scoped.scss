@@ -1,10 +1,9 @@
 .post-layout {
   //background-color: #F6F7F9;
-  // background-color: #8BC6EC;
-  // background-image: linear-gradient(0deg, #8BC6EC 0%, #9599E2 100%);
 
-  background: #667db6;
-  background: linear-gradient(to left, #667db67e, #0082c888, #0082c889, #667db684);
+  background-color: #c7e1ff;
+  //background: #667db6;
+  //background: linear-gradient(to left, #667db67e, #0082c888, #0082c889, #667db684);
   height: 100vh;
 }
 
@@ -13,9 +12,9 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  background-color: #ffffffe8;
+  background-color: #ffffffea;
   padding: 3vw 3vw;
-  margin: 0 1vw;
+  margin: 0 3vw;
 
   &__name {
     font-size: 1.2rem;
@@ -30,10 +29,11 @@
 
 //item1:title
 .item-title {
-  margin-top: 0.5rem;
+  margin-top: 2vh;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  border-bottom: solid #F6F7F9 1px;
+  border-bottom: solid #f3f6fd 1px;
+  height: 3vh;
 }
 
 //item2:content
@@ -43,7 +43,8 @@
 
 //item3:channel
 .item-channel {
-  border-bottom: solid #F6F7F9 1px;
+  border-bottom: solid #f3f6fd 1px;
+  height: 3vh;
 }
 
 .channel-button {
@@ -55,6 +56,7 @@
 //item4:tag
 .item-tag {
   margin-bottom: 0.3rem;
+  height: 3vh;
 }
 
 .tag-button {
@@ -93,8 +95,9 @@
 }
 
 //item5: 封面
-.item-cover{
+.item-cover {
   border-bottom: solid #F6F7F9 1px;
+  height: 10vh;
 }
 
 //item6: 按钮
