@@ -1,6 +1,8 @@
 package com.mars.social.interceptor;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
@@ -11,6 +13,12 @@ import cn.dev33.satoken.stp.StpUtil;
 public class WebSocketInterceptor implements HandshakeInterceptor {
 
     // 握手之前触发 (return true 才会握手成功 )
+    private ApplicationContext context;
+
+    @Autowired
+    public void setContext(ApplicationContext context) {
+        this.context = context;
+    }
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler handler,
                                    Map<String, Object> attr) {

@@ -3,6 +3,7 @@ package com.mars.social.controller
 import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.annotation.SaCheckRole
 import cn.dev33.satoken.secure.SaSecureUtil
+import cn.dev33.satoken.stp.StpLogic
 import cn.dev33.satoken.stp.StpUtil
 import com.mars.social.dto.UserInfoDto
 import com.mars.social.model.topic.Topics
@@ -82,6 +83,10 @@ class UserController {
         }
         data = messageUtil.get("sign.in.failed")
         return ResponseEntity.ok().body(R.fail(data))
+    }
+
+    fun getLogic(): StpLogic {
+        return StpUtil.stpLogic
     }
 
     @RequestMapping("/logout")

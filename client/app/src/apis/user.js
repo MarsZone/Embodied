@@ -27,7 +27,7 @@ export function getProfileAPI(uid) {
   return request({
     url: '/api/users/userDetail',
     method: 'GET',
-    params: { uid: uid },
+    params: { uid: 1 },
   })
 }
 

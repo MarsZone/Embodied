@@ -20,7 +20,7 @@ class WebConfig : WebMvcConfigurer {
         registry.addMapping("/**")
             .allowedOriginPatterns("*")
             .allowedHeaders("Authorization","Access-Control-Allow-Headers","Origin",
-                "Content-Type", "Access-Control-Allow-Origin"," X-Requested-With","Accept","X-PINGOTHER")
+                "Content-Type", "Access-Control-Allow-Origin"," X-Requested-With","Accept","X-PINGOTHER","Authorization","satoken","mtoken")
             .allowedMethods("GET", "POST", "PUT", "DELETE")
             .allowCredentials(true);
     }

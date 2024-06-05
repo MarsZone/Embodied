@@ -50,12 +50,15 @@ const fetchLogin = (loginForm) => {
 
       console.log('发送的数据：', loginForm)
       console.log('Cookies：', document.cookie)
+      console.log('token：', res.data.tokenName)
+      let tokenName = res.data.tokenName
       console.log('token：', res.data.tokenValue)
       
       const token = res.data.tokenValue; // 设置token参数
       // const sendMessage = WebSocketComponent('ws://localhost:8080/ws-connect?satoken='+res.data.tokenValue);// 调用SendMessageToUser组件并传入token参数
-
-      const newSocket = new WebSocket('ws://localhost:8080/ws-connect?satoken='+res.data.tokenValue);
+      // debugger
+      // const newSocket = new WebSocket('ws://localhost:8080/ws-connect?satoken='+res.data.tokenValue);
+      const newSocket = new WebSocket('ws://120.78.142.84:8080/ws-connect?'+tokenName+'='+res.data.tokenValue);
       newSocket.onopen = () => {
         console.log('WebSocket connected');
         newSocket.send("cmd:'10100'|target:''|msg:'广播消息，客户端发来的'")

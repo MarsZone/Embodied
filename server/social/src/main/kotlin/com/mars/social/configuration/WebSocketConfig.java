@@ -1,5 +1,6 @@
 package com.mars.social.configuration;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.mars.social.controller.WebSocketConnect;
 import com.mars.social.interceptor.WebSocketInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer{
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
         WebSocketConnect connectHandler = new WebSocketConnect();
+        WebSocketInterceptor webSocketInterceptor = new WebSocketInterceptor();
         connectHandler.setContext(context);
         webSocketHandlerRegistry
                 // WebSocket 连接处理器
