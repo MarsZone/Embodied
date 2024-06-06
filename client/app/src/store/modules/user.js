@@ -44,54 +44,31 @@ const userReducer = userStore.reducer
 //异步方法 完成登录获取token
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
-    try {
-      //1.发送异步请求
-      const res = await loginAPI(loginForm)
+    //1.发送异步请求
+    const res = await loginAPI(loginForm)
+    dispatch({ type: 'LOGIN_SUCCESS', payload: res.code })
 
-      console.log('发送的数据：', loginForm)
-      console.log('Cookies：', document.cookie)
-      console.log('token：', res.data.tokenName)
-      let tokenName = res.data.tokenName
-      console.log('token：', res.data.tokenValue)
-      
-      const token = res.data.tokenValue; // 设置token参数
-      // const sendMessage = WebSocketComponent('ws://localhost:8080/ws-connect?satoken='+res.data.tokenValue);// 调用SendMessageToUser组件并传入token参数
-      // debugger
-      // const newSocket = new WebSocket('ws://localhost:8080/ws-connect?satoken='+res.data.tokenValue);
-      const newSocket = new WebSocket('ws://120.78.142.84:8080/ws-connect?'+tokenName+'='+res.data.tokenValue);
-      newSocket.onopen = () => {
-        console.log('WebSocket connected');
-        newSocket.send("cmd:'10100'|target:''|msg:'广播消息，客户端发来的'")
-        newSocket.send("cmd:'10200'|target:'2'|msg:'用户1发给用户2的消息'")
-      };  
-      newSocket.onmessage = (event) => {
-        console.log('Message received:', event.data);
-        // 在这里处理接收到的消息
-      };  
-      newSocket.onclose = () => {
-        console.log('WebSocket disconnected');
-      };
+    console.log('登录接口返回：', res)
+    console.log('tokenName：', res.data.tokenName)
+    console.log('tokenValue：', res.data.tokenValue)
 
+    if (res.code === 20000) {
+      //2.提交同步action进行token的存入
+      const token = res.data.tokenValue
+      dispatch(setToken(token))
 
-      if (res.code === 20000) {
-        //2.提交同步action进行token的存入
-        const token = res.data.tokenValue
-        dispatch(setToken(token))
+      //localStorage存一份token
+      _setToken(token)
 
-        //localStorage存一份token
-        _setToken(token)
+      //localStorage存一份uid
+      _setUserId(res.data.loginId)
 
-        //localStorage存一份uid
-        _setUserId(res.data.loginId)
-        console.log('userId：', _getUserId)
+      //登录成功
+      return res.code
 
-        return true
-
-      } else {
-        throw new Error('登录失败')
-      }
-    } catch (error) {
-      throw error
+    } else {
+      //登录失败
+      return res.code
     }
   }
 }

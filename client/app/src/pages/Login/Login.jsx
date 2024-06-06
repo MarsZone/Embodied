@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Form, Notify } from 'react-vant';
+import { Button, Input, Form, Toast } from 'react-vant';
 import './Login.scoped.scss'
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '@/store/modules/user';
@@ -10,17 +10,18 @@ const Login = () => {
   const dispatch = useDispatch() //在组件中调dispatch方法，需要用钩子函数useDispatch
   const navigate = useNavigate()
 
-  const onFinish = async (values) => {
-    console.log('登录信息：', values)
+  const handleLogin = async (loginForm) => {
+    console.log('登录信息：', loginForm)
     //触发异步action fetchLogin
-    const loginSuccess = await dispatch(fetchLogin(values)) //参数就是收集到的表单数据values
+    const resCode = await dispatch(fetchLogin(loginForm)) //参数就是收集到的表单数据values
+    console.log('dispatch方法返回：', resCode)
 
-    if (loginSuccess) {
+    if (resCode === 20000) {
       //登录完成后，1跳转到首页 2提示用户是否登录成功
       navigate('/')
-      Notify.show('登录成功')
+      Toast.success('登录成功')
     } else {
-      Notify.show('登录失败')
+      Toast.success('登录失败')
     }
   }
 
@@ -29,7 +30,7 @@ const Login = () => {
       <Form
         className='login-form'
         validateTrigger='onblur'
-        onFinish={onFinish}
+        onFinish={handleLogin}
         form={form}
         footer={
           <div>
