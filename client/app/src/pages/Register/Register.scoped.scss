@@ -1,0 +1,79 @@
+.register-page {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/assets/bg_1.jpg");
+  overflow: hidden;
+  --rv-cell-background-color:	rgba(255, 255, 255, 0.4);
+  --rv-field-intro-color: rgb(250, 149, 72);
+  --rv-field-error-message-font-size: 0.8rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+
+  &__image {
+    width: 13vw;
+    height: 13vw;
+  }
+
+  &__name {
+    /*实现文字颜色渐变效果*/
+    background: linear-gradient(135deg, rgba(34, 95, 159, 1) 20%, rgb(170, 54, 46, 0.95) 65%, rgba(249, 144, 69, 1) 98%); //设置渐变
+    -webkit-background-clip: text; //将设置的背景颜色限制在文字中
+    -webkit-text-fill-color: transparent; //给文字设置成透明
+    font-family: "STXingkai", Sans-serif;
+    font-size: 4rem;
+  }
+}
+
+
+.register-form {
+  width: 80vw;
+  max-width: 80vw;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 15vw 8vw 8vw 8vw;
+  background-color: #ffffff;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  background: rgba(255, 255, 255, 0.4);
+  border-top-color: rgba(255, 255, 255, .4);
+  border-left-color: rgba(255, 255, 255, .4);
+  border-bottom-color: rgba(60, 60, 60, .4);
+  border-right-color: rgba(60, 60, 60, .4);
+}
+
+.register-button {
+  width: 60vw;
+  border: 1px solid;
+  border-bottom-color: rgba(255, 255, 255, .5);
+  border-right-color: rgba(60, 60, 60, .35);
+  border-top-color: rgba(60, 60, 60, .35);
+  border-left-color: rgba(80, 80, 80, .45);
+  background-color: rgba(5, 106, 150, 0.7);
+  background-repeat: no-repeat;
+  font: bold 0.9rem/1.25rem "Open Sans Condensed", sans-serif;
+  letter-spacing: .075rem;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+  margin-top: 15px;
+}
+
+.route-navigate {
+  text-align: center;
+  color: rgb(70, 70, 70);
+  font-weight: 200;
+  font-size: 1.1rem;
+
+  a {
+    font-weight: 600;
+    text-decoration: none;
+    color: rgb(216, 139, 80);
+  }
+}

@@ -5,8 +5,8 @@ import { useEffect, useRef } from 'react';
 
 const useWebSocket = (onMessage) => {
 
-  // const baseUrl = 'ws://localhost:8080' //可修改
-  const baseUrl = 'ws://120.78.142.84:8080' //可修改
+  const baseUrl = 'ws://localhost:8080' //可修改
+  //const baseUrl = 'ws://120.78.142.84:8080' //可修改
   const satoken = _getToken()
   const wsUrl = `${baseUrl}/ws-connect?satoken=${satoken}`
 
