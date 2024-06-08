@@ -148,6 +148,14 @@ class TopicController {
             }
             topic.tags = tagList
             topic.tagsName = tagNameList
+            var userinfo = topic.authorUid?.let { userController.getUserInfo(it.toLong()) }
+            if (userinfo != null) {
+                topic.authorNickName = userinfo.nickName.toString()
+            }
+            if (userinfo != null) {
+                topic.authorAvatar = userinfo.avatar.toString()
+            }
+
             return ResponseEntity.ok().body(R.ok(topic))
         }
         return ResponseEntity.ok().body(R.fail("Not found topic"))
