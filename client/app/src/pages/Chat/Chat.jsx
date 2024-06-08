@@ -114,7 +114,7 @@ const Chat = () => {
             {messageList.map(msg => (
               <div className='chat-indv' key={msg.id}>
                 {msg.senderId === targetId ? (
-                  <div className="chat-box target-chat-box">
+                  <div className="chat-box chat-box__target">
                     <div className="chat-box-left">
                       <Image
                         cover round
@@ -122,16 +122,16 @@ const Chat = () => {
                         src={avatarUrlTarget} />
                     </div>
                     <div className="chat-box-right">
-                      <div className="chat-sender-target">
+                      <div className="chat-sender chat-sender__target">
                         {targetNickName}
                       </div>
-                      <div className="chat-content">
+                      <div className="chat-content chat-content__target">
                         {msg.content}
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="chat-box my-chat-box">
+                  <div className="chat-box chat-box__my">
                     <div className="chat-box-left">
                       <Image
                         cover round
@@ -139,10 +139,10 @@ const Chat = () => {
                         src={avatarUrl} />
                     </div>
                     <div className="chat-box-right">
-                      <div className="chat-sender-my">
+                      <div className="chat-sender chat-sender__my">
                         {myNickName}
                       </div>
-                      <div className="chat-content">
+                      <div className="chat-content chat-content__my">
                         {msg.content}
                       </div>
                     </div>
@@ -162,7 +162,6 @@ const Chat = () => {
               className="send-box-left__input"
               value={newMessage}
               onChange={newMessage => setNewMessage(newMessage)}
-              // onFocus={() => setSendMsgVisible(true)}
               placeholder='请输入消息...'
             >
             </Input>
@@ -174,23 +173,6 @@ const Chat = () => {
             onClick={onSubmitMsg}
           />
         </div>
-
-        {/* <Popup
-          visible={sendMsgVisible}
-          style={{ height: '30%' }}
-          position='bottom'
-          onClose={() => setSendMsgVisible(false)}
-        >
-          <Input
-            suffix={
-              <Button size="small" type="primary" onClick={onSubmitMsg}>
-                发送
-              </Button>}
-            placeholder="留下你的评论吧..."
-            value={newMessage}
-            onChange={text => setNewMessage(text)}
-          />
-        </Popup> */}
 
       </div>
     </div >

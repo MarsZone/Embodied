@@ -22,6 +22,7 @@ body {
 #root {
   --rv-nav-bar-height: 46px;
   --rv-nav-bar-background-color: #1d6b99;
+  //--rv-nav-bar-background-color: linear-gradient(135deg, rgba(34, 95, 159, 1) 20%, rgb(170, 54, 46, 0.95) 65%, rgba(249, 144, 69, 1) 98%);
   --rv-nav-bar-arrow-size: 16px;
   --rv-nav-bar-icon-color: #fff;
   --rv-nav-bar-text-color: #fff;
@@ -29,6 +30,7 @@ body {
   --rv-nav-bar-title-text-color: #fff;
   --rv-nav-bar-z-index: 1;
 
+  // tab高度
   .rv-tabs--line .rv-tabs__wrap,
   .rv-tabs--capsule .rv-tabs__wrap {
     height: 3rem;

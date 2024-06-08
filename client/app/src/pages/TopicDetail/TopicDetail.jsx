@@ -164,14 +164,14 @@ const TopicDetail = () => {
             </div>
           </div>
 
-          <div className="topic-box">
-            <div className="topic-title">
+          <div className="topic-detail-box">
+            <div className="topic-detail-title">
               {topicDetail.title}
             </div>
-            <div className="topic-content">
+            <div className="topic-detail-content">
               {topicDetail.content}
             </div>
-            <div className="topic-visits">
+            <div className="topic-detail-visits">
               {topicDetail.visits} 次浏览
             </div>
           </div>

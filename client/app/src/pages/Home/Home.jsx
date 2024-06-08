@@ -9,7 +9,6 @@ import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
 import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
-import { Link } from 'react-router-dom'
 import { getProfileAPI } from '@/apis/user'
 
 
@@ -17,7 +16,6 @@ const Home = () => {
   //获取频道列表
   const { channelList, loading } = useChannelList()
   const [topicList, setTopicList] = useState([])
-  const [coverUrl, setCoverUrl] = useState()
 
   //在组件挂载时，加载初始话题列表
   const fetchChannelList = async () => {
@@ -101,7 +99,6 @@ const Home = () => {
         <Tabs
           sticky
           offsetTop={46}
-          color='#1d6b99'
           onClickTab={v => onTabClick(v)}
         >
 
@@ -126,26 +123,21 @@ const Home = () => {
                       </div>
                     </a>
 
-                    {/* <Typography.Text
-                    className='topic-content'
-                    ellipsis={2}>
-                    内容：{topic.content}
-                  </Typography.Text> */}
-
                     <div className='topic-content'>
                       内容：{topic.content}
                     </div>
 
-                    <div className='topic-cover'>
-                      {topic.coverImg ? (
+
+                    {topic.coverImg ? (
+                      <div className='topic-cover'>
                         <Image
                           src={topic.coverUrl}
                           fit='cover'
                         />
-                      ) : (
-                        <div></div>
-                      )}
-                    </div>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
 
                     <div className='topic-bottom'>
                       <div>

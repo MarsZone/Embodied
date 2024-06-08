@@ -1,6 +1,9 @@
 .message-container {
   display: flex;
   flex-direction: column;
+
+  background-image: url("/assets/bg_1.jpg");
+  background-attachment: fixed;
 }
 
 .chat-indv {
@@ -11,21 +14,22 @@
 .chat-box {
   display: flex;
   gap: 0.5rem;
+  margin-top: 1vw;
+
+  &__my {
+    flex-direction: row-reverse;
+  }
+
+  &__target {
+    flex-direction: row;
+  }
 }
 
-.my-chat-box {
-  flex-direction: row-reverse;
-}
-
-.target-chat-box {
-  flex-direction: row;
-}
 
 .chat-box-left {
   width: 10vw;
   height: 10vw;
 }
-
 
 .chat-box-right {
   display: flex;
@@ -33,28 +37,39 @@
   justify-content: center;
 }
 
-
-.chat-sender-my {
+.chat-sender {
   font-size: 1.2rem;
-  text-align: right;
-  /* 将文本对齐到右边 */
-  align-self: flex-end;
-  /* 将元素自身对齐到容器的右边 */
-}
 
-.chat-sender-target {
-  font-size: 1.2rem;
-  text-align: left;
-  align-self: flex-start;
+  &__my {
+    text-align: right;
+    /* 将文本对齐到右边 */
+    align-self: flex-end;
+    /* 将元素自身对齐到容器的右边 */
+  }
+
+  &__target {
+    text-align: left;
+    align-self: flex-start;
+  }
 }
 
 
 .chat-content {
-  padding: 0.5rem 0.5rem;
-  border: 1px solid rgb(212, 212, 212); //设置边框
-  border-radius: 5px;
-  background-color: #f1f5f9;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(254, 243, 236, 1); //设置边框
+  background-color: rgba(254, 249, 246, 0.7);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+
+  &__target {
+    border-top-right-radius: 1rem;
+  }
+
+  &__my {
+    border-top-left-radius: 1rem;
+  }
 }
+
 
 .chat-send-box {
   display: flex;
@@ -63,11 +78,13 @@
   position: fixed;
   position: sticky;
   bottom: 0;
+  padding: 2vw;
+  gap: 1vw;
 }
 
 .send-box-left {
-  width: 85vw;
-  border: solid 1px #7b94ac;
+  width: 75vw;
+  border: solid 1px #7b94ac7a;
   border-radius: 2rem;
   height: 5.5vh;
   padding: 0 2vw;
