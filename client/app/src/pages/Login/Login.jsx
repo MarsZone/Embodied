@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Input, Form, Toast } from 'react-vant';
+import { Button, Input, Form, Toast, Image } from 'react-vant';
 import './Login.scoped.scss'
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '@/store/modules/user';
 import { Link, useNavigate } from 'react-router-dom';
+import logoImage from '@/assets/logo-embodied.png'
 
 const Login = () => {
   const [form] = Form.useForm()
@@ -21,7 +22,7 @@ const Login = () => {
       navigate('/')
       Toast.success('登录成功')
     } else {
-      Toast.success('登录失败')
+      Toast.success('登录失败，请检查用户名和密码')
     }
   }
 
@@ -35,15 +36,22 @@ const Login = () => {
         footer={
           <div>
             <Button className='login-button' nativeType='submit'>登录</Button>
-            <div className="route-to-register">
-              <p>还没有账户?
-                <Link to='/register'>注册</Link>
+            <div className="route-navigate">
+              <p>还没有账户? 
+                <Link to='/register'> 注册</Link>
               </p>
             </div>
           </div>
         }
       >
-        <p className='logo'>Embodied</p>
+
+        <div className='logo'>
+          <div className='logo logo__image'>
+            <Image src={logoImage}></Image>
+          </div>
+          <div className='logo logo__name'>Embodied</div>
+        </div>
+
         <Form.Item
           className='login-input'
           rules={[
@@ -54,7 +62,9 @@ const Login = () => {
           ]}
           name='userName' //userName 需要和后端接口保持一致
         >
-          <Input placeholder='请输入用户名' />
+          <Input
+            placeholder='请输入用户名'
+          />
         </Form.Item>
         <Form.Item
           className='login-input'
@@ -63,7 +73,10 @@ const Login = () => {
           ]}
           name='password'
         >
-          <Input placeholder='请输入密码' />
+          <Input
+            placeholder='请输入密码'
+            type="password"
+          />
         </Form.Item>
       </Form>
     </div>
