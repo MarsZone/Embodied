@@ -1,4 +1,4 @@
-![Logo](https://github.com/MarsZone/Embodied/blob/main/assets/logo-embodied.png)
+![Logo](https://github.com/MarsZone/Embodied/blob/main/assets/logo-embodied.png =250*260)
 
 # Embodied
 # 化身
@@ -22,7 +22,7 @@ PS: Currently, multi-language support has only been partially implemented using 
 
 ### 登录页及注册页面
 #### 认证-登录
-![sign](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/sign.png)
+![sign](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/sign.png =270*585)
 #### 认证-注册
 ![register](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/register.png)
 ### 主页
