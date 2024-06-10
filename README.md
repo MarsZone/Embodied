@@ -1,5 +1,4 @@
-![Logo](https://github.com/MarsZone/Embodied/blob/main/assets/logo-embodied.png =250*260)
-
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/logo-embodied.png" height="250px" width="260px" />
 # Embodied
 # 化身
 
