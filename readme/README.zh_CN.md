@@ -1,11 +1,14 @@
+
+![Logo]()
+
 # Embodied
 
-# README.md
-- zh_CN [简体中文](readme/README.zh_CN.md)
+## 项目介绍
 
-## Introduction
 
-### FrontEnd Technologies 
+## 技术栈
+
+### 前端技术栈
 * React
 * react-vant
 * axios
@@ -13,7 +16,7 @@
 * normalize
 * react-scoped-css
 
-### BackEnd Technology
+### 后端技术栈
 * Kotlin
 * Spring Boot
 * Maven
