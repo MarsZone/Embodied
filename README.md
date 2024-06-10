@@ -6,15 +6,22 @@
 
 ## 项目介绍
 
-这是一个探索学习项目，旨在尝试使用kotlin+ktorm+mysql以及React+react-vant来进行开发移动社交Apps，从零开始，一步步的搭建属于你的facebook,instagram，twitter,微博，小红书 whatever etc。
+这是一个探索学习项目，旨在尝试使用kotlin+ktorm+mysql以及React+react-vant来进行开发移动社交Apps。
+
+从零开始，一步步的搭建属于你的facebook,instagram，twitter,微博，小红书 whatever etc。
+
 主要包含了用户登录注册，个人信息编辑，发布主题信息的发布，社交好友添加，消息发送，点赞收藏关注等功能。逐步完善当中。
+
 由于开发过程中并未充分考虑安全防护问题，并不建议将该项目用于生产环境，仅做学习交流用，欢迎各位大佬提出宝贵意见。
+
 PS：多语言目前仅实现了部分技术方案，并未全局支持。
 
 ## Introduction
 
 This is an exploratory learning project aimed at trying to develop mobile social apps using kotlin+ktorm+mysql and React+react-vant from scratch, step by step, to build your own facebook, instagram, twitter, Weibo, Xiaohongshu, and more.
+
 It mainly includes user login and registration, personal information editing, posting theme information, adding social friends, message sending, liking, collecting, following, and other functions. It is gradually being improved.
+
 Since security protection issues were not fully considered during the development process, it is not recommended to use this project in a production environment. It is only for learning and communication purposes. Welcome all experts to provide valuable feedback.
 
 PS: Currently, multi-language support has only been partially implemented using certain technical solutions and is not globally supported yet.
