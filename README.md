@@ -21,15 +21,15 @@ PS: Currently, multi-language support has only been partially implemented using 
 
 ### 登录页及注册页面
 #### 认证-登录
-![sign](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/sign.png =270*585)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/sign.png" height="270px" width="585px" />
 #### 认证-注册
-![register](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/register.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/register.png" height="270px" width="585px" />
 ### 主页
-![home](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/home.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/home.png" height="270px" width="585px" />
 ### 我的
-![me](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/me.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/me.png" height="270px" width="585px" />
 ### 聊天
-![chat](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png" height="270px" width="585px" />
 
 ## Function Introduction Screenshots (Under Construction, will be optimized)
 
