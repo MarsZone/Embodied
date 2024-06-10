@@ -22,12 +22,16 @@ PS: Currently, multi-language support has only been partially implemented using 
 ### 登录页及注册页面
 #### 认证-登录
 <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/sign.png" width="270px" height="585px" />
+
 #### 认证-注册
 <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/register.png" width="270px" height="585px" />
+
 ### 主页
 <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/home.png" width="270px" height="585px" />
+
 ### 我的
 <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/me.png" width="270px" height="585px" />
+
 ### 聊天
 <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png" width="270px" height="585px" />
 
@@ -35,15 +39,19 @@ PS: Currently, multi-language support has only been partially implemented using 
 
 ### Signin Page and Registration Page
 #### Authentication - Signin
-![sign](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/sign.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/sign.png" width="270px" height="585px" />
+
 #### Authentication - Register
-![register](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/register.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/register.png" width="270px" height="585px" />
+
 ### Home
-![home](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/home.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/home.png" width="270px" height="585px" />
+
 ### Me
-![me](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/me.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/me.png" width="270px" height="585px" />
+
 ### Chat
-![chat](https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png)
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png" width="270px" height="585px" />
 
 ## 技术栈
 
