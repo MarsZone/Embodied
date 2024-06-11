@@ -11,6 +11,7 @@ import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
 import { Link, useNavigate } from 'react-router-dom'
 import { getProfileAPI } from '@/apis/user'
+import Test from '../Test'
 
 
 const Home = () => {
@@ -170,7 +171,9 @@ const Home = () => {
       </div>
 
       <div className="footer">
-        <TabNavigator />
+        <TabNavigator/>
+
+        {/* <Test activeTab={activeTab} setActiveTab={setActiveTab} /> */}
       </div>
     </div>
   )

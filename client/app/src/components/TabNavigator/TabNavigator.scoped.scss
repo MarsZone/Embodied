@@ -1,13 +1,78 @@
-// .layout {
-//   .container {
-//     position: fixed;
-//     top: 0;
-//     bottom: 50px;
-//   }
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  // padding: 0 2vw;
 
-//   .footer {
-//     position: fixed;
-//     bottom: 0;
-//     width: 100%;
-//   }
-// }
+  background-color: #FFF;
+  height: 50px;
+  width: 100vw;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+
+  display: flex;
+  align-items: center;
+  // box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+    flex: 1;
+    padding: 0;
+    margin: 1vw;
+  }
+
+  .tab-item {
+    text-align: center;
+    flex: 1;
+
+    transition: flex 0.3s ease, background 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .active-icon {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+  }
+
+  .tab-item.active {
+    font-size: 1.2rem;
+    border-radius: 2rem;
+    padding: 0.4rem 0;
+    flex: 2; //Make the active tab wider
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  &__home {
+    color: rgb(34, 95, 159);
+    background: #E6F0FF;
+  }
+
+  &__discover {
+    color: #58437A;
+    background: #F2E9F7;
+  }
+
+  .active__post {
+    color: #A11A0A;
+    background: #FAE6DA;
+  }
+
+  .active__message {
+    color: #1892a6;
+    background: #F3FCF8;
+  }
+
+  .active__profile {
+    color: #EC8243;
+    background: #FEF0D9;
+  }
+}
+
+.tab-bar-icon {
+  height: 6vw;
+  width: 6vw;
+}

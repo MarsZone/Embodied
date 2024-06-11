@@ -46,7 +46,6 @@ const Chat = () => {
   const fetchAvatarUrl = async () => {
     const res = await previewFileApi(5)
     setAvatarUrlTarget(res.data)
-    //console.log('我的头像：', res.data)
   }
 
   //发送消息
