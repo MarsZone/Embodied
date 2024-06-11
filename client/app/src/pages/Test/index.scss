@@ -1,0 +1,33 @@
+.tab-bar {
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  background-color: #F9F8FA;
+  height: 50px;
+  width: 100vw;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .tab-item {
+    flex: 1;
+    text-align: center;
+    width: 10vw;
+  }
+
+  .active-icon {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .tab-item.active {
+    color: tomato;
+    border-top: 2px solid tomato;
+  }
+}

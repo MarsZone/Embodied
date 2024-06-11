@@ -9,6 +9,7 @@ import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
 import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
+import { Link, useNavigate } from 'react-router-dom'
 import { getProfileAPI } from '@/apis/user'
 
 
@@ -85,6 +86,11 @@ const Home = () => {
     return channel ? channel.name : ''
   }
 
+  //跳转指定用户主页
+  const navigate = useNavigate()
+  const toTargetProfile = (targetUid) => {
+    navigate(`/profile/${targetUid}`)
+  }
 
   return (
     <div>
@@ -141,7 +147,10 @@ const Home = () => {
 
                     <div className='topic-bottom'>
                       <div>
-                        uid{topic.authorUid} · {topic.updateTime}
+                        <span onClick={() => toTargetProfile(topic.authorUid)}>
+                          uid{topic.authorUid}
+                        </span>
+                        <span> · {topic.updateTime} </span>
                       </div>
                       <div className='topic-bottom topic-bottom__right'>
                         <div> <LikeO />{topic.likes}</div>
