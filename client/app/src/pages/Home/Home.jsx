@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import {
   Image, NavBar, Toast, Tabs, Sticky, Typography
 } from 'react-vant'
@@ -9,7 +8,7 @@ import './Home.scoped.scss'
 import useChannelList from '@/hooks/useChannelList'
 import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getProfileAPI } from '@/apis/user'
 
 
@@ -166,13 +165,6 @@ const Home = () => {
           ))}
 
         </Tabs>
-
-      </div>
-
-      <div className="footer">
-        <TabNavigator/>
-
-        {/* <Test activeTab={activeTab} setActiveTab={setActiveTab} /> */}
       </div>
     </div>
   )

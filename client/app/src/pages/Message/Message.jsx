@@ -86,10 +86,6 @@ const Message = () => {
           ))}
         </div>)
       }
-
-      <div className="footer">
-        <TabNavigator />
-      </div>
     </div>
   )
 }

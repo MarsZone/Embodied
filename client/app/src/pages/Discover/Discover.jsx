@@ -36,10 +36,6 @@ const Discover = () => {
         {/* 二级路由的出口，如果没有出口就无法显示二级路由 */}
         {/* <Outlet /> 
       我是发现页Discover */}
-
-      </div>
-      <div className="footer">
-        <TabNavigator />
       </div>
     </div>
   )

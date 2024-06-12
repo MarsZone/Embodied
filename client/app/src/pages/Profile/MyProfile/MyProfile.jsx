@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Image, Button, Tabs, Dialog } from 'react-vant'
 import { useDispatch } from 'react-redux'
@@ -131,10 +130,9 @@ const MyProfile = () => {
         </Tabs>
       </div>
 
-      <div className="footer">
+      {/* <div className="footer">
         <TabNavigator />
-      </div>
-
+      </div> */}
     </div>
   )
 }
