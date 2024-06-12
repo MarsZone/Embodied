@@ -1,5 +1,5 @@
 import TabNavigator from "@/components/TabNavigator/TabNavigator"
-import { Image, NavBar, Toast, Tabs } from "react-vant"
+import { NavBar, Toast, Tabs } from "react-vant"
 import './Discover.scoped.scss'
 
 const Discover = () => {
