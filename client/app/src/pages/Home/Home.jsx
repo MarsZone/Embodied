@@ -170,9 +170,10 @@ const Home = () => {
       </div>
 
       <div className="footer">
-        <TabNavigator />
-      </div>
+        <TabNavigator/>
 
+        {/* <Test activeTab={activeTab} setActiveTab={setActiveTab} /> */}
+      </div>
     </div>
   )
 }
