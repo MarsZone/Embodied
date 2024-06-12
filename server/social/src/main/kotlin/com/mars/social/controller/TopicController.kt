@@ -94,6 +94,15 @@ class TopicController {
             }
             .toList()
             .reversed()
+        for(topic in filteredTopics){
+            val userInfo = topic.authorUid?.let { userController.getUserInfo(it.toLong()) }
+            if (userInfo != null) {
+                topic.authorNickName = userInfo.nickName.toString()
+            }
+            if (userInfo != null) {
+                topic.authorAvatar = userInfo.avatar.toString()
+            }
+        }
         return ResponseEntity.ok().body(R.ok(filteredTopics))
     }
 
