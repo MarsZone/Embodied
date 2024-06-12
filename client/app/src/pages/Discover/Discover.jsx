@@ -1,6 +1,6 @@
-import TabNavigator from "@/components/TabNavigator/TabNavigator"
 import { NavBar, Toast, Tabs } from "react-vant"
 import './Discover.scoped.scss'
+import { Outlet } from "react-router-dom"
 
 const Discover = () => {
   const tabList = [
@@ -30,12 +30,12 @@ const Discover = () => {
               title={`${item.name}`}
               name={item.key}
             >
+              <Outlet />
             </Tabs.TabPane>
           ))}
         </Tabs>
-        {/* 二级路由的出口，如果没有出口就无法显示二级路由 */}
-        {/* <Outlet /> 
-      我是发现页Discover */}
+
+
       </div>
     </div>
   )

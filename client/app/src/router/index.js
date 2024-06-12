@@ -22,7 +22,9 @@ import Login from '@/pages/Login/Login' //登录页
 import Register from '@/pages/Register/Register' //注册页
 import Test from '@/pages/Test' //测试页
 import FileUpload from '@/components/fileUpload' //文件上传测试页
-import Layout from '@/components/Layout'
+import Layout from '@/components/Layout' //布局页
+import Follow from '@/pages/Follow/Follow' //关注页
+import View from '@/pages/View/View' //随机推荐页
 
 
 
@@ -96,11 +98,11 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Discover />
+            element: <Follow />
           },
           {
-            path: 'message',
-            element: <Message />
+            path: 'view',
+            element: <View />
           }
         ]
       },
