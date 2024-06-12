@@ -28,108 +28,109 @@ import FileUpload from '@/components/fileUpload' //文件上传测试页
 
 
 const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AuthRoute> <Home /> </AuthRoute>,
+  },
+  {
+    path: '/home',
+    element: <AuthRoute> <Home /> </AuthRoute>
+  },
+  {
+    path: '/discover',
+    element: <Discover />,
+    children: [
+      {
+        index: true,
+        element: <Discover />
+      },
+      {
+        path: 'message',
+        element: <Message />
+      }
+    ]
+  },
+  {
+    path: '/post',
+    element: <AuthRoute> <Post /> </AuthRoute>
+  },
+  {
+    path: '/message',
+    element: <AuthRoute><Message /></AuthRoute>
+  },
+  {
+    path: '/profile/:userId',
+    element: <AuthRoute><Profile /></AuthRoute>,
+    children: [
+      {
+        path: 'myPost',
+        element: <MyPost />
+      },
+      {
+        path: 'bookmark',
+        element: <Bookmark />
+      },
+      {
+        path: 'like',
+        element: <Like />
+      },
+    ]
+  },
+
   // {
   //   path: '/',
-  //   element: <AuthRoute> <Home> <TavNavigator /> </Home> </AuthRoute>,
-  // },
-  // {
-  //   path: '/home',
-  //   element: <AuthRoute> <Home> <TavNavigator /> </Home> </AuthRoute>
-  // },
-  // {
-  //   path: '/discover',
-  //   element: <Discover> <TavNavigator /> </Discover>,
+  //   element: <Home />,
   //   children: [
   //     {
-  //       index: true,
-  //       element: <Discover />
+  //       path: '/',
+  //       element: <AuthRoute> <Home /> </AuthRoute>,
   //     },
   //     {
-  //       path: 'message',
-  //       element: <Message />
+  //       path: '/home',
+  //       element: <AuthRoute> <Home /> </AuthRoute>
+  //     },
+  //     {
+  //       path: '/discover',
+  //       element: <Discover />,
+  //       children: [
+  //         {
+  //           index: true,
+  //           element: <Discover />
+  //         },
+  //         {
+  //           path: 'message',
+  //           element: <Message />
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: '/post',
+  //       element: <AuthRoute><Post /></AuthRoute>
+  //     },
+  //     {
+  //       path: '/message',
+  //       element: <AuthRoute><Message /></AuthRoute>
+  //     },
+  //     {
+  //       path: '/profile/:userId',
+  //       element: <AuthRoute><Profile /></AuthRoute>,
+  //       children: [
+  //         {
+  //           path: 'myPost',
+  //           element: <MyPost />
+  //         },
+  //         {
+  //           path: 'bookmark',
+  //           element: <Bookmark />
+  //         },
+  //         {
+  //           path: 'like',
+  //           element: <Like />
+  //         },
+  //       ]
   //     }
   //   ]
   // },
-  // {
-  //   path: '/post',
-  //   element: <AuthRoute> <Post /> </AuthRoute>
-  // },
-  // {
-  //   path: '/message',
-  //   element: <AuthRoute><Message /></AuthRoute>
-  // },
-  // {
-  //   path: '/profile/:userId',
-  //   element: <AuthRoute><Profile /></AuthRoute>,
-  //   children: [
-  //     {
-  //       path: 'myPost',
-  //       element: <MyPost />
-  //     },
-  //     {
-  //       path: 'bookmark',
-  //       element: <Bookmark />
-  //     },
-  //     {
-  //       path: 'like',
-  //       element: <Like />
-  //     },
-  //   ]
-  // },
-
-  {
-    path: '/',
-    element: <Home />,
-    children: [
-      {
-        path: '/',
-        element: <AuthRoute> <Home /> </AuthRoute>,
-      },
-      {
-        path: '/home',
-        element: <AuthRoute> <Home /> </AuthRoute>
-      },
-      {
-        path: '/discover',
-        element: <Discover />,
-        children: [
-          {
-            index: true,
-            element: <Discover />
-          },
-          {
-            path: 'message',
-            element: <Message />
-          }
-        ]
-      },
-      {
-        path: '/post',
-        element: <AuthRoute><Post /></AuthRoute>
-      },
-      {
-        path: '/message',
-        element: <AuthRoute><Message /></AuthRoute>
-      },
-      {
-        path: '/profile/:userId',
-        element: <AuthRoute><Profile /></AuthRoute>,
-        children: [
-          {
-            path: 'myPost',
-            element: <MyPost />
-          },
-          {
-            path: 'bookmark',
-            element: <Bookmark />
-          },
-          {
-            path: 'like',
-            element: <Like />
-          },
-        ]
-      }]
-  },
 
 
   {
