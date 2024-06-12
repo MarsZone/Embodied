@@ -2,6 +2,7 @@ package com.mars.social.controller
 
 import cn.dev33.satoken.annotation.SaCheckLogin
 import cn.dev33.satoken.stp.StpUtil
+import com.mars.social.controller.common.CommonFunction
 import com.mars.social.dto.PageDTO
 import com.mars.social.dto.PageRequest
 import com.mars.social.model.mix.*
@@ -32,6 +33,7 @@ class TopicController {
 
     @Autowired
     private lateinit var userController:UserController
+
 
     @GetMapping("/list")
     fun list(@RequestParam uid:Long,@RequestParam channelKey:String = "information_plaza"): ResponseEntity<R> {
@@ -96,12 +98,7 @@ class TopicController {
             .reversed()
         for(topic in filteredTopics){
             val userInfo = topic.authorUid?.let { userController.getUserInfo(it.toLong()) }
-            if (userInfo != null) {
-                topic.authorNickName = userInfo.nickName.toString()
-            }
-            if (userInfo != null) {
-                topic.authorAvatar = userInfo.avatar.toString()
-            }
+            CommonFunction.setTopicUserInfo(topic,userInfo);
         }
         return ResponseEntity.ok().body(R.ok(filteredTopics))
     }
