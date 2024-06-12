@@ -171,10 +171,9 @@ const Home = () => {
       </div>
 
       <div className="footer">
-        <TabNavigator/>
-
-        {/* <Test activeTab={activeTab} setActiveTab={setActiveTab} /> */}
+        <TabNavigator />
       </div>
+
     </div>
   )
 }

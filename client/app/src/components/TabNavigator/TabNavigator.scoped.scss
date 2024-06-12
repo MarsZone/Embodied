@@ -2,7 +2,6 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  // padding: 0 2vw;
 
   background-color: #FFF;
   height: 50px;
@@ -25,8 +24,8 @@
   .tab-item {
     text-align: center;
     flex: 1;
-
-    transition: flex 0.3s ease, background 0.3s ease;
+    //transition: flex 0.3s ease, background 0.3s ease;
+    transition: flex 0.3s ease, background 0.3s ease, color 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;

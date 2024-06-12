@@ -38,6 +38,7 @@ const Discover = () => {
       我是发现页Discover */}
 
       </div>
+
       <div className="footer">
         <TabNavigator />
       </div>
