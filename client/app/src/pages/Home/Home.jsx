@@ -70,15 +70,6 @@ const Home = () => {
     return username
   }
 
-  // const getUsername = (uid) => {
-  //   return getProfileAPI(uid)
-  //     .then(response => response.data.userName)
-  //     .catch(error => {
-  //       console.error("Error fetching username:", error);
-  //       return "";
-  //     });
-  // }
-
   //根据channelKey获取name
   const getChannelNameByKey = (key) => {
     const channel = channelList.find(item => item.key === key)
@@ -131,7 +122,6 @@ const Home = () => {
                     <div className='topic-content'>
                       内容：{topic.content}
                     </div>
-
 
                     {topic.coverImg ? (
                       <div className='topic-cover'>

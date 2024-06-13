@@ -27,9 +27,6 @@ import Follow from '@/pages/Follow/Follow' //关注页
 import View from '@/pages/View/View' //随机推荐页
 
 
-
-
-
 const router = createBrowserRouter([
   // {
   //   path: '/',
@@ -101,7 +98,7 @@ const router = createBrowserRouter([
             element: <Follow />
           },
           {
-            index: 'follow',
+            path: 'follow',
             element: <Follow />
           },
           {
