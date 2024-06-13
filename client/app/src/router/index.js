@@ -101,6 +101,10 @@ const router = createBrowserRouter([
             element: <Follow />
           },
           {
+            index: 'follow',
+            element: <Follow />
+          },
+          {
             path: 'view',
             element: <View />
           }

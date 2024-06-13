@@ -2,3 +2,20 @@
   height: 200px;
   width: 200px;
 }
+
+.discover-tab-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100vw;
+
+  background-color: pink;
+
+  .tab-item {
+    width: 40vw;
+    text-align: center;
+
+    background-color: rgb(162, 162, 225);
+  }
+
+}

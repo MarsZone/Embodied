@@ -1,6 +1,6 @@
 import { NavBar, Toast, Tabs } from "react-vant"
 import './Discover.scoped.scss'
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 
 const Discover = () => {
   const tabList = [
@@ -14,6 +14,13 @@ const Discover = () => {
     }
   ]
 
+  const navigate = useNavigate()
+
+
+  const onClickTab = (path) => {
+    navigate(path)
+  }
+
   return (
     <div className="layout">
       <NavBar
@@ -23,19 +30,23 @@ const Discover = () => {
       />
       <div className="container">
 
-        <Tabs border type='capsule'>
+        {/* <Tabs border type='capsule'>
           {tabList.map(item => (
             <Tabs.TabPane
               key={item.key}
               title={`${item.name}`}
               name={item.key}
             >
-              <Outlet />
             </Tabs.TabPane>
           ))}
-        </Tabs>
+        </Tabs> */}
 
+        <div className="discover-tab-container">
+          <div className="tab-item tab__follow" onClick={onClickTab('/follow')}>关注</div>
+          <div className="tab-item tab__view" onClick={onClickTab('/view')}>随机</div>
+        </div>
 
+        <Outlet />
       </div>
     </div>
   )
