@@ -12,10 +12,10 @@ export function exploreTopicsApi(numbers = 5) {
 }
 
 //2.随机探索发现topic
-export function followTopicsApi({numbers = 5, offset = 0}) {
+export function followTopicsApi(params = { numbers: 5, offset: 0 }) {
   return request({
     url: '/api/discover/loadFollowedTargetActivities',
     method: 'GET',
-    numbers: {numbers, offset}
+    params: params
   })
 }

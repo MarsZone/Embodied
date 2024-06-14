@@ -6,16 +6,21 @@
 .discover-tab-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 2vw;
   width: 100vw;
+  height: 46px;
 
-  background-color: pink;
+  //background-color: #1d6b99;
+  background-color: rgb(97, 143, 188);
 
   .tab-item {
-    width: 40vw;
+    width: 30vw;
     text-align: center;
-
-    background-color: rgb(162, 162, 225);
+    background-color: #1d6b99;
+    color: #FFF;
+    border-radius: 3px;
+    margin: 11px 0;
   }
 
 }
