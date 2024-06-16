@@ -1,26 +1,64 @@
-.container {
-  height: 200px;
-  width: 200px;
+.discover-container {
+  --rv-tabs-line-height: 30px;
+  --rv-tabs-bottom-bar-color: #3b87b2;
+  --rv-tab-active-text-color: #1a81bd;
+  --rv-tab-text-color: #53585b;
+
 }
+
+.rv-tabs__wrap {
+  height: var(--rv-tabs-line-height);
+  padding: 0 20vw;
+}
+
 
 .discover-tab-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 2vw;
+  gap: 5vw;
   width: 100vw;
-  height: 46px;
+  padding: 5px 0 0 0;
+  // background-color: pink;
+  border-bottom: 1px solid #f2f4f5;
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.1);
 
-  //background-color: #1d6b99;
-  background-color: rgb(97, 143, 188);
 
   .tab-item {
-    width: 30vw;
     text-align: center;
-    background-color: #1d6b99;
-    color: #FFF;
-    border-radius: 3px;
-    margin: 11px 0;
+    color: #000;
+    align-self: center;
+    font-size: 1.1rem;
+    padding: 0 0.8rem;
+    //transition: flex 0.3s ease, background 0.3s ease;
+    //transition: all 0.5s ease;
+
+    position: relative; //必须的，用于让 ::after 的 absolute 定位生效 *
+  }
+
+  .tab-item::after {
+    content: '';
+    /* 不显示任何文本内容 */
+    position: absolute;
+    bottom: -2px;
+    /* 将下划线定位到 tab-item 元素的底部 */
+    left: 0;
+    height: 2px;
+    /* 下划线的高度 */
+    width: 0;
+    /* 初始宽度为 0 */
+    background-color: #3b87b2;
+    transition: all 0.3s ease;
+  }
+
+
+  .tab-item.active {
+    //border-bottom: 2px solid #3b87b2;
+  }
+
+  .tab-item.active::after {
+    width: 100%;
+    /* 当 tab 处于活动状态时，下划线的宽度变为 100% */
   }
 
 }

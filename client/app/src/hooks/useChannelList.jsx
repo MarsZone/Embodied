@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { getChannelApi } from '@/apis/topic'
 
-
 const useChannelList = () => {
   //获取频道列表
   const [channelList, setChannelList] = useState([])

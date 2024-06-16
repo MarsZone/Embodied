@@ -10,6 +10,7 @@ import { getChannelTopicsApi } from '@/apis/topic'
 import { previewFileApi } from '@/apis/file'
 import { useNavigate } from 'react-router-dom'
 import { getProfileAPI } from '@/apis/user'
+import Topic from '@/components/Topic/Topic'
 
 
 const Home = () => {
@@ -61,20 +62,6 @@ const Home = () => {
     setTopicList(topicListWithCover)
   }
 
-  //获取发布者用户
-  const getUsername = async (uid) => {
-    // const { userProfile, avatarUrl } = useUserDetail(uid)
-    const getProfileRes = await getProfileAPI(uid)
-    const username = getProfileRes.data.userName
-    console.log(getProfileRes.data)
-    return username
-  }
-
-  //根据channelKey获取name
-  const getChannelNameByKey = (key) => {
-    const channel = channelList.find(item => item.key === key)
-    return channel ? channel.name : ''
-  }
 
   //跳转指定用户主页
   const navigate = useNavigate()
@@ -106,48 +93,21 @@ const Home = () => {
             >
               <div className='topic-container'>
                 {topicList.map((topic, index) => (
-                  <div className='topic-box' key={index}>
-                    <a className='topic-box__link' href={`/topicDetail/${topic.id}`} >
-                      <div className='topic-header'>
-                        <div className='topic-header topic-header__title'>
-                          {topic.title}
-                        </div>
-                        <div className='topic-header topic-header__channel'>
-                          {getChannelNameByKey(topic.channelKey)}
-                        </div>
-                        <Arrow></Arrow>
-                      </div>
-                    </a>
-
-                    <div className='topic-content'>
-                      内容：{topic.content}
-                    </div>
-
-                    {topic.coverImg ? (
-                      <div className='topic-cover'>
-                        <Image
-                          src={topic.coverUrl}
-                          fit='cover'
-                        />
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
-
-                    <div className='topic-bottom'>
-                      <div>
-                        <span onClick={() => toTargetProfile(topic.authorUid)}>
-                          uid{topic.authorUid}
-                        </span>
-                        <span> · {topic.updateTime} </span>
-                      </div>
-                      <div className='topic-bottom topic-bottom__right'>
-                        <div> <LikeO />{topic.likes}</div>
-                        <div> <BookmarkO />{topic.bookmarks}</div>
-                        <div> <CommentO />{topic.comments}</div>
-                      </div>
-                    </div>
-                  </div>
+                  <Topic
+                    key={index}
+                    id={topic.postId}
+                    title={topic.title}
+                    channelKey={topic.channelKey}
+                    content={topic.content}
+                    coverImg={topic.coverImg}
+                    coverUrl={topic.coverUrl}
+                    authorUid={topic.authorUid}
+                    updateTime={topic.updateTime}
+                    likes={topic.likes}
+                    bookmarks={topic.bookmarks}
+                    comments={topic.comments}
+                    toTargetProfile={toTargetProfile}
+                  />
                 ))
                 }
               </div>
