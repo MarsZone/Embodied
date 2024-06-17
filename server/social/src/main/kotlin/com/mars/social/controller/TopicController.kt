@@ -13,6 +13,7 @@ import com.mars.social.model.user.UserDetail
 import com.mars.social.model.user.UserDetails
 import com.mars.social.model.user.UserFollow
 import com.mars.social.model.user.UserFollowDB
+import com.mars.social.utils.GlobalUtils
 import com.mars.social.utils.PageCalculator
 import com.mars.social.utils.R
 import org.apache.tomcat.util.buf.StringUtils
@@ -351,6 +352,30 @@ class TopicController {
     fun loadComments(@RequestParam tid: Long):ResponseEntity<R>{
         val topicComments = database.sequenceOf(TopicComments).filter { TopicComments.tid eq tid }.toList()
         return ResponseEntity.ok().body(R.ok(topicComments))
+    }
+
+    @SaCheckLogin
+    @GetMapping("toShare")
+    fun toShare(@RequestParam tid: Long,@RequestParam curUrl:String):ResponseEntity<R>{
+        //1.create topicShare
+        val uid = StpUtil.getLoginId().toString().toLong()
+        val topicShareDB = database.sequenceOf(TopicShares)
+        var topicShare = Entity.create<TopicShare>()
+        topicShare.tid = tid
+        topicShare.uid = uid
+        //2.gen the token,and jump link to response.
+        val tokenLength = 10
+        val randomToken = GlobalUtils.generateRandomToken(tokenLength)
+        topicShare.shareToken = randomToken
+        topicShare.shareTime = LocalDateTime.now()
+        topicShare.urlLink = curUrl
+        topicShareDB.add(topicShare)
+        //3.add count to topic
+        database.update(Topics){
+            set(it.shares,it.shares+1)
+            where { it.id eq topicShare.tid }
+        }
+        return ResponseEntity.ok().body(R.ok(topicShare.shareToken))
     }
 
     @SaCheckLogin

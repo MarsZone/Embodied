@@ -224,3 +224,15 @@ CREATE TABLE `user_role` (
   `role` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+
+
+CREATE TABLE embodied.user_share (
+	id BIGINT auto_increment NOT NULL,
+	tid BIGINT NOT NULL,
+	uid BIGINT NOT NULL,
+	share_time DATETIME NULL,
+	CONSTRAINT user_share_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
