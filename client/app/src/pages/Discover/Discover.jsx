@@ -1,30 +1,67 @@
 import { NavBar, Toast, Tabs } from "react-vant"
 import './Discover.scoped.scss'
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 const Discover = () => {
-
   const navigate = useNavigate()
-  const onClickTab = (path) => {
+  const location = useLocation()
+  const [activeTab, setActiveTab] = useState(location.pathname === '/discover' ? '/discover/follow' : location.pathname)
+  const handleClickTab = (path) => {
     navigate(path)
+    setActiveTab(path)
   }
+
+  const tabItems = [
+    {
+      path: '/discover/follow',
+      text: '关注'
+    },
+    {
+      path: '/discover/view',
+      text: '随机'
+    }
+  ]
 
   return (
     <div className="layout">
-      {/* <NavBar
+      <NavBar
         title="发现"
-        rightText="按钮"
-        onClickRight={() => Toast('按钮')}
-      /> */}
-      <div className="container">
+        leftArrow=""
+      />
+      <div className="discover-container">
+          <Tabs
+            align='center'
+            onClickTab={v => handleClickTab(v.name)}
+          >
+            {tabItems.map(item => (
+              <Tabs.TabPane
+                key={item.path}
+                title={item.text}
+                name={item.path}
+              >
+                <Outlet />
+              </Tabs.TabPane>
+            ))}
+          </Tabs>
 
-        <div className="discover-tab-container">
-          <div className="tab-item tab__follow" onClick={() => onClickTab('/discover/follow')}>关注</div>
-          <div className="tab-item tab__view" onClick={() => onClickTab('/discover/view')}>随机</div>
+        {/* <div className="discover-tab-container">
+          <div
+            className={`tab-item tab__follow ${activeTab === '/discover/follow' ? 'active active__follow' : ''}`}
+            onClick={() => onClickTab('/discover/follow')}
+          >
+            关注
+          </div>
+          <div
+            className={`tab-item tab__view ${activeTab === '/discover/view' ? 'active active__view' : ''}`}
+            onClick={() => onClickTab('/discover/view')}
+          >
+            随机
+          </div>
         </div>
-        <Outlet />
+        <Outlet /> */}
       </div>
-    </div>
+    </div >
   )
 }
 

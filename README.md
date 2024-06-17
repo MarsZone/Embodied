@@ -39,10 +39,10 @@ PS: Currently, multi-language support has only been partially implemented using 
 <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/home.png" width="270px" height="585px" />
 
 ### 我的
-<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/me.png" width="270px" height="585px" />
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/profile.png" width="270px" height="585px" />
 
 ### 聊天
-<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png" width="270px" height="585px" />
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/message.png" width="270px" height="585px" />     <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png" width="270px" height="585px" />
 
 ## Function Introduction Screenshots (Under Construction, will be optimized)
 
@@ -57,10 +57,10 @@ PS: Currently, multi-language support has only been partially implemented using 
 <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/home.png" width="270px" height="585px" />
 
 ### Me
-<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/me.png" width="270px" height="585px" />
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/profile.png" width="270px" height="585px" />
 
 ### Chat
-<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png" width="270px" height="585px" />
+<img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/message.png" width="270px" height="585px" />     <img src="https://github.com/MarsZone/Embodied/blob/main/assets/screenshot/chat.png" width="270px" height="585px" />
 
 ## 技术栈
 
@@ -69,6 +69,7 @@ PS: Currently, multi-language support has only been partially implemented using 
 * react-vant
 * axios
 * Redux
+* WebSocket
 * normalize
 * react-scoped-css
 
