@@ -354,6 +354,7 @@ class TopicController {
         return ResponseEntity.ok().body(R.ok(topicComments))
     }
 
+    data class shareResponse(var token:String,var jumpLink:String)
     @SaCheckLogin
     @GetMapping("toShare")
     fun toShare(@RequestParam tid: Long,@RequestParam curUrl:String):ResponseEntity<R>{
@@ -375,7 +376,10 @@ class TopicController {
             set(it.shares,it.shares+1)
             where { it.id eq topicShare.tid }
         }
-        return ResponseEntity.ok().body(R.ok(topicShare.shareToken))
+        var jumpLink:String = "http://domain.com/shareReDirect?token="+topicShare.shareToken
+        var shareResponse = shareResponse(topicShare.shareToken,jumpLink)
+
+        return ResponseEntity.ok().body(R.ok(shareResponse))
     }
 
     @SaCheckLogin
