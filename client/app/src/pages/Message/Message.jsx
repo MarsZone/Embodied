@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { NavBar, Badge, Image } from 'react-vant'
-import TabNavigator from '@/components/TabNavigator/TabNavigator'
 import { getMsgHistoryApi } from '@/apis/message'
 import './Message.scoped.scss'
 import { previewFileApi } from '@/apis/file'
@@ -15,26 +14,25 @@ const Message = () => {
   //初始化数据
   useEffect(() => {
     fetchMsgHistory()
-    fetchAvatarUrl()
   }, [])
 
   //获取消息历史
   const fetchMsgHistory = async () => {
     const res = await getMsgHistoryApi()
-    setMsgHisList(res.data)
-    console.log('消息历史：', res.data)
-  }
+    const list = res.data
 
-  //发送人头像
-  const fetchAvatarUrl = async () => {
-    const res = await previewFileApi(5)
-    setAvatarUrl(res.data)
-    console.log('头像url：', res.data)
+    //拼接avatarUrl
+    const listWithAvatar = await Promise.all(list.map(async item => {
+      let avatarRes = await previewFileApi(item.senderAvatar)
+      return { ...item, senderAvatarUrl: avatarRes.data }
+    }))
+    console.log('拼接后的消息List：', listWithAvatar)
+    setMsgHisList(listWithAvatar)
   }
 
   //点击跳转对应sender的聊天页面
-  const onClickSender = (targetId, senderNickName) => {
-    navigate('/chat', { state: { targetId, senderNickName } })
+  const onClickSender = (targetId, senderNickName, senderAvatarUrl) => {
+    navigate('/chat', { state: { targetId, senderNickName, senderAvatarUrl } })
   }
 
   return (
@@ -54,13 +52,13 @@ const Message = () => {
             <div
               key={index}
               className='msg-box'
-              onClick={() => onClickSender(msg.senderId, msg.senderNickName)}
+              onClick={() => onClickSender(msg.senderId, msg.senderNickName, msg.senderAvatarUrl)}
             >
               <div className='msg-left'>
                 <Image
                   cover round
                   className='msg-avatar'
-                  src={avatarUrl} />
+                  src={msg.senderAvatarUrl} />
               </div>
 
               <div className='msg-right'>

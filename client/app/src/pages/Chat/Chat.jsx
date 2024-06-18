@@ -1,7 +1,7 @@
 import { getUtuMsgHistoryApi } from "@/apis/message"
 import { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { NavBar, Image, Popup, Input, Button, Sticky} from "react-vant"
+import { NavBar, Image, Popup, Input, Button, Sticky } from "react-vant"
 import './Chat.scoped.scss'
 import { previewFileApi } from "@/apis/file"
 import useUserDetail from "@/hooks/useUserDetail"
@@ -12,26 +12,28 @@ const Chat = () => {
   const navigate = useNavigate()
   //接收message页传递的senderId
   const location = useLocation()
-  const { targetId, senderNickName: targetNickName } = location.state || {}
+  const { targetId, senderNickName: targetNickName, senderAvatarUrl: targetAvatarUrl } = location.state || {}
 
   const [messageList, setMessageList] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [avatarUrlTarget, setAvatarUrlTarget] = useState()
-  const [sendMsgVisible, setSendMsgVisible] = useState(false)
+  // const [sendMsgVisible, setSendMsgVisible] = useState(false)
   const { userProfile, avatarUrl } = useUserDetail(getUserId())
+  // const { userProfile: targetProfile, avatarUrl: targetAvatarUrl } = useUserDetail(targetId)
   const [myNickName, setMyNickName] = useState()
   const [myAvatarUrl, setMyAvatarUrl] = useState()
 
-  //更新我的昵称
+  //更新我的昵称和头像
   useEffect(() => {
     setMyNickName(userProfile.userDetail.nickName)
     setMyAvatarUrl(avatarUrl)
+    console.log('路由传递的参数url：', targetAvatarUrl)
   }, [userProfile, avatarUrl])
 
   //初始化数据
   useEffect(() => {
     fetchMsg()
-    fetchAvatarUrl()
+    // fetchAvatarUrl()
   }, [])
 
   //加载与targetId的消息记录
@@ -43,10 +45,10 @@ const Chat = () => {
   }
 
   //聊天对象头像
-  const fetchAvatarUrl = async () => {
-    const res = await previewFileApi(5)
-    setAvatarUrlTarget(res.data)
-  }
+  // const fetchAvatarUrl = async () => {
+  //   const res = await previewFileApi(5)
+  //   setAvatarUrlTarget(res.data)
+  // }
 
   //发送消息
   const handleWebSocketMessage = (event) => {
@@ -82,7 +84,7 @@ const Chat = () => {
       ws.send(str)
     }
     setNewMessage('')
-    setSendMsgVisible(false)
+    // setSendMsgVisible(false)
   }
 
   //定位到底部
@@ -118,7 +120,9 @@ const Chat = () => {
                       <Image
                         cover round
                         className='msg-avatar'
-                        src={avatarUrlTarget} />
+                        // src={avatarUrlTarget} 
+                        src={targetAvatarUrl}
+                      />
                     </div>
                     <div className="chat-box-right">
                       <div className="chat-sender chat-sender__target">

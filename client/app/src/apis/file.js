@@ -1,5 +1,6 @@
 //文件上传相关接口
 import { request } from "@/utils";
+import logo from '@/assets/logo-embodied.png'
 
 //1.上传文件
 export function uploadFileApi(files) {
@@ -27,9 +28,24 @@ export function uploadFileApi(files) {
 
 //2.预览文件URL
 export function previewFileApi(fid) {
-  return request({
-    url: '/oss/preview',
-    method: 'GET',
-    params: { fid }
-  })
+  //fid是否为空
+  if (!fid || fid === '') {
+    //返回默认图片
+    return Promise.resolve({ data: logo })
+  } else {
+    return request({
+      url: '/oss/preview',
+      method: 'GET',
+      params: { fid }
+    })
+  }
 }
+
+
+// export function previewFileApi(fid) {
+//   return request({
+//     url: '/oss/preview',
+//     method: 'GET',
+//     params: { fid }
+//   })
+// }

@@ -2,6 +2,7 @@
 import { previewFileApi } from '@/apis/file'
 import { getProfileAPI } from '@/apis/user'
 import { useState, useEffect } from 'react'
+import logo from '@/assets/logo-embodied.png' //作为默认头像
 
 const useUserDetail = (uid) => {
   const [avatarUrl, setAvatarUrl] = useState('')
@@ -41,11 +42,11 @@ const useUserDetail = (uid) => {
   }
 
   const fetchUserAvatar = async () => {
-    //获取用户头像url (设定一个默认头像，暂定为5)
-    let avatarId = userProfile.userDetail.avatar === null ? 5 : parseInt(userProfile.userDetail.avatar)
+    //获取用户头像url
+    // let avatarId = userProfile.userDetail.avatar === null ? 5 : parseInt(userProfile.userDetail.avatar)
+    let avatarId = parseInt(userProfile.userDetail.avatar)
     const userAvatarRes = await previewFileApi(avatarId)
     setAvatarUrl(userAvatarRes.data)
-    // console.log('用户头像：', userAvatarRes.data)
   }
 
   return { userProfile, avatarUrl }
