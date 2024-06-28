@@ -20,6 +20,6 @@ class CoreProcess {
 
     @GetMapping("/callAiApi")
     fun callAiApi(){
-        apiCall.call();
+        apiCall.call("谁是乔治·华盛顿");
     }
 }
