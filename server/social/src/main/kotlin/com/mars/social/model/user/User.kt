@@ -13,6 +13,7 @@ interface User : Entity<User> {
     var registerTime: LocalDateTime
     var lastLoginTime: LocalDateTime
     var isActive: String                //是否启用状态，字符串的true false
+    var type:String                     //用户类型，是不是AI
 }
 
 object Users : Table<User>("user") {
@@ -24,4 +25,5 @@ object Users : Table<User>("user") {
     val registerTime = datetime("register_time").bindTo { it.registerTime }
     val lastLoginTime = datetime("last_login_time").bindTo { it.lastLoginTime }
     val isActive = varchar("is_active").bindTo { it.isActive }
+    val type = varchar("type").bindTo { it.type }
 }
