@@ -1,0 +1,41 @@
+
+//    val requestBodyString = """
+//        {
+//            "model": "chatglm3-6b",
+//            "messages": [
+//                {
+//                    "role": "system",
+//                    "content": "You are ChatGLM3, a large language model trained by Zhipu.AI. Follow the user’s instructions carefully. Respond using markdown."
+//                },
+//                {
+//                    "role": "user",
+//                    "content": "你好"
+//                }
+//            ],
+//            "stream": false,
+//            "max_tokens": 100,
+//            "temperature": 0.8,
+//            "top_p": 0.8
+//        }
+//    """.trimIndent()
+
+//外网的例子
+/**
+import openai
+
+openai.api_key = "your-api-key"
+
+conversation_history = [
+{"role": "system", "content": "You are a helpful assistant."},
+{"role": "user", "content": "What's the weather like today?"},
+{"role": "assistant", "content": "I'm sorry, I cannot provide real-time weather information."},
+# Continue adding messages as the conversation progresses
+]
+
+response = openai.ChatCompletion.create(
+model="gpt-3.5-turbo",
+messages=conversation_history
+)
+
+print(response['choices'][0]['message']['content'])
+ **/

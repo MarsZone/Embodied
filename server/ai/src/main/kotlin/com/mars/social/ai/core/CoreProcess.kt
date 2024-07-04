@@ -18,8 +18,8 @@ class CoreProcess {
         return "hello world"
     }
 
-    @GetMapping("/callAiApi")
-    fun callAiApi(){
-        apiCall.call("谁是乔治·华盛顿");
+    @GetMapping("/initAi")
+    fun initAi(){
+
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 @Component
 class ApiCall {
-    fun call(context:String) {
+    fun call(context:String):String? {
 
         val request = toGenRequest(context)
         val client = OkHttpClient.Builder()
@@ -23,9 +23,11 @@ class ApiCall {
 
         if (response.isSuccessful) {
             println(response.body?.string())
+            return response.body?.string();
         } else {
             println("Error: ${response.code}")
             println(response.body?.string()) // 输出服务器返回的具体错误信息
+            return "";
         }
     }
     fun toGenRequest(context:String) : Request{
@@ -35,27 +37,22 @@ class ApiCall {
         val jsonObject = JSONObject()
         jsonObject.put("model", "chatglm3-6b")
 
+        //system是背景设定
+        //assistant是返回信息
+        //user是用户信息
+
         val messagesArray = JSONArray()
-//        val systemMessage = JSONObject().apply {
-//            put("role", "assistant")
-//            put("content", "You are ChatGLM3, a large language model trained by Zhipu.AI. Follow the user’s instructions carefully. Respond using markdown.")
-//        }
+        val systemMessage = JSONObject().apply {
+            put("role", "system")
+            put("content", "You are ChatGLM3, a large language model trained by Zhipu.AI. Follow the user’s instructions carefully. Respond using markdown.")
+        }
         val firstMessage = JSONObject().apply {
             put("role", "user")
-            put("content", "谁是乔治·华盛顿")
+            put("content", String)
         }
-        val responseMessage = JSONObject().apply {
-            put("role", "assistant")
-            put("content", "乔治·华盛顿（George Washington，1732年2月22日－1799年12月14日）是美国的一位政治家、将军和农民，也是美国独立战争期间的指挥官，还是美国第一任总统。他被认为是美国历史上最伟大的领袖之一，因为他在美国革命战争中取得了重要的胜利，并且建立了许多重要的政治制度。他还被认为是一位优秀的领袖，他的领导能力和道德品质对美国的发展产生了深远")
-        }
-        val userMessage = JSONObject().apply {
-            put("role", "user")
-            put("content", "他是什么时候出生的")
-        }
+
 //        messagesArray.put(systemMessage)
         messagesArray.put(firstMessage)
-        messagesArray.put(responseMessage)
-        messagesArray.put(userMessage)
 
         jsonObject.put("messages", messagesArray)
         jsonObject.put("stream", false)
@@ -77,23 +74,3 @@ class ApiCall {
     }
 }
 
-
-//    val requestBodyString = """
-//        {
-//            "model": "chatglm3-6b",
-//            "messages": [
-//                {
-//                    "role": "system",
-//                    "content": "You are ChatGLM3, a large language model trained by Zhipu.AI. Follow the user’s instructions carefully. Respond using markdown."
-//                },
-//                {
-//                    "role": "user",
-//                    "content": "你好"
-//                }
-//            ],
-//            "stream": false,
-//            "max_tokens": 100,
-//            "temperature": 0.8,
-//            "top_p": 0.8
-//        }
-//    """.trimIndent()
