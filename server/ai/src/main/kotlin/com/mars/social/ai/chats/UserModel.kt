@@ -3,7 +3,7 @@ package com.mars.social.ai.chats
 class UserModel {
     companion object {
         fun toGenAccount():String{
-            val chat = "请参考以下格式，返回随机的\tuserName,password,email,phone，信息,userName 使用10位长度随机英文字母生成\n" +
+            val chat = "请参考以下格式，返回随机的\tuserName,password,email,phone，信息,userName 使用10位长度随机英文字母生成。不许生成Lorem Ipsum\n" +
                     "{\n" +
                     "    \"userName\": \"Christopher Young\",\n" +
                     "    \"password\": \"123456\",\n" +
