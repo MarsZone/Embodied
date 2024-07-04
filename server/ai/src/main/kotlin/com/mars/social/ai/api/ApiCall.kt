@@ -22,8 +22,7 @@ class ApiCall {
         val response = client.newCall(request).execute()
 
         if (response.isSuccessful) {
-            println(response.body?.string())
-            return response.body?.string();
+            return response.body?.string()
         } else {
             println("Error: ${response.code}")
             println(response.body?.string()) // 输出服务器返回的具体错误信息
@@ -48,7 +47,7 @@ class ApiCall {
         }
         val firstMessage = JSONObject().apply {
             put("role", "user")
-            put("content", String)
+            put("content", context)
         }
 
 //        messagesArray.put(systemMessage)
