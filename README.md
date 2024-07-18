@@ -105,6 +105,7 @@ PS: Currently, multi-language support has only been partially implemented using 
 * OSS
 * minio
 
+
 ## 功能规划
 
 - [ ] I18n多语言支持
